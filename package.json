@@ -1,0 +1,51 @@
+{
+    "name": "brickwall",
+    "version": "0.1.0",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "test": "jest",
+        "storybook": "start-storybook -p 9009 -s public",
+        "build-storybook": "build-storybook -s public"
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "setupFilesAfterEnv": [
+            "<rootDir>setupTests.js"
+        ]
+    },
+    "dependencies": {
+        "ramda": "^0.26.1",
+        "react": "^16.12.0",
+        "react-contenteditable": "^3.3.2",
+        "react-dom": "^16.12.0",
+        "redux-actions": "^2.6.5",
+        "semantic-ui-css": "^2.4.1",
+        "semantic-ui-react": "^0.88.1",
+        "shortid": "^2.2.15"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.4",
+        "@storybook/addon-actions": "^5.2.8",
+        "@storybook/addon-knobs": "^5.2.8",
+        "@storybook/addon-viewport": "^5.2.8",
+        "@storybook/addons": "^5.2.8",
+        "@storybook/react": "^5.2.8",
+        "@types/enzyme": "^3.10.3",
+        "@types/jest": "^24.0.23",
+        "@types/node": "^12.12.14",
+        "@types/ramda": "^0.26.36",
+        "@types/react": "^16.9.14",
+        "@types/react-dom": "^16.9.4",
+        "@types/redux-actions": "^2.6.1",
+        "@types/shortid": "^0.0.29",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-loader": "^8.0.6",
+        "enzyme": "^3.10.0",
+        "enzyme-adapter-react-16": "^1.15.1",
+        "jest": "^24.9.0",
+        "ts-jest": "^24.2.0",
+        "typescript": "^3.7.2",
+        "webpack": "^4.41.2"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "lib",
+        "sourceMap": true,
+        "declaration": true,
+        "strict": true,
+        "target": "es5",
+        "module": "commonjs",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "jsx": "react"
+    },
+    "include": [
+        "src"
+    ]
+}
