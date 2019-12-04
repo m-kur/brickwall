@@ -1,20 +1,21 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Action } from 'redux-actions';
 
 import { actions } from './store';
+import { BrickAction, BrickDispatch } from './types';
 
 type ConfirmedButtonProps = {
     icon: string;
-    action: Action<any>;
-    dispatch: React.Dispatch<Action<any>>;
+    action: BrickAction;
+    dispatch: BrickDispatch;
 };
 const ConfirmedButton: React.FC<ConfirmedButtonProps> = (props) => {
     const [confirm, setConfirm] = React.useState<boolean>(false);
+    const { icon } = props;
     return (
         <Button
-            floated='right'
-            icon={props.icon}
+            floated="right"
+            icon={icon}
             primary={confirm}
             onBlur={() => setConfirm(false)}
             onClick={() => {
@@ -25,44 +26,45 @@ const ConfirmedButton: React.FC<ConfirmedButtonProps> = (props) => {
             }}
         />
     );
-}
+};
 
 type BrickOperationsProps = {
     index: number;
-    dispatch: React.Dispatch<Action<any>>;
+    dispatch: BrickDispatch;
     hasNext: boolean;
 };
 const BrickOperations: React.FC<BrickOperationsProps> = (props) => {
+    const { index, hasNext, dispatch } = props;
     return (
-        <React.Fragment>
+        <>
             <Button
-                disabled={props.index === 0}
-                icon='arrow up'
+                disabled={index === 0}
+                icon="arrow up"
                 onClick={() => props.dispatch(actions.moveUp(props.index))}
             />
             <Button
-                disabled={!props.hasNext}
-                icon='arrow down'
+                disabled={!hasNext}
+                icon="arrow down"
                 onClick={() => props.dispatch(actions.moveDown(props.index))}
                 style={{ marginRight: 16 }}
             />
             <ConfirmedButton
-                icon='share'
-                action={actions.refugeData(props.index)}
-                dispatch={props.dispatch}
+                icon="share"
+                action={actions.refugeData(index)}
+                dispatch={dispatch}
             />
             <ConfirmedButton
-                icon='trash'
-                action={actions.deleteData(props.index)}
-                dispatch={props.dispatch}
+                icon="trash"
+                action={actions.deleteData(index)}
+                dispatch={dispatch}
             />
             <ConfirmedButton
-                icon='copy'
-                action={actions.duplicateData(props.index)}
-                dispatch={props.dispatch}
+                icon="copy"
+                action={actions.duplicateData(index)}
+                dispatch={dispatch}
             />
-        </React.Fragment>
+        </>
     );
-}
+};
 
 export default BrickOperations;

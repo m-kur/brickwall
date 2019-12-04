@@ -1,6 +1,6 @@
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
 import React from 'react';
-import { withKnobs } from "@storybook/addon-knobs";
+import { withKnobs } from '@storybook/addon-knobs';
 
 import ParagraphApp from './ParagraphApp';
 import NewBrickApp from './NewBrickApp';
@@ -11,6 +11,6 @@ export default {
     decorators: [withKnobs],
 };
 
-export const paragraph = () => <ParagraphApp/>;
-export const newBrick = () => <NewBrickApp/>;
-export const wallEditor = () => <WallEditorApp/>
+export const paragraph = (): React.ReactElement => <ParagraphApp />;
+export const newBrick = (): React.ReactElement => <NewBrickApp />;
+export const wallEditor = (): React.ReactElement => <WallEditorApp />;

@@ -7,47 +7,44 @@ import { WallState, BrickData } from './types';
 
 // Internal API --------------------------------------------------------------------
 
-interface ReducerFactory<State, Payload> {
-    (initialState: State): Reducer<State, Payload>;
+interface ReducerFactory<S, P> {
+    (initialState: S): Reducer<S, P>;
 }
 
-const createReducer = <State, Payload = void>(
-    actionType: ActionFunctions<Payload>,
-    reducer: Reducer<State, Payload>,
-): ReducerFactory<State, Payload> => (initialState: State) => handleAction(
-    actionType,
-    reducer,
-    initialState,
-);
+const createReducer = <S, P>(
+    actionType: ActionFunctions<P>,
+    reducer: Reducer<S, P>,
+): ReducerFactory<S, P> => (initialState: S) => handleAction(
+        actionType,
+        reducer,
+        initialState,
+    );
 
-const combineReducer = <State>(reducers: ReducerFactory<State, any>[]) =>
-    (initialState: State) => {
-        const combineded = R.reduce<Reducer<State, any>, Reducer<State, any>>(
-            (previous, current) => (state, action) => current(previous(state, action), action),
-            state => state,
-            R.map(r => r(initialState), reducers),
-        );
-        return React.useReducer(combineded, initialState);
-    }
+const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState: S) => {
+    const combineded = R.reduce<Reducer<S, P>, Reducer<S, P>>(
+        (previous, current) => (state, action) => current(previous(state, action), action),
+        (state) => state,
+        R.map((r) => r(initialState), reducers),
+    );
+    return React.useReducer(combineded, initialState);
+};
 
 // Actions & ReducerFactories --------------------------------------------------
 
 const toggleEditable = createAction('TOGGLE_EDITABLE');
 const toggleEditableReducer = createReducer<WallState, void>(
     toggleEditable,
-    (state) => {
-        return R.assoc('editable', !state.editable, state);
-    },
+    (state) => R.assoc('editable', !state.editable, state),
 );
 
 const updateCurrent = createAction('UPDATE_CURRENT');
 const updateCurrentReducer = createReducer<WallState, number>(
     updateCurrent,
-    (state,  { payload }) => {
+    (state, { payload }) => {
         const index = payload;
         return R.assoc('currentIndex', index, state);
-    }
-)
+    },
+);
 
 const moveUp = createAction<number>('MOVE_UP');
 const moveUpReducer = createReducer<WallState, number>(
@@ -55,7 +52,7 @@ const moveUpReducer = createReducer<WallState, number>(
     (state, { payload }) => {
         const index = payload;
         const dataLength = R.length(state.wallData);
-        if (0 < index && index < dataLength) {
+        if (index > 0 && index < dataLength) {
             return R.mergeRight(state, {
                 wallData: R.move(index, index - 1, state.wallData),
                 currentIndex: state.currentIndex - 1,
@@ -71,7 +68,7 @@ const moveDownReducer = createReducer<WallState, number>(
     (state, { payload }) => {
         const index = payload;
         const dataLength = R.length(state.wallData);
-        if (0 <= index && index < dataLength - 1) {
+        if (index >= 0 && index < dataLength - 1) {
             return R.mergeRight(state, {
                 wallData: R.move(index, index + 1, state.wallData),
                 currentIndex: state.currentIndex + 1,
@@ -81,8 +78,8 @@ const moveDownReducer = createReducer<WallState, number>(
     },
 );
 
-const updateData = createAction<{ index: number, data: BrickData }>('UPDATE_DATA');
-const updateDataReducer = createReducer<WallState, { index: number, data: BrickData }>(
+const updateData = createAction<{ index: number; data: BrickData }>('UPDATE_DATA');
+const updateDataReducer = createReducer<WallState, { index: number; data: BrickData }>(
     updateData,
     (state, { payload: { index, data } }) => {
         const target = R.nth(index, state.wallData);
@@ -165,4 +162,5 @@ export const factories = {
     refugeDataReducer,
 };
 
-export default combineReducer(R.values(factories));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default combineReducer<WallState, any>(R.values(factories));

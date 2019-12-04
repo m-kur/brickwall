@@ -1,5 +1,5 @@
 import React from 'react';
-import enzyme, { shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import BlickHolder from './BrickHolder';
 import { WallState } from './types';
@@ -16,16 +16,15 @@ const initialState: WallState = {
 
 describe('BrickHolder', () => {
     it('shallow test run', () => {
-/*
         const dispatch = jest.fn();
         const wrapper = shallow(
             <BlickHolder
+                {...initialState}
                 index={0}
-                state={initialState}
                 dispatch={dispatch}
-            />
+                operations={<div />}
+            />,
         );
-        expect(wrapper.contains(<h1>first</h1>)).toBeTruthy();
-*/
-    })
+        expect(wrapper.contains(<div />)).toBeTruthy();
+    });
 });

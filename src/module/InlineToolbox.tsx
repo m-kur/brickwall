@@ -13,8 +13,8 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
     const [popupAlign, setPopupAlign] = React.useState('left');
     const wrapRef = React.useRef<HTMLDivElement>(null);
 
-    const updatePopup = () => {
-        if(focused) {
+    const updatePopup = (): void => {
+        if (focused) {
             const sel = document.getSelection();
             if (sel) {
                 setPopupVisible(!sel.isCollapsed);
@@ -26,7 +26,7 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
                     // = border(1) + marginLeft(8) + props.toolsWidth + marginRight(8) + border(1)
                     const left = selRect.right - wrapRect.left - popupWidth;
                     if (left < 0) {
-                        setPopupPos({ top, left: selRect.left - wrapRect.left }); ;
+                        setPopupPos({ top, left: selRect.left - wrapRect.left });
                         setPopupAlign('left');
                     } else {
                         setPopupPos({ top, left });
@@ -42,12 +42,13 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
     React.useEffect(() => {
         window.addEventListener('resize', updatePopup);
         document.addEventListener('selectionchange', updatePopup);
-        return () => {
+        return (): void => {
             window.removeEventListener('resize', updatePopup);
             document.removeEventListener('selectionchange', updatePopup);
         };
     });
 
+    const { children, toolsWidth, tools } = props;
     return (
         <div
             ref={wrapRef}
@@ -56,17 +57,17 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
             onFocus={() => setFocused(true)}
             onDoubleClick={updatePopup}
         >
-            {props.children}
+            {children}
             <div
                 className={`ui popup ${popupVisible ? 'visible' : ''} bottom left ${popupAlign}`}
                 style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos)}
             >
-                <div style={{ width: props.toolsWidth }}>
-                    {props.tools}
+                <div style={{ width: toolsWidth }}>
+                    {tools}
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default InlineToolbox;

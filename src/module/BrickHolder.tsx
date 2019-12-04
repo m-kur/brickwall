@@ -10,13 +10,14 @@ type BrickHolderProps = {
     options?: React.ReactElement;
 };
 const BrickHolder: React.FC<BrickHolderProps & BrickState & WallState> = (props) => {
-    const drawOutline = props.editable && (props.currentIndex === props.index);
+    const { editable, currentIndex, index, children, operations, options } = props;
+    const drawOutline = editable && (currentIndex === index);
     return (
         <div onFocus={() => props.dispatch(actions.updateCurrent(props.index))}>
-            <BrickSegment type='top' drawOutline={drawOutline}>
-                {props.children}
+            <BrickSegment type="top" drawOutline={drawOutline}>
+                {children}
             </BrickSegment>
-            <BrickSegment type='bottom' drawOutline={drawOutline}>
+            <BrickSegment type="bottom" drawOutline={drawOutline}>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
@@ -24,9 +25,9 @@ const BrickHolder: React.FC<BrickHolderProps & BrickState & WallState> = (props)
                                 as={React.Fragment}
                                 minWidth={Responsive.onlyTablet.minWidth}
                             >
-                                {props.operations}
+                                {operations}
                             </Responsive>
-                            {props.options}
+                            {options}
                         </Grid.Column>
                     </Grid.Row>
                     <Responsive
@@ -35,13 +36,13 @@ const BrickHolder: React.FC<BrickHolderProps & BrickState & WallState> = (props)
                         style={{ paddingTop: 0 }}
                     >
                         <Grid.Column>
-                            {props.operations}
+                            {operations}
                         </Grid.Column>
                     </Responsive>
                 </Grid>
             </BrickSegment>
         </div>
     );
-}
+};
 
 export default BrickHolder;

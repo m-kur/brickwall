@@ -6,16 +6,17 @@ import store, { actions } from './store';
 import NewBrick from './NewBrick';
 import { BrickData, WallProps } from './types';
 
-const renewId = R.map<BrickData, BrickData>(data => R.assoc('key', shortid.generate(), data));
+const renewId = R.map<BrickData, BrickData>((data) => R.assoc('key', shortid.generate(), data));
 
 const WallEditor: React.FC<WallProps> = (props) => {
-    const [state, dispatch] = store(R.assoc('wallData', renewId(props.wallData), props));
+    const { wallData, brickDefines, defaultBrickType } = props;
+    const [state, dispatch] = store(R.assoc('wallData', renewId(wallData), props));
     const dataLength = R.length(state.wallData);
     if (state.currentIndex < 0 || dataLength < state.currentIndex) {
         dispatch(actions.updateCurrent(dataLength));
     }
     return (
-        <React.Fragment>
+        <>
             {R.addIndex<BrickData, React.ReactElement|null>(R.map)(
                 (brickData, index) => {
                     const type = brickData.type || props.defaultBrickType;
@@ -39,11 +40,11 @@ const WallEditor: React.FC<WallProps> = (props) => {
                 {...state}
                 index={dataLength}
                 dispatch={dispatch}
-                brickDefines={props.brickDefines}
-                defaultBrickType={props.defaultBrickType}
+                brickDefines={brickDefines}
+                defaultBrickType={defaultBrickType}
             />
-        </React.Fragment>
+        </>
     );
-}
+};
 
 export default WallEditor;

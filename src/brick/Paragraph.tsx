@@ -11,68 +11,70 @@ import InlineTool from '../module/InlineTool';
 import { BrickData, BrickProps } from '../module/types';
 
 const Paragraph: React.FC<BrickProps> = (props) => {
-    const brickData = R.nth(props.index, props.wallData) || ({} as BrickData);
+    const { editable, index, wallData, dispatch } = props;
+    const brickData = R.nth(index, wallData) || ({} as BrickData);
     const [html, setHtml] = React.useState(brickData.value || '');
 
-    const updateHtml = (value: string) => {
+    const updateHtml = (value: string): void => {
         if (html !== value) {
             setHtml(value);
             const type = brickData && brickData.type;
-            props.dispatch(actions.updateData({ index: props.index, data: { type, value } }));
+            props.dispatch(actions.updateData({ index, data: { type, value } }));
         }
-    }
-    const hasNext = props.index < R.length(props.wallData) - 1;
+    };
+    const hasNext = index < R.length(wallData) - 1;
     return (
         <BrickHolder
             {...props}
-            operations={
+            operations={(
                 <BrickOperations
-                    index={props.index}
-                    dispatch={props.dispatch}
+                    index={index}
+                    dispatch={dispatch}
                     hasNext={hasNext}
                 />
-            }
-            options={
-                <React.Fragment>
+            )}
+            options={(
+                <>
                     {/* TODO: オプションボタンの実装 */}
                     <Button basic>T+</Button>
                     <Button basic>T-</Button>
-                </React.Fragment>
-            }
+                </>
+            )}
         >
             <InlineToolbox
-                tools={
-                    <React.Fragment>
-                        <InlineTool icon='bold' cmd='bold'/>
-                        <InlineTool icon='italic' cmd='italic'/>
-                        <InlineTool icon='underline' cmd='underline'/>
-                        <InlineTool icon='strikethrough' cmd='strikethrough'/>
-                        <InlineTool icon='edit' cmd='hiliteColor' args='Yellow'/>
-                        <InlineTool icon='linkify' cmd='createLink' args='http://www.google.com'/>
-                    </React.Fragment>
-                }
+                tools={(
+                    <>
+                        <InlineTool icon="bold" cmd="bold" />
+                        <InlineTool icon="italic" cmd="italic" />
+                        <InlineTool icon="underline" cmd="underline" />
+                        <InlineTool icon="strikethrough" cmd="strikethrough" />
+                        <InlineTool icon="edit" cmd="hiliteColor" args="Yellow" />
+                        {/* TODO: Link先URLを指定する方法の実装 */}
+                        <InlineTool icon="linkify" cmd="createLink" args="http://www.google.com" />
+                    </>
+                )}
                 toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable
-                    disabled={!props.editable}
+                    disabled={!editable}
                     html={html}
                     style={{ outline: 'none' }}
-                    onKeyDown={e => {
+                    onKeyDown={(e) => {
                         if (e.keyCode === 13) {
                             e.preventDefault();
                             props.dispatch(actions.updateCurrent(props.index + 1));
                         }
                     }}
-                    onPaste={e => {
+                    onPaste={(e) => {
                         e.preventDefault();
                         const text = e.clipboardData.getData('text/plain');
                         document.execCommand('insertHTML', false, text);
                     }}
-                    onChange={e => updateHtml(e.target.value)}
+                    onChange={(e) => updateHtml(e.target.value)}
                 />
             </InlineToolbox>
         </BrickHolder>
     );
-}
+};
 
 export default Paragraph;

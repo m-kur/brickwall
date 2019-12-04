@@ -7,17 +7,18 @@ type BrickSegmentProps = {
 };
 
 const BrickSegment: React.FC<BrickSegmentProps> = (props) => {
-    if (!props.drawOutline && props.type === 'bottom') {
+    const { type, drawOutline, children } = props;
+    if (!drawOutline && type === 'bottom') {
         return null;
     }
 
-    const attached = props.drawOutline ? props.type : undefined;
-    const style = { margin: props.drawOutline ? 0 : 1 };
+    const attached = drawOutline ? type : undefined;
+    const style = { margin: drawOutline ? 0 : 1 };
     return (
-        <Segment basic={!props.drawOutline} attached={attached} style={style}>
-            {props.children}
+        <Segment basic={!drawOutline} attached={attached} style={style}>
+            {children}
         </Segment>
     );
-}
+};
 
 export default BrickSegment;

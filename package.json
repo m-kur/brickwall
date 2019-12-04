@@ -4,15 +4,83 @@
     "license": "MIT",
     "private": true,
     "scripts": {
+        "lint": "eslint src --ext .ts,.tsx",
         "test": "jest",
         "storybook": "start-storybook -p 9009 -s public",
         "build-storybook": "build-storybook -s public"
     },
     "jest": {
-        "preset": "ts-jest",
-        "setupFilesAfterEnv": [
-            "<rootDir>setupTests.js"
-        ]
+        "preset": "ts-jest"
+    },
+    "eslintConfig": {
+        "extends": [
+            "airbnb",
+            "plugin:@typescript-eslint/recommended"
+        ],
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "env": {
+            "browser": true,
+            "jest": true
+        },
+        "settings": {
+            "import/resolver": {
+                "node": {
+                    "extensions": [
+                        ".js",
+                        ".json",
+                        ".ts",
+                        ".tsx"
+                    ]
+                }
+            }
+        },
+        "rules": {
+            "@typescript-eslint/explicit-function-return-type": [
+                "off"
+            ],
+            "import/no-extraneous-dependencies": [
+                "error",
+                {
+                    "devDependencies": [
+                        "**/*.test.ts*",
+                        "src/stories/**/*",
+                        "src/enzymeSetup.ts"
+                    ]
+                }
+            ],
+            "indent": [
+                "error",
+                4
+            ],
+            "object-curly-newline": [
+                "off"
+            ],
+            "react/jsx-filename-extension": [
+                "error",
+                {
+                    "extensions": [
+                        ".tsx"
+                    ]
+                }
+            ],
+            "react/jsx-indent": [
+                "error",
+                4
+            ],
+            "react/jsx-indent-props": [
+                "error",
+                4
+            ],
+            "react/jsx-props-no-spreading": [
+                "off"
+            ],
+            "react/prop-types": [
+                "off"
+            ]
+        }
     },
     "dependencies": {
         "ramda": "^0.26.1",
@@ -32,6 +100,7 @@
         "@storybook/addons": "^5.2.8",
         "@storybook/react": "^5.2.8",
         "@types/enzyme": "^3.10.3",
+        "@types/enzyme-adapter-react-16": "^1.0.5",
         "@types/jest": "^24.0.23",
         "@types/node": "^12.12.14",
         "@types/ramda": "^0.26.36",
@@ -39,10 +108,18 @@
         "@types/react-dom": "^16.9.4",
         "@types/redux-actions": "^2.6.1",
         "@types/shortid": "^0.0.29",
+        "@typescript-eslint/eslint-plugin": "^2.10.0",
+        "@typescript-eslint/parser": "^2.10.0",
         "awesome-typescript-loader": "^5.2.1",
         "babel-loader": "^8.0.6",
         "enzyme": "^3.10.0",
         "enzyme-adapter-react-16": "^1.15.1",
+        "eslint": "^6.7.2",
+        "eslint-config-airbnb": "^18.0.1",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.17.0",
+        "eslint-plugin-react-hooks": "^2.3.0",
         "jest": "^24.9.0",
         "ts-jest": "^24.2.0",
         "typescript": "^3.7.2",

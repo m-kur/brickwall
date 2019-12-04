@@ -57,7 +57,7 @@ describe('reducers', () => {
             data: {
                 type: 'paragraph',
                 value: 'new',
-            }
+            },
         }));
         expect(state.wallData.length).toBe(4);
         expect(state.wallData[3]).toEqual({
@@ -74,7 +74,7 @@ describe('reducers', () => {
             data: {
                 type: 'paragraph',
                 value: 'update',
-            }
+            },
         }));
         expect(state.wallData.length).toBe(3);
         expect(state.wallData[0]).toEqual({

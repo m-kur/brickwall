@@ -7,9 +7,14 @@ export type BrickData = {
     value?: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type BrickAction = Action<any>;
+
+export type BrickDispatch = React.Dispatch<BrickAction>;
+
 export type BrickState = {
     index: number;
-    dispatch: React.Dispatch<Action<any>>;
+    dispatch: BrickDispatch;
 };
 
 export type WallState = {
