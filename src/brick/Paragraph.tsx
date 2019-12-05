@@ -19,7 +19,7 @@ const Paragraph: React.FC<BrickProps> = (props) => {
         if (html !== value) {
             setHtml(value);
             const type = brickData && brickData.type;
-            props.dispatch(actions.updateData({ index, data: { type, value } }));
+            dispatch(actions.updateData({ index, data: { type, value } }));
         }
     };
     const hasNext = index < R.length(wallData) - 1;
@@ -62,7 +62,7 @@ const Paragraph: React.FC<BrickProps> = (props) => {
                     onKeyDown={(e) => {
                         if (e.keyCode === 13) {
                             e.preventDefault();
-                            props.dispatch(actions.updateCurrent(props.index + 1));
+                            dispatch(actions.updateCurrent(index + 1));
                         }
                     }}
                     onPaste={(e) => {

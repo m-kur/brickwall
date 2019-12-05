@@ -19,8 +19,8 @@ const WallEditor: React.FC<WallProps> = (props) => {
         <>
             {R.addIndex<BrickData, React.ReactElement|null>(R.map)(
                 (brickData, index) => {
-                    const type = brickData.type || props.defaultBrickType;
-                    const define = R.prop(type, props.brickDefines);
+                    const type = brickData.type || defaultBrickType;
+                    const define = R.prop(type, brickDefines);
                     if (define) {
                         return (
                             <span key={brickData.key}>

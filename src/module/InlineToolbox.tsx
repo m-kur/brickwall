@@ -12,6 +12,7 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
     const [popupPos, setPopupPos] = React.useState({ top: 0, left: 0 });
     const [popupAlign, setPopupAlign] = React.useState('left');
     const wrapRef = React.useRef<HTMLDivElement>(null);
+    const { children, toolsWidth, tools } = props;
 
     const updatePopup = (): void => {
         if (focused) {
@@ -22,8 +23,8 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
                     const selRect = sel.getRangeAt(0).getBoundingClientRect();
                     const wrapRect = wrapRef.current.getBoundingClientRect();
                     const top = selRect.top - wrapRect.top + selRect.height;
-                    const popupWidth = 1 + 8 + props.toolsWidth + 8 + 1;
-                    // = border(1) + marginLeft(8) + props.toolsWidth + marginRight(8) + border(1)
+                    const popupWidth = 1 + 8 + toolsWidth + 8 + 1;
+                    // = border(1) + marginLeft(8) + toolsWidth + marginRight(8) + border(1)
                     const left = selRect.right - wrapRect.left - popupWidth;
                     if (left < 0) {
                         setPopupPos({ top, left: selRect.left - wrapRect.left });
@@ -48,7 +49,6 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
         };
     });
 
-    const { children, toolsWidth, tools } = props;
     return (
         <div
             ref={wrapRef}

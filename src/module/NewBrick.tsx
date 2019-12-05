@@ -10,7 +10,7 @@ import { BrickProps, WallDefine } from './types';
 const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
     const [html, setHtml] = React.useState<string|undefined>('');
     const ref = React.useRef<HTMLDivElement>(null);
-    const { editable, currentIndex, index, brickDefines } = props;
+    const { editable, currentIndex, index, dispatch, brickDefines, defaultBrickType } = props;
 
     if (!editable) {
         return null;
@@ -19,8 +19,8 @@ const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
     const update = (type: string): void => {
         const el = ref.current;
         if (el) {
-            props.dispatch(actions.updateData({
-                index: props.index,
+            dispatch(actions.updateData({
+                index,
                 data: { type, value: el.innerHTML },
             }));
             setHtml('');
@@ -30,10 +30,10 @@ const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
     const drawOutline = editable && (currentIndex === index);
     return (
         <div
-            onFocus={() => props.dispatch(actions.updateCurrent(props.index))}
+            onFocus={() => dispatch(actions.updateCurrent(index))}
             onBlur={() => {
                 if (html) {
-                    update(props.defaultBrickType);
+                    update(defaultBrickType);
                 }
             }}
         >
@@ -45,8 +45,8 @@ const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
                     onKeyDown={(e) => {
                         if (e.keyCode === 13) {
                             e.preventDefault();
-                            update(props.defaultBrickType);
-                            props.dispatch(actions.updateCurrent(props.index + 1));
+                            update(defaultBrickType);
+                            dispatch(actions.updateCurrent(index + 1));
                         }
                     }}
                     onPaste={(e) => {
@@ -63,7 +63,7 @@ const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
                         <Grid.Column width={13}>
                             {R.addIndex<string, React.ReactElement>(R.map)(
                                 (name, key) => {
-                                    const define = R.prop(name, props.brickDefines);
+                                    const define = R.prop(name, brickDefines);
                                     return (
                                         <React.Fragment key={key}>
                                             <Button

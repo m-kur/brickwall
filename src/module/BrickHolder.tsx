@@ -10,10 +10,10 @@ type BrickHolderProps = {
     options?: React.ReactElement;
 };
 const BrickHolder: React.FC<BrickHolderProps & BrickState & WallState> = (props) => {
-    const { editable, currentIndex, index, children, operations, options } = props;
+    const { editable, currentIndex, index, dispatch, children, operations, options } = props;
     const drawOutline = editable && (currentIndex === index);
     return (
-        <div onFocus={() => props.dispatch(actions.updateCurrent(props.index))}>
+        <div onFocus={() => dispatch(actions.updateCurrent(index))}>
             <BrickSegment type="top" drawOutline={drawOutline}>
                 {children}
             </BrickSegment>

@@ -8,17 +8,15 @@ type InlineToolProps = {
 }
 
 const InlineTool: React.FC<InlineToolProps> = (props) => {
-    const { icon } = props;
+    const { icon, cmd, args } = props;
     return (
-        // TODO: floated='left' はいらない？
         <Button
             basic
-            floated="left"
             icon={icon}
             onClick={(e) => {
-                if (props.cmd) {
+                if (cmd) {
                     e.preventDefault();
-                    document.execCommand(props.cmd, false, props.args);
+                    document.execCommand(cmd, false, args);
                     const sel = document.getSelection();
                     if (sel) {
                         sel.getRangeAt(0).collapse(sel.focusOffset < sel.anchorOffset);

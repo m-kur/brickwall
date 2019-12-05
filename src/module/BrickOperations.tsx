@@ -11,7 +11,7 @@ type ConfirmedButtonProps = {
 };
 const ConfirmedButton: React.FC<ConfirmedButtonProps> = (props) => {
     const [confirm, setConfirm] = React.useState<boolean>(false);
-    const { icon } = props;
+    const { icon, action, dispatch } = props;
     return (
         <Button
             floated="right"
@@ -20,7 +20,7 @@ const ConfirmedButton: React.FC<ConfirmedButtonProps> = (props) => {
             onBlur={() => setConfirm(false)}
             onClick={() => {
                 if (confirm) {
-                    props.dispatch(props.action);
+                    dispatch(action);
                 }
                 setConfirm(!confirm);
             }}
@@ -40,12 +40,12 @@ const BrickOperations: React.FC<BrickOperationsProps> = (props) => {
             <Button
                 disabled={index === 0}
                 icon="arrow up"
-                onClick={() => props.dispatch(actions.moveUp(props.index))}
+                onClick={() => dispatch(actions.moveUp(index))}
             />
             <Button
                 disabled={!hasNext}
                 icon="arrow down"
-                onClick={() => props.dispatch(actions.moveDown(props.index))}
+                onClick={() => dispatch(actions.moveDown(index))}
                 style={{ marginRight: 16 }}
             />
             <ConfirmedButton
