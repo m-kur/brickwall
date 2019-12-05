@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, Fragment, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
@@ -10,10 +10,10 @@ import InlineToolbox from '../module/InlineToolbox';
 import InlineTool from '../module/InlineTool';
 import { BrickData, BrickProps } from '../module/types';
 
-const Paragraph: React.FC<BrickProps> = (props) => {
+const Paragraph: FC<BrickProps> = (props) => {
     const { editable, index, wallData, dispatch } = props;
     const brickData = R.nth(index, wallData) || ({} as BrickData);
-    const [html, setHtml] = React.useState(brickData.value || '');
+    const [html, setHtml] = useState(brickData.value || '');
 
     const updateHtml = (value: string): void => {
         if (html !== value) {
@@ -34,16 +34,16 @@ const Paragraph: React.FC<BrickProps> = (props) => {
                 />
             )}
             options={(
-                <>
+                <Fragment>
                     {/* TODO: オプションボタンの実装 */}
                     <Button basic>T+</Button>
                     <Button basic>T-</Button>
-                </>
+                </Fragment>
             )}
         >
             <InlineToolbox
                 tools={(
-                    <>
+                    <Fragment>
                         <InlineTool icon="bold" cmd="bold" />
                         <InlineTool icon="italic" cmd="italic" />
                         <InlineTool icon="underline" cmd="underline" />
@@ -51,7 +51,7 @@ const Paragraph: React.FC<BrickProps> = (props) => {
                         <InlineTool icon="edit" cmd="hiliteColor" args="Yellow" />
                         {/* TODO: Link先URLを指定する方法の実装 */}
                         <InlineTool icon="linkify" cmd="createLink" args="http://www.google.com" />
-                    </>
+                    </Fragment>
                 )}
                 toolsWidth={42 * 6 + 1}
             >

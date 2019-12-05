@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -6,7 +6,7 @@ import WallEditor from '../module/WallEditor';
 import Paragraph from '../brick/Paragraph';
 import sampleText from './sampleText';
 
-const WallEditorApp: React.FC<{}> = () => (
+const WallEditorApp: FC<{}> = () => (
     <Container text style={{ marginTop: 16, marginBottom: 16 }}>
         <Segment basic style={{ margin: 0 }}>
             <Header size="huge">WallEditor</Header>

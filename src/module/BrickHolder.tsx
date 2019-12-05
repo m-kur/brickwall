@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, Fragment, FC } from 'react';
 import { Grid, Responsive } from 'semantic-ui-react';
 
 import BrickSegment from './BrickSegment';
@@ -6,10 +6,10 @@ import { actions } from './store';
 import { BrickState, WallState } from './types';
 
 type BrickHolderProps = {
-    operations: React.ReactElement;
-    options?: React.ReactElement;
+    operations: ReactElement;
+    options?: ReactElement;
 };
-const BrickHolder: React.FC<BrickHolderProps & BrickState & WallState> = (props) => {
+const BrickHolder: FC<BrickHolderProps & BrickState & WallState> = (props) => {
     const { editable, currentIndex, index, dispatch, children, operations, options } = props;
     const drawOutline = editable && (currentIndex === index);
     return (
@@ -22,7 +22,7 @@ const BrickHolder: React.FC<BrickHolderProps & BrickState & WallState> = (props)
                     <Grid.Row>
                         <Grid.Column>
                             <Responsive
-                                as={React.Fragment}
+                                as={Fragment}
                                 minWidth={Responsive.onlyTablet.minWidth}
                             >
                                 {operations}

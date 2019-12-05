@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Button } from 'semantic-ui-react';
 
 type InlineToolProps = {
@@ -7,7 +7,7 @@ type InlineToolProps = {
     args?: string;
 }
 
-const InlineTool: React.FC<InlineToolProps> = (props) => {
+const InlineTool: FC<InlineToolProps> = (props) => {
     const { icon, cmd, args } = props;
     return (
         <Button

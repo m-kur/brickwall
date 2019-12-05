@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, Fragment, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
 import { actions } from './store';
@@ -9,8 +9,8 @@ type ConfirmedButtonProps = {
     action: BrickAction;
     dispatch: BrickDispatch;
 };
-const ConfirmedButton: React.FC<ConfirmedButtonProps> = (props) => {
-    const [confirm, setConfirm] = React.useState<boolean>(false);
+const ConfirmedButton: FC<ConfirmedButtonProps> = (props) => {
+    const [confirm, setConfirm] = useState<boolean>(false);
     const { icon, action, dispatch } = props;
     return (
         <Button
@@ -33,10 +33,10 @@ type BrickOperationsProps = {
     dispatch: BrickDispatch;
     hasNext: boolean;
 };
-const BrickOperations: React.FC<BrickOperationsProps> = (props) => {
+const BrickOperations: FC<BrickOperationsProps> = (props) => {
     const { index, hasNext, dispatch } = props;
     return (
-        <>
+        <Fragment>
             <Button
                 disabled={index === 0}
                 icon="arrow up"
@@ -63,7 +63,7 @@ const BrickOperations: React.FC<BrickOperationsProps> = (props) => {
                 action={actions.duplicateData(index)}
                 dispatch={dispatch}
             />
-        </>
+        </Fragment>
     );
 };
 

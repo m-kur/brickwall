@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Segment } from 'semantic-ui-react';
 
 type BrickSegmentProps = {
@@ -6,7 +6,7 @@ type BrickSegmentProps = {
     drawOutline: boolean;
 };
 
-const BrickSegment: React.FC<BrickSegmentProps> = (props) => {
+const BrickSegment: FC<BrickSegmentProps> = (props) => {
     const { type, drawOutline, children } = props;
     if (!drawOutline && type === 'bottom') {
         return null;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Container, Header, Segment } from 'semantic-ui-react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
@@ -6,7 +6,7 @@ import { boolean } from '@storybook/addon-knobs';
 import Paragraph from '../brick/Paragraph';
 import sampleText from './sampleText';
 
-const ParagraphApp: React.FC<{}> = () => {
+const ParagraphApp: FC<{}> = () => {
     const [message, setMessage] = useState(sampleText);
     return (
         <Container text style={{ marginTop: 16, marginBottom: 16 }}>

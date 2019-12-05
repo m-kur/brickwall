@@ -69,6 +69,10 @@
                     ]
                 }
             ],
+            "react/jsx-fragments": [
+                "error",
+                "element"
+            ],
             "react/jsx-indent": [
                 "error",
                 4

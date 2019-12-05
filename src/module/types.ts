@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC, Dispatch } from 'react';
 import { Action } from 'redux-actions';
 
 export type BrickData = {
@@ -10,7 +10,7 @@ export type BrickData = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BrickAction = Action<any>;
 
-export type BrickDispatch = React.Dispatch<BrickAction>;
+export type BrickDispatch = Dispatch<BrickAction>;
 
 export type BrickState = {
     index: number;
@@ -28,7 +28,7 @@ export type BrickProps = BrickState & WallState;
 
 export type BrickDefine = {
     icon: string;
-    brick: React.FC<BrickProps>;
+    brick: FC<BrickProps>;
 }
 
 export type WallDefine = {

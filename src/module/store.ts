@@ -1,4 +1,4 @@
-import React from 'react';
+import { useReducer } from 'react';
 import { ActionFunctions, createAction, handleAction, Reducer } from 'redux-actions';
 import * as R from 'ramda';
 import shortid from 'shortid';
@@ -26,7 +26,7 @@ const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState
         (state) => state,
         R.map((r) => r(initialState), reducers),
     );
-    return React.useReducer(combineded, initialState);
+    return useReducer(combineded, initialState);
 };
 
 // Actions & ReducerFactories --------------------------------------------------

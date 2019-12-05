@@ -11,6 +11,6 @@ export default {
     decorators: [withKnobs],
 };
 
-export const paragraph = (): React.ReactElement => <ParagraphApp />;
-export const newBrick = (): React.ReactElement => <NewBrickApp />;
-export const wallEditor = (): React.ReactElement => <WallEditorApp />;
+export const paragraph = () => <ParagraphApp />;
+export const newBrick = () => <NewBrickApp />;
+export const wallEditor = () => <WallEditorApp />;

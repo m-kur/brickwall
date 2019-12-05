@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, Fragment, FC } from 'react';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
@@ -8,7 +8,7 @@ import { BrickData, WallProps } from './types';
 
 const renewId = R.map<BrickData, BrickData>((data) => R.assoc('key', shortid.generate(), data));
 
-const WallEditor: React.FC<WallProps> = (props) => {
+const WallEditor: FC<WallProps> = (props) => {
     const { wallData, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = store(R.assoc('wallData', renewId(wallData), props));
     const dataLength = R.length(state.wallData);
@@ -16,8 +16,8 @@ const WallEditor: React.FC<WallProps> = (props) => {
         dispatch(actions.updateCurrent(dataLength));
     }
     return (
-        <>
-            {R.addIndex<BrickData, React.ReactElement|null>(R.map)(
+        <Fragment>
+            {R.addIndex<BrickData, ReactElement|null>(R.map)(
                 (brickData, index) => {
                     const type = brickData.type || defaultBrickType;
                     const define = R.prop(type, brickDefines);
@@ -43,7 +43,7 @@ const WallEditor: React.FC<WallProps> = (props) => {
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}
             />
-        </>
+        </Fragment>
     );
 };
 

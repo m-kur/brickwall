@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
@@ -6,7 +6,7 @@ import { boolean } from '@storybook/addon-knobs';
 import Paragraph from '../brick/Paragraph';
 import NewBrick from '../module/NewBrick';
 
-const NewBrickApp: React.FC<{}> = () => (
+const NewBrickApp: FC<{}> = () => (
     <Container text style={{ marginTop: 16, marginBottom: 16 }}>
         <Segment basic style={{ margin: 0 }}>
             <Header size="huge">NewBrick</Header>

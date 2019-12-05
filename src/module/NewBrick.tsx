@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, Fragment, FC, useState, useRef } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
@@ -7,9 +7,9 @@ import BrickSegment from './BrickSegment';
 import { actions } from './store';
 import { BrickProps, WallDefine } from './types';
 
-const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
-    const [html, setHtml] = React.useState<string|undefined>('');
-    const ref = React.useRef<HTMLDivElement>(null);
+const NewBrick: FC<BrickProps & WallDefine> = (props) => {
+    const [html, setHtml] = useState<string|undefined>('');
+    const ref = useRef<HTMLDivElement>(null);
     const { editable, currentIndex, index, dispatch, brickDefines, defaultBrickType } = props;
 
     if (!editable) {
@@ -61,18 +61,18 @@ const NewBrick: React.FC<BrickProps & WallDefine> = (props) => {
                 <Grid>
                     <Grid.Row style={{ paddingBottom: 0 }}>
                         <Grid.Column width={13}>
-                            {R.addIndex<string, React.ReactElement>(R.map)(
+                            {R.addIndex<string, ReactElement>(R.map)(
                                 (name, key) => {
                                     const define = R.prop(name, brickDefines);
                                     return (
-                                        <React.Fragment key={key}>
+                                        <Fragment key={key}>
                                             <Button
                                                 basic
                                                 icon={define.icon}
                                                 onClick={() => update(name)}
                                                 style={{ marginBottom: 12 }}
                                             />
-                                        </React.Fragment>
+                                        </Fragment>
                                     );
                                 },
                                 R.keys(brickDefines),

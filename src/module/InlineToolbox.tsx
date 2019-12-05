@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { ReactElement, FC, useState, useRef, useEffect } from 'react';
 import * as R from 'ramda';
 
 type InlineToolBoxProps = {
-    tools: React.ReactElement;
+    tools: ReactElement;
     toolsWidth: number;
 }
 
-const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
-    const [focused, setFocused] = React.useState(false);
-    const [popupVisible, setPopupVisible] = React.useState(false);
-    const [popupPos, setPopupPos] = React.useState({ top: 0, left: 0 });
-    const [popupAlign, setPopupAlign] = React.useState('left');
-    const wrapRef = React.useRef<HTMLDivElement>(null);
+const InlineToolbox: FC<InlineToolBoxProps> = (props) => {
+    const [focused, setFocused] = useState(false);
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
+    const [popupAlign, setPopupAlign] = useState('left');
+    const wrapRef = useRef<HTMLDivElement>(null);
     const { children, toolsWidth, tools } = props;
 
     const updatePopup = (): void => {
@@ -40,7 +40,7 @@ const InlineToolbox: React.FC<InlineToolBoxProps> = (props) => {
         setPopupVisible(false);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         window.addEventListener('resize', updatePopup);
         document.addEventListener('selectionchange', updatePopup);
         return (): void => {
