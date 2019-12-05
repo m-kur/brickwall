@@ -10,7 +10,10 @@
         "build-storybook": "build-storybook -s public"
     },
     "jest": {
-        "preset": "ts-jest"
+        "preset": "ts-jest",
+        "setupFiles": [
+			"<rootDir>/src/enzymeSetup.ts"
+		]
     },
     "eslintConfig": {
         "extends": [
