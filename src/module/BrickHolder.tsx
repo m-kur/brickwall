@@ -11,13 +11,14 @@ type BrickHolderProps = {
 };
 const BrickHolder: FC<BrickHolderProps & BrickState & WallState> = (props) => {
     const { editable, currentIndex, index, dispatch, children, operations, options } = props;
-    const drawOutline = editable && (currentIndex === index);
+    const focused = editable && (currentIndex === index);
+
     return (
-        <div onFocus={() => dispatch(actions.updateCurrent(index))}>
-            <BrickSegment type="top" drawOutline={drawOutline}>
+        <div onFocus={() => dispatch(actions.updateCurrent(index))} style={{ marginBottom: 5 }}>
+            <BrickSegment type="top" focused={focused}>
                 {children}
             </BrickSegment>
-            <BrickSegment type="bottom" drawOutline={drawOutline}>
+            <BrickSegment type="bottom" focused={focused}>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>

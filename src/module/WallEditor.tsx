@@ -12,9 +12,11 @@ const WallEditor: FC<WallProps> = (props) => {
     const { wallData, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = store(R.assoc('wallData', renewId(wallData), props));
     const dataLength = R.length(state.wallData);
+
     if (state.currentIndex < 0 || dataLength < state.currentIndex) {
         dispatch(actions.updateCurrent(dataLength));
     }
+
     return (
         <Fragment>
             {R.addIndex<BrickData, ReactElement|null>(R.map)(

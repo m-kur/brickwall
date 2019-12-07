@@ -11,6 +11,7 @@ const NewBrick: FC<BrickProps & WallDefine> = (props) => {
     const [html, setHtml] = useState<string|undefined>('');
     const ref = useRef<HTMLDivElement>(null);
     const { editable, currentIndex, index, dispatch, brickDefines, defaultBrickType } = props;
+    const focused = editable && (currentIndex === index);
 
     if (!editable) {
         return null;
@@ -27,7 +28,6 @@ const NewBrick: FC<BrickProps & WallDefine> = (props) => {
         }
     };
 
-    const drawOutline = editable && (currentIndex === index);
     return (
         <div
             onFocus={() => dispatch(actions.updateCurrent(index))}
@@ -37,7 +37,7 @@ const NewBrick: FC<BrickProps & WallDefine> = (props) => {
                 }
             }}
         >
-            <BrickSegment type="top" drawOutline={drawOutline}>
+            <BrickSegment type="top" focused={focused} blurBorder>
                 <ContentEditable
                     innerRef={ref}
                     html={html || ''}
@@ -57,7 +57,7 @@ const NewBrick: FC<BrickProps & WallDefine> = (props) => {
                     onChange={(e) => setHtml(e.target.value)}
                 />
             </BrickSegment>
-            <BrickSegment type="bottom" drawOutline={drawOutline}>
+            <BrickSegment type="bottom" focused={focused}>
                 <Grid>
                     <Grid.Row style={{ paddingBottom: 0 }}>
                         <Grid.Column width={13}>

@@ -35,6 +35,7 @@ type BrickOperationsProps = {
 };
 const BrickOperations: FC<BrickOperationsProps> = (props) => {
     const { index, hasNext, dispatch } = props;
+
     return (
         <Fragment>
             <Button

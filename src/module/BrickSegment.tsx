@@ -1,21 +1,30 @@
 import React, { FC } from 'react';
 import { Segment } from 'semantic-ui-react';
+import * as R from 'ramda';
 
 type BrickSegmentProps = {
     type: 'top'|'bottom';
-    drawOutline: boolean;
+    focused: boolean;
+    blurBorder?: boolean;
 };
 
 const BrickSegment: FC<BrickSegmentProps> = (props) => {
-    const { type, drawOutline, children } = props;
-    if (!drawOutline && type === 'bottom') {
+    const { type, focused, blurBorder, children } = props;
+
+    if (!focused && type === 'bottom') {
         return null;
     }
 
+    const drawOutline = focused || blurBorder;
+    const basic = !drawOutline;
     const attached = drawOutline ? type : undefined;
-    const style = { margin: drawOutline ? 0 : 1 };
+    let style = { margin: drawOutline ? 0 : 1 };
+    if (!focused && blurBorder) {
+        style = R.mergeRight(style, { borderRadius: 4 });
+    }
+
     return (
-        <Segment basic={!drawOutline} attached={attached} style={style}>
+        <Segment basic={basic} attached={attached} style={style}>
             {children}
         </Segment>
     );

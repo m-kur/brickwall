@@ -9,6 +9,7 @@ type InlineToolProps = {
 
 const InlineTool: FC<InlineToolProps> = (props) => {
     const { icon, cmd, args } = props;
+
     return (
         <Button
             basic
