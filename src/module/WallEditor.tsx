@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, FC } from 'react';
+import React, { ReactElement, Fragment, FunctionComponent } from 'react';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
@@ -8,7 +8,7 @@ import { BrickData, WallProps } from './types';
 
 const renewId = R.map<BrickData, BrickData>((data) => R.assoc('key', shortid.generate(), data));
 
-const WallEditor: FC<WallProps> = (props) => {
+const WallEditor: FunctionComponent<WallProps> = (props) => {
     const { wallData, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = store(R.assoc('wallData', renewId(wallData), props));
     const dataLength = R.length(state.wallData);

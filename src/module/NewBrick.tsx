@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, FC, useState, useRef } from 'react';
+import React, { ReactElement, Fragment, FunctionComponent, useState, useRef } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
@@ -7,8 +7,8 @@ import BrickSegment from './BrickSegment';
 import { actions } from './store';
 import { BrickProps, WallDefine } from './types';
 
-const NewBrick: FC<BrickProps & WallDefine> = (props) => {
-    const [html, setHtml] = useState<string>('');
+const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
+    const [html, setHtml] = useState('');
     const ref = useRef<HTMLDivElement>(null);
     const { editable, currentIndex, index, dispatch, brickDefines, defaultBrickType } = props;
     const focused = currentIndex === index;

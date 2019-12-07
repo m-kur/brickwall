@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, FC } from 'react';
+import React, { ReactElement, Fragment, FunctionComponent } from 'react';
 import { Grid, Responsive } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -10,7 +10,7 @@ import { BrickProps } from './types';
 type BrickHolderProps = {
     options?: ReactElement;
 };
-const BrickHolder: FC<BrickHolderProps & BrickProps> = (props) => {
+const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
     const { editable, currentIndex, index, wallData, dispatch, children, options } = props;
     const focused = editable && (currentIndex === index);
     const hasNext = index < R.length(wallData) - 1;

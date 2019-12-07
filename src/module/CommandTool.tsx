@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Button } from 'semantic-ui-react';
 
 type CommandToolProps = {
@@ -7,7 +7,7 @@ type CommandToolProps = {
     args?: string;
 }
 
-const CommandTool: FC<CommandToolProps> = (props) => {
+const CommandTool: FunctionComponent<CommandToolProps> = (props) => {
     const { icon, cmd, args } = props;
 
     return (

@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { boolean } from '@storybook/addon-knobs';
 
 import HorizontalRule from '../brick/HorizontalRule';
 import printDispatch from './printDispatch';
 
-const NewBrickApp: FC<{}> = () => (
+const NewBrickApp: FunctionComponent<{}> = () => (
     <Container text>
         <Segment basic>
             <Header size="huge">NewBrick</Header>

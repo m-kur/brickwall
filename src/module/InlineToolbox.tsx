@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useState, useRef, useEffect } from 'react';
+import React, { ReactElement, FunctionComponent, useState, useRef, useEffect } from 'react';
 import * as R from 'ramda';
 
 type InlineToolBoxProps = {
@@ -6,7 +6,7 @@ type InlineToolBoxProps = {
     toolsWidth: number;
 }
 
-const InlineToolbox: FC<InlineToolBoxProps> = (props) => {
+const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     const [focused, setFocused] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
@@ -14,7 +14,7 @@ const InlineToolbox: FC<InlineToolBoxProps> = (props) => {
     const wrapRef = useRef<HTMLDivElement>(null);
     const { children, toolsWidth, tools } = props;
 
-    const updatePopup = (): void => {
+    const updatePopup = () => {
         if (focused) {
             const sel = document.getSelection();
             if (sel) {
@@ -43,7 +43,7 @@ const InlineToolbox: FC<InlineToolBoxProps> = (props) => {
     useEffect(() => {
         window.addEventListener('resize', updatePopup);
         document.addEventListener('selectionchange', updatePopup);
-        return (): void => {
+        return () => {
             window.removeEventListener('resize', updatePopup);
             document.removeEventListener('selectionchange', updatePopup);
         };

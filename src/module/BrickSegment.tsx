@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Segment } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -8,7 +8,7 @@ type BrickSegmentProps = {
     blurBorder?: boolean;
 };
 
-const BrickSegment: FC<BrickSegmentProps> = (props) => {
+const BrickSegment: FunctionComponent<BrickSegmentProps> = (props) => {
     const { type, focused, blurBorder, children } = props;
 
     if (!focused && type === 'bottom') {

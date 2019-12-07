@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Button, Container, Header, Segment } from 'semantic-ui-react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
@@ -7,7 +7,7 @@ import Paragraph from '../brick/Paragraph';
 import sampleText from './sampleText';
 import printDispatch from './printDispatch';
 
-const ParagraphApp: FC<{}> = () => {
+const ParagraphApp: FunctionComponent<{}> = () => {
     const [message, setMessage] = useState(sampleText);
     return (
         <Container text>

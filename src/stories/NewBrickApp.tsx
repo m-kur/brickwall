@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { boolean } from '@storybook/addon-knobs';
 
@@ -6,7 +6,7 @@ import NewBrick from '../module/NewBrick';
 import printDispatch from './printDispatch';
 import wallDefine from './wallDefine';
 
-const NewBrickApp: FC<{}> = () => (
+const NewBrickApp: FunctionComponent<{}> = () => (
     <Container text>
         <Segment basic>
             <Header size="huge">NewBrick</Header>

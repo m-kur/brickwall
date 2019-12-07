@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, { FunctionComponent, Fragment, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
@@ -9,12 +9,13 @@ import InlineToolbox from '../module/InlineToolbox';
 import CommandTool from '../module/CommandTool';
 import { BrickData, BrickProps } from '../module/types';
 
-const Paragraph: FC<BrickProps> = (props) => {
-    const { editable, index, wallData, dispatch } = props;
+const Paragraph: FunctionComponent<BrickProps> = (props) => {
+    const { editable, currentIndex, index, wallData, dispatch } = props;
     const brickData = R.nth(index, wallData) || ({} as BrickData);
     const [html, setHtml] = useState(brickData.value || '');
+    const focused = currentIndex === index;
 
-    const updateHtml = (value: string): void => {
+    const updateHtml = (value: string) => {
         if (html !== value) {
             setHtml(value);
             const type = brickData && brickData.type;
@@ -48,7 +49,7 @@ const Paragraph: FC<BrickProps> = (props) => {
                 toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable
-                    disabled={!editable}
+                    contentEditable={editable && focused}
                     html={html}
                     style={{ outline: 'none' }}
                     onKeyDown={(e) => {
