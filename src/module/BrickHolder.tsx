@@ -1,20 +1,25 @@
 import React, { ReactElement, Fragment, FC } from 'react';
 import { Grid, Responsive } from 'semantic-ui-react';
+import * as R from 'ramda';
 
 import BrickSegment from './BrickSegment';
+import BrickOperations from './BrickOperations';
 import { actions } from './store';
-import { BrickState, WallState } from './types';
+import { BrickProps } from './types';
 
 type BrickHolderProps = {
-    operations: ReactElement;
     options?: ReactElement;
 };
-const BrickHolder: FC<BrickHolderProps & BrickState & WallState> = (props) => {
-    const { editable, currentIndex, index, dispatch, children, operations, options } = props;
+const BrickHolder: FC<BrickHolderProps & BrickProps> = (props) => {
+    const { editable, currentIndex, index, wallData, dispatch, children, options } = props;
     const focused = editable && (currentIndex === index);
+    const hasNext = index < R.length(wallData) - 1;
 
     return (
-        <div onFocus={() => dispatch(actions.updateCurrent(index))} style={{ marginBottom: 5 }}>
+        <div
+            onFocus={() => dispatch(actions.updateCurrent(index))}
+            style={{ marginBottom: 5 }}
+        >
             <BrickSegment type="top" focused={focused}>
                 {children}
             </BrickSegment>
@@ -26,7 +31,11 @@ const BrickHolder: FC<BrickHolderProps & BrickState & WallState> = (props) => {
                                 as={Fragment}
                                 minWidth={Responsive.onlyTablet.minWidth}
                             >
-                                {operations}
+                                <BrickOperations
+                                    index={index}
+                                    dispatch={dispatch}
+                                    hasNext={hasNext}
+                                />
                             </Responsive>
                             {options}
                         </Grid.Column>
@@ -37,7 +46,11 @@ const BrickHolder: FC<BrickHolderProps & BrickState & WallState> = (props) => {
                         style={{ paddingTop: 0 }}
                     >
                         <Grid.Column>
-                            {operations}
+                            <BrickOperations
+                                index={index}
+                                dispatch={dispatch}
+                                hasNext={hasNext}
+                            />
                         </Grid.Column>
                     </Responsive>
                 </Grid>

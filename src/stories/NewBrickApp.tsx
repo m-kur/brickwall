@@ -5,11 +5,15 @@ import { boolean } from '@storybook/addon-knobs';
 
 import Paragraph from '../brick/Paragraph';
 import NewBrick from '../module/NewBrick';
+import printDispatch from './printDispatch';
 
 const NewBrickApp: FC<{}> = () => (
-    <Container text style={{ marginTop: 16, marginBottom: 16 }}>
-        <Segment basic style={{ margin: 0 }}>
+    <Container text>
+        <Segment basic>
             <Header size="huge">NewBrick</Header>
+        </Segment>
+        <Segment basic>
+            <Header size="small">Focused</Header>
         </Segment>
         <NewBrick
             editable={boolean('Editable', true)}
@@ -17,7 +21,7 @@ const NewBrickApp: FC<{}> = () => (
             wallData={[]}
             refugedData={[]}
             index={0}
-            dispatch={({ type, payload }) => action(`{ type: ${type}, payload: ${JSON.stringify(payload)} }`)()}
+            dispatch={printDispatch}
             brickDefines={{
                 paragraph: {
                     icon: 'paragraph',
@@ -49,6 +53,24 @@ const NewBrickApp: FC<{}> = () => (
                 },
                 table: {
                     icon: 'table',
+                    brick: Paragraph,
+                },
+            }}
+            defaultBrickType="paragraph"
+        />
+        <Segment basic>
+            <Header size="small">Unfocused</Header>
+        </Segment>
+        <NewBrick
+            editable={boolean('Editable', true)}
+            currentIndex={0}
+            wallData={[]}
+            refugedData={[]}
+            index={1}
+            dispatch={printDispatch}
+            brickDefines={{
+                paragraph: {
+                    icon: 'paragraph',
                     brick: Paragraph,
                 },
             }}

@@ -4,11 +4,12 @@ import { boolean } from '@storybook/addon-knobs';
 
 import WallEditor from '../module/WallEditor';
 import Paragraph from '../brick/Paragraph';
+import HorizontalRule from '../brick/HorizontalRule';
 import sampleText from './sampleText';
 
 const WallEditorApp: FC<{}> = () => (
-    <Container text style={{ marginTop: 16, marginBottom: 16 }}>
-        <Segment basic style={{ margin: 0 }}>
+    <Container text>
+        <Segment basic>
             <Header size="huge">WallEditor</Header>
         </Segment>
         <WallEditor
@@ -38,7 +39,7 @@ const WallEditorApp: FC<{}> = () => (
                 },
                 hr: {
                     icon: 'minus',
-                    brick: Paragraph,
+                    brick: HorizontalRule,
                 },
                 image: {
                     icon: 'file image',

@@ -5,9 +5,8 @@ import * as R from 'ramda';
 
 import { actions } from '../module/store';
 import BrickHolder from '../module/BrickHolder';
-import BrickOperations from '../module/BrickOperations';
 import InlineToolbox from '../module/InlineToolbox';
-import InlineTool from '../module/InlineTool';
+import CommandTool from '../module/CommandTool';
 import { BrickData, BrickProps } from '../module/types';
 
 const Paragraph: FC<BrickProps> = (props) => {
@@ -22,17 +21,10 @@ const Paragraph: FC<BrickProps> = (props) => {
             dispatch(actions.updateData({ index, data: { type, value } }));
         }
     };
-    const hasNext = index < R.length(wallData) - 1;
+
     return (
         <BrickHolder
             {...props}
-            operations={(
-                <BrickOperations
-                    index={index}
-                    dispatch={dispatch}
-                    hasNext={hasNext}
-                />
-            )}
             options={(
                 <Fragment>
                     {/* TODO: オプションボタンの実装 */}
@@ -44,13 +36,13 @@ const Paragraph: FC<BrickProps> = (props) => {
             <InlineToolbox
                 tools={(
                     <Fragment>
-                        <InlineTool icon="bold" cmd="bold" />
-                        <InlineTool icon="italic" cmd="italic" />
-                        <InlineTool icon="underline" cmd="underline" />
-                        <InlineTool icon="strikethrough" cmd="strikethrough" />
-                        <InlineTool icon="edit" cmd="hiliteColor" args="Yellow" />
+                        <CommandTool icon="bold" cmd="bold" />
+                        <CommandTool icon="italic" cmd="italic" />
+                        <CommandTool icon="underline" cmd="underline" />
+                        <CommandTool icon="strikethrough" cmd="strikethrough" />
+                        <CommandTool icon="edit" cmd="hiliteColor" args="Yellow" />
                         {/* TODO: Link先URLを指定する方法の実装 */}
-                        <InlineTool icon="linkify" cmd="createLink" args="http://www.google.com" />
+                        <CommandTool icon="linkify" cmd="createLink" args="http://www.google.com" />
                     </Fragment>
                 )}
                 toolsWidth={42 * 6 + 1}

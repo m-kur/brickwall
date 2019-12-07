@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { Button } from 'semantic-ui-react';
 
-type InlineToolProps = {
+type CommandToolProps = {
     icon: string;
     cmd?: string;
     args?: string;
 }
 
-const InlineTool: FC<InlineToolProps> = (props) => {
+const CommandTool: FC<CommandToolProps> = (props) => {
     const { icon, cmd, args } = props;
 
     return (
@@ -28,4 +28,4 @@ const InlineTool: FC<InlineToolProps> = (props) => {
     );
 };
 
-export default InlineTool;
+export default CommandTool;
