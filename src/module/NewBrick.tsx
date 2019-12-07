@@ -8,45 +8,37 @@ import { actions } from './store';
 import { BrickProps, WallDefine } from './types';
 
 const NewBrick: FC<BrickProps & WallDefine> = (props) => {
-    const [html, setHtml] = useState<string|undefined>('');
+    const [html, setHtml] = useState<string>('');
     const ref = useRef<HTMLDivElement>(null);
     const { editable, currentIndex, index, dispatch, brickDefines, defaultBrickType } = props;
-    const focused = editable && (currentIndex === index);
+    const focused = currentIndex === index;
 
     if (!editable) {
         return null;
     }
 
-    const update = (type: string): void => {
-        const el = ref.current;
-        if (el) {
-            dispatch(actions.updateData({
-                index,
-                data: { type, value: el.innerHTML },
-            }));
-            setHtml('');
-        }
-    };
-
     return (
-        <div
-            onFocus={() => dispatch(actions.updateCurrent(index))}
-            onBlur={() => {
-                if (html) {
-                    update(defaultBrickType);
-                }
-            }}
-        >
+        <div onFocus={() => dispatch(actions.updateCurrent(index))}>
             <BrickSegment type="top" focused={focused} blurBorder>
                 <ContentEditable
                     innerRef={ref}
-                    html={html || ''}
+                    html={html}
                     style={{ outline: 'none' }}
                     onKeyDown={(e) => {
                         if (e.keyCode === 13) {
                             e.preventDefault();
-                            update(defaultBrickType);
-                            dispatch(actions.updateCurrent(index + 1));
+                            if (ref.current) {
+                                const value = ref.current.innerHTML;
+                                setHtml(value);
+                                if (value) {
+                                    dispatch(actions.updateData({
+                                        index,
+                                        data: { type: defaultBrickType, value },
+                                    }));
+                                    dispatch(actions.updateCurrent(index + 1));
+                                    setHtml('');
+                                }
+                            }
                         }
                     }}
                     onPaste={(e) => {
@@ -62,14 +54,23 @@ const NewBrick: FC<BrickProps & WallDefine> = (props) => {
                     <Grid.Row style={{ paddingBottom: 0 }}>
                         <Grid.Column width={13}>
                             {R.addIndex<string, ReactElement>(R.map)(
-                                (name, key) => {
-                                    const define = R.prop(name, brickDefines);
+                                (type, key) => {
+                                    const define = R.prop(type, brickDefines);
                                     return (
                                         <Fragment key={key}>
                                             <Button
                                                 basic
                                                 icon={define.icon}
-                                                onClick={() => update(name)}
+                                                disabled={!define.empty && !html}
+                                                onClick={() => {
+                                                    if (define.empty || html) {
+                                                        dispatch(actions.updateData({
+                                                            index,
+                                                            data: { type, value: html },
+                                                        }));
+                                                        setHtml('');
+                                                    }
+                                                }}
                                                 style={{ marginBottom: 12 }}
                                             />
                                         </Fragment>

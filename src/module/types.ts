@@ -29,6 +29,7 @@ export type BrickProps = BrickState & WallState;
 export type BrickDefine = {
     icon: string;
     brick: FC<BrickProps>;
+    empty?: boolean;
 }
 
 export type WallDefine = {
