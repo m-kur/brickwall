@@ -21,6 +21,7 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
             style={{ marginBottom: 5 }}
         >
             <BrickSegment type="top" focused={focused}>
+                {/* childrenのフォーカスコントロールをここで行いたい */}
                 {children}
             </BrickSegment>
             <BrickSegment type="bottom" focused={focused}>

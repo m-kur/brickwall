@@ -1,4 +1,7 @@
 import Paragraph from '../brick/Paragraph';
+import Header from '../brick/Header';
+import List from '../brick/List';
+import BlockQuote from '../brick/BlockQuote';
 import HorizontalRule from '../brick/HorizontalRule';
 
 export default {
@@ -9,15 +12,15 @@ export default {
         },
         header: {
             icon: 'header',
-            brick: Paragraph,
+            brick: Header,
         },
         list: {
             icon: 'unordered list',
-            brick: Paragraph,
+            brick: List,
         },
         quote: {
             icon: 'quote left',
-            brick: Paragraph,
+            brick: BlockQuote,
         },
         hr: {
             icon: 'minus',

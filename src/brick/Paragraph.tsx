@@ -1,27 +1,16 @@
-import React, { FunctionComponent, Fragment, useState } from 'react';
-import ContentEditable from 'react-contenteditable';
+import React, { FunctionComponent, Fragment } from 'react';
 import { Button } from 'semantic-ui-react';
-import * as R from 'ramda';
 
-import { actions } from '../module/store';
 import BrickHolder from '../module/BrickHolder';
+import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
 import CommandTool from '../module/CommandTool';
-import { BrickData, BrickProps } from '../module/types';
+import { actions } from '../module/store';
+import { BrickProps } from '../module/types';
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
-    const { editable, currentIndex, index, wallData, dispatch } = props;
-    const brickData = R.nth(index, wallData) || ({} as BrickData);
-    const [html, setHtml] = useState(brickData.value || '');
+    const { editable, currentIndex, index, type, value, dispatch } = props;
     const focused = currentIndex === index;
-
-    const updateHtml = (value: string) => {
-        if (html !== value) {
-            setHtml(value);
-            const type = brickData && brickData.type;
-            dispatch(actions.updateData({ index, data: { type, value } }));
-        }
-    };
 
     return (
         <BrickHolder
@@ -49,21 +38,14 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable
-                    contentEditable={editable && focused}
-                    html={html}
-                    style={{ outline: 'none' }}
-                    onKeyDown={(e) => {
-                        if (e.keyCode === 13) {
-                            e.preventDefault();
-                            dispatch(actions.updateCurrent(index + 1));
-                        }
+                    editable={editable && focused}
+                    html={value}
+                    onDispatch={(state) => {
+                        dispatch(actions.updateData({
+                            index,
+                            data: { type, value: state },
+                        }));
                     }}
-                    onPaste={(e) => {
-                        e.preventDefault();
-                        const text = e.clipboardData.getData('text/plain');
-                        document.execCommand('insertHTML', false, text);
-                    }}
-                    onChange={(e) => updateHtml(e.target.value)}
                 />
             </InlineToolbox>
         </BrickHolder>

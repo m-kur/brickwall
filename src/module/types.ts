@@ -13,7 +13,10 @@ export type BrickAction = Action<any>;
 export type BrickDispatch = Dispatch<BrickAction>;
 
 export type BrickState = {
+    // editable: boolean;
     index: number;
+    type: string;
+    value: string;
     dispatch: BrickDispatch;
 };
 
@@ -24,6 +27,7 @@ export type WallState = {
     refugedData: BrickData[];
 }
 
+// TODO: WallStateを取り除く
 export type BrickProps = BrickState & WallState;
 
 export type BrickDefine = {

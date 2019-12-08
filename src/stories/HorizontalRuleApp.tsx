@@ -19,6 +19,8 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             wallData={[]}
             refugedData={[]}
             index={0}
+            type=""
+            value=""
             dispatch={printDispatch}
         />
         <Segment basic>
@@ -30,6 +32,8 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             wallData={[]}
             refugedData={[]}
             index={1}
+            type=""
+            value=""
             dispatch={printDispatch}
         />
     </Container>

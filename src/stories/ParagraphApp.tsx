@@ -20,12 +20,11 @@ const ParagraphApp: FunctionComponent<{}> = () => {
             <Paragraph
                 editable={boolean('Editable', true)}
                 currentIndex={0}
-                wallData={[{
-                    type: 'paragraph',
-                    value: message,
-                }]}
+                wallData={[]}
                 refugedData={[]}
                 index={0}
+                type="paragraph"
+                value={message}
                 dispatch={({ type, payload }) => {
                     if (type === 'UPDATE') {
                         setMessage(payload.data.value);
@@ -45,12 +44,11 @@ const ParagraphApp: FunctionComponent<{}> = () => {
             <Paragraph
                 editable
                 currentIndex={1}
-                wallData={[{
-                    type: 'paragraph',
-                    value: sampleText,
-                }]}
+                wallData={[]}
                 refugedData={[]}
                 index={0}
+                type="paragraph"
+                value={message}
                 dispatch={printDispatch}
             />
         </Container>

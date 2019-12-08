@@ -10,12 +10,11 @@ describe('BrickHolder', () => {
                 {...{
                     editable: true,
                     currentIndex: 0,
-                    wallData: [{
-                        type: 'paragraph',
-                        value: '',
-                    }],
+                    wallData: [],
                     refugedData: [],
                     index: 0,
+                    type: 'paragraph',
+                    value: '',
                     dispatch: jest.fn(),
                 }}
             />,

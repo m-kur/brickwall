@@ -25,13 +25,14 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
                     const define = R.prop(type, brickDefines);
                     if (define) {
                         return (
-                            <span key={brickData.key}>
-                                <define.brick
-                                    {...state}
-                                    index={index}
-                                    dispatch={dispatch}
-                                />
-                            </span>
+                            <define.brick
+                                {...state}
+                                key={brickData.key}
+                                index={index}
+                                type={type}
+                                value={brickData.value || ''}
+                                dispatch={dispatch}
+                            />
                         );
                     }
                     throw new Error(`"${define}" component not found`);
@@ -41,6 +42,8 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
             <NewBrick
                 {...state}
                 index={dataLength}
+                type="_new_"
+                value=""
                 dispatch={dispatch}
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}

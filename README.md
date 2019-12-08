@@ -1,2 +1,3 @@
 # brickwall
-Medium type editor for React environment.
+
+Medium-like “WYSIWYG” editor component for React.

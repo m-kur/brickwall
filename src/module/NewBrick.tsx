@@ -1,5 +1,5 @@
-import React, { ReactElement, Fragment, FunctionComponent, useState, useRef } from 'react';
-import ContentEditable from 'react-contenteditable';
+import React, { ReactElement, FunctionComponent, useState, useRef } from 'react';
+import ReactContentEditable from 'react-contenteditable';
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -8,19 +8,30 @@ import { actions } from './store';
 import { BrickProps, WallDefine } from './types';
 
 const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
-    const [html, setHtml] = useState('');
+    const {
+        editable, currentIndex, index, value, dispatch,
+        brickDefines, defaultBrickType,
+    } = props;
+    const [html, setHtml] = useState(value);
     const ref = useRef<HTMLDivElement>(null);
-    const { editable, currentIndex, index, dispatch, brickDefines, defaultBrickType } = props;
     const focused = currentIndex === index;
 
     if (!editable) {
         return null;
     }
 
+    const createBrick = (type: string, state: string) => {
+        dispatch(actions.updateData({
+            index,
+            data: { type, value: state },
+        }));
+        setHtml('');
+    };
+
     return (
         <div onFocus={() => dispatch(actions.updateCurrent(index))}>
             <BrickSegment type="top" focused={focused} blurBorder>
-                <ContentEditable
+                <ReactContentEditable
                     innerRef={ref}
                     html={html}
                     style={{ outline: 'none' }}
@@ -28,15 +39,10 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                         if (e.keyCode === 13) {
                             e.preventDefault();
                             if (ref.current) {
-                                const value = ref.current.innerHTML;
-                                setHtml(value);
-                                if (value) {
-                                    dispatch(actions.updateData({
-                                        index,
-                                        data: { type: defaultBrickType, value },
-                                    }));
+                                const { innerHTML } = ref.current;
+                                if (innerHTML) {
+                                    createBrick(defaultBrickType, innerHTML);
                                     dispatch(actions.updateCurrent(index + 1));
-                                    setHtml('');
                                 }
                             }
                         }
@@ -57,23 +63,18 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                                 (type, key) => {
                                     const define = R.prop(type, brickDefines);
                                     return (
-                                        <Fragment key={key}>
-                                            <Button
-                                                basic
-                                                icon={define.icon}
-                                                disabled={!define.empty && !html}
-                                                onClick={() => {
-                                                    if (define.empty || html) {
-                                                        dispatch(actions.updateData({
-                                                            index,
-                                                            data: { type, value: html },
-                                                        }));
-                                                        setHtml('');
-                                                    }
-                                                }}
-                                                style={{ marginBottom: 12 }}
-                                            />
-                                        </Fragment>
+                                        <Button
+                                            key={key}
+                                            basic
+                                            icon={define.icon}
+                                            disabled={!define.empty && !html}
+                                            onClick={() => {
+                                                if (define.empty || html) {
+                                                    createBrick(type, html);
+                                                }
+                                            }}
+                                            style={{ marginBottom: 12 }}
+                                        />
                                     );
                                 },
                                 R.keys(brickDefines),
