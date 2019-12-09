@@ -1,15 +1,17 @@
-import React, { FunctionComponent, useRef } from 'react';
+import React, { CSSProperties, FunctionComponent, useRef } from 'react';
 import ReactContentEditable from 'react-contenteditable';
+import * as R from 'ramda';
 
 type ContentEditableProps = {
     editable: boolean;
     tagName?: string;
     html: string;
+    style?: CSSProperties;
     onChange: (latest: string) => void;
     onKeyReturn?: (latest: string) => void;
 };
 const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
-    const { editable, tagName, html, onChange, onKeyReturn } = props;
+    const { editable, tagName, html, style, onChange, onKeyReturn } = props;
     const ref = useRef<HTMLDivElement>(null);
 
     return (
@@ -17,7 +19,7 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
             contentEditable={editable}
             html={html}
             innerRef={ref}
-            style={{ outline: 'none' }}
+            style={R.mergeDeepRight((style || {}), { outline: 'none' })}
             tagName={tagName}
             onKeyDown={(e) => {
                 if (e.keyCode === 13) {

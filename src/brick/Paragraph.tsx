@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment } from 'react';
+import React, { FunctionComponent, Fragment, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
 import BrickHolder from '../module/BrickHolder';
@@ -8,7 +8,10 @@ import CommandTool from '../module/CommandTool';
 import { actions } from '../module/store';
 import { BrickProps } from '../module/types';
 
+const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
+
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
+    const [fontSize, setFontSize] = useState(2);
     const { editable, currentIndex, index, type, value, dispatch } = props;
     const focused = currentIndex === index;
 
@@ -17,9 +20,20 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
             {...props}
             options={(
                 <Fragment>
-                    {/* TODO: オプションボタンの実装 */}
-                    <Button basic>T+</Button>
-                    <Button basic>T-</Button>
+                    <Button
+                        basic
+                        disabled={fontSize <= 0}
+                        onClick={() => setFontSize(fontSize - 1)}
+                    >
+                        T-
+                    </Button>
+                    <Button
+                        basic
+                        disabled={fontSize >= 5}
+                        onClick={() => setFontSize(fontSize + 1)}
+                    >
+                        T+
+                    </Button>
                 </Fragment>
             )}
         >
@@ -40,6 +54,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 <ContentEditable
                     editable={editable && focused}
                     html={value}
+                    style={{ fontSize: fontSizeValue[fontSize] }}
                     onChange={(latest) => {
                         dispatch(actions.updateData({
                             index,
