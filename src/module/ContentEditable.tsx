@@ -20,9 +20,9 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
             style={{ outline: 'none' }}
             tagName={tagName}
             onKeyDown={(e) => {
-                if (e.keyCode === 13 && onKeyReturn) {
+                if (e.keyCode === 13) {
                     e.preventDefault();
-                    if (ref.current) {
+                    if (ref.current && onKeyReturn) {
                         const { innerHTML } = ref.current;
                         onKeyReturn(innerHTML);
                     }

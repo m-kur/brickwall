@@ -40,10 +40,10 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 <ContentEditable
                     editable={editable && focused}
                     html={value}
-                    onChange={(state) => {
+                    onChange={(latest) => {
                         dispatch(actions.updateData({
                             index,
-                            data: { type, value: state },
+                            data: { type, value: latest },
                         }));
                     }}
                 />
