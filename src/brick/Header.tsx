@@ -27,7 +27,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
                 tagName="h1"
                 editable={editable && focused}
                 html={value}
-                onDispatch={(state) => {
+                onChange={(state) => {
                     dispatch(actions.updateData({
                         index,
                         data: { type, value: state },

@@ -1,33 +1,30 @@
-import React, { FunctionComponent, useState, useRef } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import ReactContentEditable from 'react-contenteditable';
 
 type ContentEditableProps = {
     editable: boolean;
     tagName?: string;
     html: string;
-    onDispatch: (state: string) => void;
+    onChange: (latest: string) => void;
+    onKeyReturn?: (latest: string) => void;
 };
 const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
-    const { editable, tagName, html, onDispatch } = props;
-    const [state, setState] = useState(html);
+    const { editable, tagName, html, onChange, onKeyReturn } = props;
     const ref = useRef<HTMLDivElement>(null);
 
     return (
         <ReactContentEditable
             contentEditable={editable}
-            html={state}
+            html={html}
             innerRef={ref}
             style={{ outline: 'none' }}
             tagName={tagName}
             onKeyDown={(e) => {
-                if (e.keyCode === 13) {
+                if (e.keyCode === 13 && onKeyReturn) {
                     e.preventDefault();
                     if (ref.current) {
                         const { innerHTML } = ref.current;
-                        if (state !== innerHTML) {
-                            setState(innerHTML);
-                            onDispatch(innerHTML);
-                        }
+                        onKeyReturn(innerHTML);
                     }
                 }
             }}
@@ -38,10 +35,7 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
             }}
             onChange={(e) => {
                 const { value } = e.target;
-                if (state !== value) {
-                    setState(value);
-                    onDispatch(value);
-                }
+                onChange(value);
             }}
         />
     );

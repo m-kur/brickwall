@@ -1,9 +1,9 @@
-import React, { ReactElement, FunctionComponent, useState, useRef } from 'react';
-import ReactContentEditable from 'react-contenteditable';
+import React, { ReactElement, FunctionComponent, useState } from 'react';
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
 import BrickSegment from './BrickSegment';
+import ContentEditable from './ContentEditable';
 import { actions } from './store';
 import { BrickProps, WallDefine } from './types';
 
@@ -13,17 +13,16 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
         brickDefines, defaultBrickType,
     } = props;
     const [html, setHtml] = useState(value);
-    const ref = useRef<HTMLDivElement>(null);
     const focused = currentIndex === index;
 
     if (!editable) {
         return null;
     }
 
-    const createBrick = (type: string, state: string) => {
+    const createBrick = (type: string, v: string) => {
         dispatch(actions.updateData({
             index,
-            data: { type, value: state },
+            data: { type, value: v },
         }));
         setHtml('');
     };
@@ -31,28 +30,14 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     return (
         <div onFocus={() => dispatch(actions.updateCurrent(index))}>
             <BrickSegment type="top" focused={focused} blurBorder>
-                <ReactContentEditable
-                    innerRef={ref}
+                <ContentEditable
+                    editable={focused}
                     html={html}
-                    style={{ outline: 'none' }}
-                    onKeyDown={(e) => {
-                        if (e.keyCode === 13) {
-                            e.preventDefault();
-                            if (ref.current) {
-                                const { innerHTML } = ref.current;
-                                if (innerHTML) {
-                                    createBrick(defaultBrickType, innerHTML);
-                                    dispatch(actions.updateCurrent(index + 1));
-                                }
-                            }
-                        }
+                    onKeyReturn={(latest) => {
+                        createBrick(defaultBrickType, latest);
+                        dispatch(actions.updateCurrent(index + 1));
                     }}
-                    onPaste={(e) => {
-                        e.preventDefault();
-                        const text = e.clipboardData.getData('text/plain');
-                        document.execCommand('insertHTML', false, text);
-                    }}
-                    onChange={(e) => setHtml(e.target.value)}
+                    onChange={(latest) => setHtml(latest)}
                 />
             </BrickSegment>
             <BrickSegment type="bottom" focused={focused}>
@@ -68,11 +53,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                                             basic
                                             icon={define.icon}
                                             disabled={!define.empty && !html}
-                                            onClick={() => {
-                                                if (define.empty || html) {
-                                                    createBrick(type, html);
-                                                }
-                                            }}
+                                            onClick={() => createBrick(type, html)}
                                             style={{ marginBottom: 12 }}
                                         />
                                     );

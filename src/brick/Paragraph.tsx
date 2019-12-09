@@ -40,7 +40,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 <ContentEditable
                     editable={editable && focused}
                     html={value}
-                    onDispatch={(state) => {
+                    onChange={(state) => {
                         dispatch(actions.updateData({
                             index,
                             data: { type, value: state },
