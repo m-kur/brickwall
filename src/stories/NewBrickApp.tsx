@@ -21,6 +21,7 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             refugedData={[]}
             index={0}
             type=""
+            meta={{}}
             value=""
             dispatch={printDispatch}
             {...wallDefine}
@@ -35,6 +36,7 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             refugedData={[]}
             index={1}
             type=""
+            meta={{}}
             value=""
             dispatch={printDispatch}
             {...wallDefine}

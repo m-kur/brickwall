@@ -4,6 +4,7 @@ import { Action } from 'redux-actions';
 export type BrickData = {
     key?: string;
     type?: string;
+    meta?: Record<string, string|number>;
     value?: string;
 };
 
@@ -16,6 +17,7 @@ export type BrickState = {
     // editable: boolean;
     index: number;
     type: string;
+    meta: Record<string, string|number>;
     value: string;
     dispatch: BrickDispatch;
 };

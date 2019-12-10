@@ -30,6 +30,7 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
                                 key={brickData.key}
                                 index={index}
                                 type={type}
+                                meta={brickData.meta || {}}
                                 value={brickData.value || ''}
                                 dispatch={dispatch}
                             />
@@ -43,6 +44,7 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
                 {...state}
                 index={dataLength}
                 type="_new_"
+                meta={{}}
                 value=""
                 dispatch={dispatch}
                 brickDefines={brickDefines}

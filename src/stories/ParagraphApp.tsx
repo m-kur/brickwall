@@ -24,6 +24,7 @@ const ParagraphApp: FunctionComponent<{}> = () => {
                 refugedData={[]}
                 index={0}
                 type="paragraph"
+                meta={{}}
                 value={message}
                 dispatch={({ type, payload }) => {
                     if (type === 'UPDATE') {
@@ -39,7 +40,7 @@ const ParagraphApp: FunctionComponent<{}> = () => {
                 <Button primary onClick={action(message)}>Print Data</Button>
             </Segment>
             <Segment basic>
-                <Header size="small">Unfocused</Header>
+                <Header size="small">Unfocused FontSize+1</Header>
             </Segment>
             <Paragraph
                 editable
@@ -48,6 +49,7 @@ const ParagraphApp: FunctionComponent<{}> = () => {
                 refugedData={[]}
                 index={0}
                 type="paragraph"
+                meta={{ fontSize: 3 }}
                 value={message}
                 dispatch={printDispatch}
             />

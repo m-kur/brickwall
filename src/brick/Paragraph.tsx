@@ -1,5 +1,6 @@
 import React, { FunctionComponent, Fragment, useState } from 'react';
 import { Button } from 'semantic-ui-react';
+import * as R from 'ramda';
 
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
@@ -11,9 +12,9 @@ import { BrickProps } from '../module/types';
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
-    const [fontSize, setFontSize] = useState(2);
-    const { editable, currentIndex, index, type, value, dispatch } = props;
+    const { editable, currentIndex, index, type, meta, value, dispatch } = props;
     const focused = currentIndex === index;
+    const [fontSize, setFontSize] = useState((R.prop('fontSize', meta) || 2) as number);
 
     return (
         <BrickHolder
@@ -58,7 +59,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                     onChange={(latest) => {
                         dispatch(actions.updateData({
                             index,
-                            data: { type, value: latest },
+                            data: { type, meta: { fontSize }, value: latest },
                         }));
                     }}
                 />

@@ -14,10 +14,13 @@ describe('BrickHolder', () => {
                     refugedData: [],
                     index: 0,
                     type: 'paragraph',
+                    meta: {},
                     value: '',
                     dispatch: jest.fn(),
                 }}
-            />,
+            >
+                <div />
+            </BlickHolder>,
         );
         expect(wrapper.contains(<div />)).toBeTruthy();
     });
