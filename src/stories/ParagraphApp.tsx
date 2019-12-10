@@ -19,10 +19,10 @@ const ParagraphApp: FunctionComponent<{}> = () => {
             </Segment>
             <Paragraph
                 editable={boolean('Editable', true)}
-                currentIndex={0}
-                wallData={[]}
-                refugedData={[]}
+                focused
+                hasNext
                 index={0}
+                key=""
                 type="paragraph"
                 meta={{}}
                 value={message}
@@ -44,10 +44,10 @@ const ParagraphApp: FunctionComponent<{}> = () => {
             </Segment>
             <Paragraph
                 editable
-                currentIndex={1}
-                wallData={[]}
-                refugedData={[]}
+                focused={false}
+                hasNext
                 index={0}
+                key=""
                 type="paragraph"
                 meta={{ fontSize: 3 }}
                 value={message}

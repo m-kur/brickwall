@@ -9,10 +9,10 @@ describe('BrickHolder', () => {
             <BlickHolder
                 {...{
                     editable: true,
-                    currentIndex: 0,
-                    wallData: [],
-                    refugedData: [],
+                    focused: true,
+                    hasNext: true,
                     index: 0,
+                    key: '',
                     type: 'paragraph',
                     meta: {},
                     value: '',

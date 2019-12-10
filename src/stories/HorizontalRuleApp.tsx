@@ -15,10 +15,10 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         </Segment>
         <HorizontalRule
             editable={boolean('Editable', true)}
-            currentIndex={0}
-            wallData={[]}
-            refugedData={[]}
+            focused
+            hasNext
             index={0}
+            key=""
             type=""
             meta={{}}
             value=""
@@ -29,10 +29,10 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         </Segment>
         <HorizontalRule
             editable={boolean('Editable', true)}
-            currentIndex={0}
-            wallData={[]}
-            refugedData={[]}
-            index={1}
+            focused={false}
+            hasNext
+            index={0}
+            key=""
             type=""
             meta={{}}
             value=""

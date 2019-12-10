@@ -15,10 +15,10 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         </Segment>
         <HeaderBrick
             editable={boolean('Editable', true)}
-            currentIndex={0}
-            wallData={[]}
-            refugedData={[]}
+            focused
+            hasNext
             index={0}
+            key=""
             type=""
             meta={{ tagName: 'h2' }}
             value="Header h2"
@@ -29,10 +29,10 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         </Segment>
         <HeaderBrick
             editable={boolean('Editable', true)}
-            currentIndex={0}
-            wallData={[]}
-            refugedData={[]}
-            index={1}
+            focused={false}
+            hasNext
+            index={0}
+            key=""
             type=""
             meta={{ tagName: 'h3' }}
             value="Header h3"

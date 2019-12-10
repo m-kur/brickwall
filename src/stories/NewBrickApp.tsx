@@ -16,13 +16,10 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         </Segment>
         <NewBrick
             editable={boolean('Editable', true)}
-            currentIndex={0}
-            wallData={[]}
-            refugedData={[]}
+            focused
+            hasNext
             index={0}
-            type=""
-            meta={{}}
-            value=""
+            key=""
             dispatch={printDispatch}
             {...wallDefine}
         />
@@ -31,13 +28,10 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         </Segment>
         <NewBrick
             editable={boolean('Editable', true)}
-            currentIndex={0}
-            wallData={[]}
-            refugedData={[]}
-            index={1}
-            type=""
-            meta={{}}
-            value=""
+            focused={false}
+            hasNext
+            index={0}
+            key=""
             dispatch={printDispatch}
             {...wallDefine}
         />

@@ -2,33 +2,38 @@ import React, { ReactElement, Fragment, FunctionComponent, useReducer } from 're
 import * as R from 'ramda';
 import shortid from 'shortid';
 
-import store, { actions } from './store';
+import store from './store';
 import NewBrick from './NewBrick';
-import { BrickData, WallProps } from './types';
+import { BrickData, WallProps, WallDefine } from './types';
 
-const renewId = R.map<BrickData, BrickData>((data) => R.assoc('key', shortid.generate(), data));
+const renewId = R.map<Partial<BrickData>, Partial<BrickData>>(
+    (data) => R.assoc('key', shortid.generate(), data),
+);
 
-const WallEditor: FunctionComponent<WallProps> = (props) => {
-    const { wallData, brickDefines, defaultBrickType } = props;
-    const [state, dispatch] = useReducer(...store(R.assoc('wallData', renewId(wallData), props)));
+const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
+    const { editable, wallData, refugedData, brickDefines, defaultBrickType } = props;
+    const [state, dispatch] = useReducer(...store({
+        currentIndex: R.length(wallData),
+        editable,
+        wallData: renewId(wallData),
+        refugedData,
+    }));
     const dataLength = R.length(state.wallData);
-
-    if (state.currentIndex < 0 || dataLength < state.currentIndex) {
-        dispatch(actions.updateCurrent(dataLength));
-    }
-
     return (
         <Fragment>
-            {R.addIndex<BrickData, ReactElement|null>(R.map)(
-                (brickData, index) => {
+            {R.addIndex<Partial<BrickData>, ReactElement|null>(R.map)(
+                (brickData, i) => {
                     const type = brickData.type || defaultBrickType;
                     const define = R.prop(type, brickDefines);
                     if (define) {
                         return (
                             <define.brick
-                                {...state}
-                                key={brickData.key}
-                                index={index}
+                                editable={state.editable}
+                                focused={state.currentIndex === i}
+                                hasNext={i < dataLength - 1}
+                                index={i}
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                key={brickData.key!}
                                 type={type}
                                 meta={brickData.meta || {}}
                                 value={brickData.value || ''}
@@ -36,16 +41,15 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
                             />
                         );
                     }
-                    throw new Error(`"${define}" component not found`);
+                    throw new Error(`"${type}" component not found`);
                 },
                 state.wallData,
             )}
             <NewBrick
-                {...state}
+                editable={state.editable}
+                focused={state.currentIndex === dataLength}
+                hasNext={false}
                 index={dataLength}
-                type="_new_"
-                meta={{}}
-                value=""
                 dispatch={dispatch}
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}

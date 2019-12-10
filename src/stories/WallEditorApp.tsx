@@ -13,7 +13,6 @@ const WallEditorApp: FunctionComponent<{}> = () => (
         </Segment>
         <WallEditor
             editable={boolean('Editable', true)}
-            currentIndex={-1}
             wallData={[{
                 type: 'paragraph',
                 value: sampleText,

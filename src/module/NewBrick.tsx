@@ -5,15 +5,11 @@ import * as R from 'ramda';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
 import { actions } from './store';
-import { BrickProps, WallDefine } from './types';
+import { BrickState, WallDefine } from './types';
 
-const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
-    const {
-        editable, currentIndex, index, value, dispatch,
-        brickDefines, defaultBrickType,
-    } = props;
-    const [html, setHtml] = useState(value);
-    const focused = currentIndex === index;
+const NewBrick: FunctionComponent<BrickState & WallDefine> = (props) => {
+    const { editable, focused, index, dispatch, brickDefines, defaultBrickType } = props;
+    const [html, setHtml] = useState('');
 
     if (!editable) {
         return null;
@@ -22,7 +18,12 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     const createBrick = (type: string, v: string) => {
         dispatch(actions.updateData({
             index,
-            data: { type, value: v },
+            data: {
+                key: '',
+                type,
+                meta: {},
+                value: v,
+            },
         }));
         setHtml('');
     };
@@ -45,11 +46,11 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                     <Grid.Row style={{ paddingBottom: 0 }}>
                         <Grid.Column width={13}>
                             {R.addIndex<string, ReactElement>(R.map)(
-                                (type, key) => {
+                                (type, i) => {
                                     const define = R.prop(type, brickDefines);
                                     return (
                                         <Button
-                                            key={key}
+                                            key={i}
                                             basic
                                             icon={define.icon}
                                             disabled={!define.empty && !html}

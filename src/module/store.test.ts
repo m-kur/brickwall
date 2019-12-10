@@ -55,14 +55,17 @@ describe('reducers', () => {
         const state = reducer(initialState, actions.updateData({
             index: 3,
             data: {
+                key: '',
                 type: 'paragraph',
+                meta: {},
                 value: 'new',
             },
         }));
         expect(state.wallData.length).toBe(4);
         expect(state.wallData[3]).toEqual({
-            type: 'paragraph',
             key: expect.any(String),
+            type: 'paragraph',
+            meta: {},
             value: 'new',
         });
     });
@@ -72,13 +75,17 @@ describe('reducers', () => {
         const state = reducer(initialState, actions.updateData({
             index: 0,
             data: {
+                key: '',
                 type: 'paragraph',
+                meta: {},
                 value: 'update',
             },
         }));
         expect(state.wallData.length).toBe(3);
         expect(state.wallData[0]).toEqual({
+            key: '',
             type: 'paragraph',
+            meta: {},
             value: 'update',
         });
     });

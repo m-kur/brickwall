@@ -1,6 +1,5 @@
 import React, { ReactElement, Fragment, FunctionComponent } from 'react';
 import { Grid, Responsive } from 'semantic-ui-react';
-import * as R from 'ramda';
 
 import BrickSegment from './BrickSegment';
 import BrickOperations from './BrickOperations';
@@ -11,20 +10,18 @@ type BrickHolderProps = {
     options?: ReactElement;
 };
 const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
-    const { editable, currentIndex, index, wallData, dispatch, children, options } = props;
-    const focused = editable && (currentIndex === index);
-    const hasNext = index < R.length(wallData) - 1;
+    const { editable, focused, index, hasNext, dispatch, children, options } = props;
 
     return (
         <div
             onFocus={() => dispatch(actions.updateCurrent(index))}
             style={{ marginBottom: 5 }}
         >
-            <BrickSegment type="top" focused={focused}>
+            <BrickSegment type="top" focused={editable && focused}>
                 {/* childrenのフォーカスコントロールをここで行いたい */}
                 {children}
             </BrickSegment>
-            <BrickSegment type="bottom" focused={focused}>
+            <BrickSegment type="bottom" focused={editable && focused}>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
