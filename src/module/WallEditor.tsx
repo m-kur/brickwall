@@ -32,12 +32,12 @@ const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
                                 focused={state.currentIndex === i}
                                 hasNext={i < dataLength - 1}
                                 index={i}
+                                dispatch={dispatch}
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 key={brickData.key!}
                                 type={type}
                                 meta={brickData.meta || {}}
                                 value={brickData.value || ''}
-                                dispatch={dispatch}
                             />
                         );
                     }

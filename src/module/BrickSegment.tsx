@@ -7,7 +7,6 @@ type BrickSegmentProps = {
     focused: boolean;
     blurBorder?: boolean;
 };
-
 const BrickSegment: FunctionComponent<BrickSegmentProps> = (props) => {
     const { type, focused, blurBorder, children } = props;
 

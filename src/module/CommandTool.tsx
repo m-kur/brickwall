@@ -6,7 +6,6 @@ type CommandToolProps = {
     cmd?: string;
     args?: string;
 }
-
 const CommandTool: FunctionComponent<CommandToolProps> = (props) => {
     const { icon, cmd, args } = props;
 

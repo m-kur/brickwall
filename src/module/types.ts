@@ -1,4 +1,4 @@
-import { FC, Dispatch } from 'react';
+import { FunctionComponent, Dispatch } from 'react';
 import { Action } from 'redux-actions';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,7 +35,7 @@ export type WallState = {
 
 export type BrickDefine = {
     icon: string;
-    brick: FC<BrickProps>;
+    brick: FunctionComponent<BrickProps>;
     empty?: boolean;
 }
 

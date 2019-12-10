@@ -5,7 +5,6 @@ type InlineToolBoxProps = {
     tools: ReactElement;
     toolsWidth: number;
 }
-
 const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     const [focused, setFocused] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
