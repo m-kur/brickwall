@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, FunctionComponent } from 'react';
+import React, { ReactElement, Fragment, FunctionComponent, useReducer } from 'react';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
@@ -10,7 +10,7 @@ const renewId = R.map<BrickData, BrickData>((data) => R.assoc('key', shortid.gen
 
 const WallEditor: FunctionComponent<WallProps> = (props) => {
     const { wallData, brickDefines, defaultBrickType } = props;
-    const [state, dispatch] = store(R.assoc('wallData', renewId(wallData), props));
+    const [state, dispatch] = useReducer(...store(R.assoc('wallData', renewId(wallData), props)));
     const dataLength = R.length(state.wallData);
 
     if (state.currentIndex < 0 || dataLength < state.currentIndex) {
