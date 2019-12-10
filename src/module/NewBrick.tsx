@@ -66,6 +66,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                                 icon="reply"
                                 floated="right"
                                 style={{ marginBottom: 12 }}
+                                tabIndex={-1}
                                 onClick={() => { /* TODO 実装 */ }}
                             />
                         </Grid.Column>

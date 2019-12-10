@@ -17,6 +17,7 @@ const ConfirmedButton: FunctionComponent<ConfirmedButtonProps> = (props) => {
             floated="right"
             icon={icon}
             primary={confirm}
+            tabIndex={-1}
             onBlur={() => setConfirm(false)}
             onClick={() => {
                 if (confirm) {
