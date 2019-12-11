@@ -18,11 +18,11 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             focused
             hasNext
             index={0}
-            key=""
+            dispatch={printDispatch}
+            id="1"
             type=""
             meta={{}}
             value=""
-            dispatch={printDispatch}
         />
         <Segment basic>
             <Header size="small">Unfocused</Header>
@@ -32,11 +32,11 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             focused={false}
             hasNext
             index={0}
-            key=""
+            dispatch={printDispatch}
+            id="2"
             type=""
             meta={{}}
             value=""
-            dispatch={printDispatch}
         />
     </Container>
 );

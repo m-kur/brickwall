@@ -19,7 +19,6 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             focused
             hasNext
             index={0}
-            key=""
             dispatch={printDispatch}
             {...wallDefine}
         />
@@ -31,7 +30,6 @@ const NewBrickApp: FunctionComponent<{}> = () => (
             focused={false}
             hasNext
             index={0}
-            key=""
             dispatch={printDispatch}
             {...wallDefine}
         />

@@ -19,7 +19,7 @@ const NewBrick: FunctionComponent<BrickState & WallDefine> = (props) => {
         dispatch(actions.updateData({
             index,
             data: {
-                key: '',
+                id: '',
                 type,
                 meta: {},
                 value: v,

@@ -8,7 +8,7 @@ import { actions } from '../module/store';
 import { BrickProps } from '../module/types';
 
 const Header: FunctionComponent<BrickProps> = (props) => {
-    const { editable, focused, index, key, type, meta, value, dispatch } = props;
+    const { editable, focused, index, dispatch, id, type, meta, value } = props;
     const tagName = (R.prop('tagName', meta) || 'h1') as string;
 
     const optionButtons = R.addIndex<string, ReactElement>(R.map)((name, i) => (
@@ -18,7 +18,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
             disabled={tagName === name}
             onClick={() => dispatch(actions.updateData({
                 index,
-                data: { key, type, meta: { tagName: name }, value },
+                data: { id, type, meta: { tagName: name }, value },
             }))}
         >
             {name}
@@ -41,7 +41,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
                 onChange={(state) => {
                     dispatch(actions.updateData({
                         index,
-                        data: { key, type, meta: { tagName }, value: state },
+                        data: { id, type, meta: { tagName }, value: state },
                     }));
                 }}
             />

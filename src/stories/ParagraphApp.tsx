@@ -22,10 +22,6 @@ const ParagraphApp: FunctionComponent<{}> = () => {
                 focused
                 hasNext
                 index={0}
-                key=""
-                type="paragraph"
-                meta={{}}
-                value={message}
                 dispatch={({ type, payload }) => {
                     if (type === 'UPDATE') {
                         setMessage(payload.data.value);
@@ -35,6 +31,10 @@ const ParagraphApp: FunctionComponent<{}> = () => {
                         action(`{ type: ${type}, payload: ${JSON.stringify(payload)} }`)();
                     }
                 }}
+                id="1"
+                type="paragraph"
+                meta={{}}
+                value={message}
             />
             <Segment basic>
                 <Button primary onClick={action(message)}>Print Data</Button>
@@ -47,11 +47,11 @@ const ParagraphApp: FunctionComponent<{}> = () => {
                 focused={false}
                 hasNext
                 index={0}
-                key=""
+                dispatch={printDispatch}
+                id="2"
                 type="paragraph"
                 meta={{ fontSize: 3 }}
                 value={message}
-                dispatch={printDispatch}
             />
         </Container>
     );

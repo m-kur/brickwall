@@ -12,12 +12,12 @@ import { BrickProps } from '../module/types';
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
-    const { editable, focused, index, key, type, meta, value, dispatch } = props;
+    const { editable, focused, index, dispatch, id, type, meta, value } = props;
     const fontSize = (R.prop('fontSize', meta) || 2) as number;
 
     const setFontSize = (size: number) => dispatch(actions.updateData({
         index,
-        data: { key, type, meta: { fontSize: size }, value },
+        data: { id, type, meta: { fontSize: size }, value },
     }));
 
     return (
@@ -63,7 +63,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                     onChange={(latest) => {
                         dispatch(actions.updateData({
                             index,
-                            data: { key, type, meta: { fontSize }, value: latest },
+                            data: { id, type, meta: { fontSize }, value: latest },
                         }));
                     }}
                 />

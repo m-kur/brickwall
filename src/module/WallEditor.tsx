@@ -7,7 +7,7 @@ import NewBrick from './NewBrick';
 import { BrickData, WallProps, WallDefine } from './types';
 
 const renewId = R.map<Partial<BrickData>, Partial<BrickData>>(
-    (data) => R.assoc('key', shortid.generate(), data),
+    (data) => R.assoc('id', shortid.generate(), data),
 );
 
 const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
@@ -28,13 +28,15 @@ const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
                     if (define) {
                         return (
                             <define.brick
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                key={brickData.id!}
                                 editable={state.editable}
                                 focused={state.currentIndex === i}
                                 hasNext={i < dataLength - 1}
                                 index={i}
                                 dispatch={dispatch}
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                key={brickData.key!}
+                                id={brickData.id!}
                                 type={type}
                                 meta={brickData.meta || {}}
                                 value={brickData.value || ''}

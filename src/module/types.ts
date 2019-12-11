@@ -7,7 +7,7 @@ export type BrickAction = Action<any>;
 export type BrickDispatch = Dispatch<BrickAction>;
 
 export type BrickData = {
-    key: string;
+    id: string;
     type: string;
     meta: Record<string, string|number>;
     value: string;

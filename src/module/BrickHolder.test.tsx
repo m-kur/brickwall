@@ -12,11 +12,12 @@ describe('BrickHolder', () => {
                     focused: true,
                     hasNext: true,
                     index: 0,
+                    dispatch: jest.fn(),
+                    id: '',
                     key: '',
                     type: 'paragraph',
                     meta: {},
                     value: '',
-                    dispatch: jest.fn(),
                 }}
             >
                 <div />

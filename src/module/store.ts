@@ -86,7 +86,7 @@ const updateDataReducer = createReducer<WallState, { index: number; data: BrickD
             const modifiedData = R.mergeRight(target, data);
             return R.assoc('wallData', R.update(index, modifiedData, state.wallData), state);
         }
-        const brandnewData = R.assoc('key', shortid.generate(), data);
+        const brandnewData = R.assoc('id', shortid.generate(), data);
         return R.assoc('wallData', R.append(brandnewData, state.wallData), state);
     },
 );
@@ -111,7 +111,7 @@ const duplicateDataReducer = createReducer<WallState, number>(
         const index = payload;
         const target = R.nth(index, state.wallData);
         if (target) {
-            const duplicated = R.assoc('key', shortid.generate(), target);
+            const duplicated = R.assoc('id', shortid.generate(), target);
             return R.mergeRight(state, {
                 wallData: R.insert(index + 1, duplicated, state.wallData),
                 currentIndex: state.currentIndex + 1,
