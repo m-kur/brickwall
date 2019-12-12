@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
-import { boolean } from '@storybook/addon-knobs';
+// import { boolean } from '@storybook/addon-knobs';
 
+import WallStore from '../module/WallStore';
 import HeaderBrick from '../brick/Header';
-import printDispatch from './printDispatch';
+// import printDispatch from './printDispatch';
 
 const NewBrickApp: FunctionComponent<{}> = () => (
     <Container text>
@@ -13,31 +14,43 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         <Segment basic>
             <Header size="small">Focused</Header>
         </Segment>
-        <HeaderBrick
-            editable={boolean('Editable', true)}
-            focused
-            hasNext
-            index={0}
-            dispatch={printDispatch}
-            id="1"
-            type=""
-            meta={{ tagName: 'h2' }}
-            value="Header h2"
-        />
+        <WallStore.Provider
+            initialState={{
+                editable: true,
+                wallData: [{
+                    type: 'header',
+                    value: 'ヘッダー',
+                }],
+                refugedData: [],
+                currentIndex: 0,
+            }}
+        >
+            <HeaderBrick
+                focused
+                hasNext
+                index={0}
+            />
+        </WallStore.Provider>
         <Segment basic>
             <Header size="small">Unfocused</Header>
         </Segment>
-        <HeaderBrick
-            editable={boolean('Editable', true)}
-            focused={false}
-            hasNext
-            index={0}
-            dispatch={printDispatch}
-            id="2"
-            type=""
-            meta={{ tagName: 'h3' }}
-            value="Header h3"
-        />
+        <WallStore.Provider
+            initialState={{
+                editable: true,
+                wallData: [{
+                    type: 'header',
+                    value: 'ヘッダー',
+                }],
+                refugedData: [],
+                currentIndex: 0,
+            }}
+        >
+            <HeaderBrick
+                focused={false}
+                hasNext
+                index={0}
+            />
+        </WallStore.Provider>
     </Container>
 );
 

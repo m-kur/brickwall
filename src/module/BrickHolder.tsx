@@ -1,6 +1,7 @@
 import React, { ReactElement, Fragment, FunctionComponent } from 'react';
 import { Grid, Responsive } from 'semantic-ui-react';
 
+import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import BrickOperations from './BrickOperations';
 import { actions } from './store';
@@ -10,18 +11,18 @@ type BrickHolderProps = {
     options?: ReactElement;
 };
 const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
-    const { editable, focused, index, hasNext, dispatch, children, options } = props;
+    const { focused, index, hasNext, children, options } = props;
+    const [state, dispatch] = WallStore.useContainer();
 
     return (
         <div
             onFocus={() => dispatch(actions.updateCurrent(index))}
             style={{ marginBottom: 5 }}
         >
-            <BrickSegment type="top" focused={editable && focused}>
-                {/* childrenのフォーカスコントロールをここで行いたい */}
+            <BrickSegment type="top" focused={state.editable && focused}>
                 {children}
             </BrickSegment>
-            <BrickSegment type="bottom" focused={editable && focused}>
+            <BrickSegment type="bottom" focused={state.editable && focused}>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>

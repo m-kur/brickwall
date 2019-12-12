@@ -1,24 +1,16 @@
-import React, { ReactElement, Fragment, FunctionComponent, useReducer } from 'react';
+import React, { ReactElement, Fragment, FunctionComponent } from 'react';
 import * as R from 'ramda';
-import shortid from 'shortid';
 
-import store from './store';
+import WallStore from './WallStore';
+import { actions } from './store';
 import NewBrick from './NewBrick';
-import { BrickData, WallProps, WallDefine } from './types';
+import { BrickData, WallDefine } from './types';
 
-const renewId = R.map<Partial<BrickData>, Partial<BrickData>>(
-    (data) => R.assoc('id', shortid.generate(), data),
-);
-
-const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
-    const { editable, wallData, refugedData, brickDefines, defaultBrickType } = props;
-    const [state, dispatch] = useReducer(...store({
-        currentIndex: R.length(wallData),
-        editable,
-        wallData: renewId(wallData),
-        refugedData,
-    }));
+const WallEditor: FunctionComponent</* WallProps & */WallDefine> = (props) => {
+    const { brickDefines, defaultBrickType } = props;
+    const [state, dispatch] = WallStore.useContainer();
     const dataLength = R.length(state.wallData);
+
     return (
         <Fragment>
             {R.addIndex<Partial<BrickData>, ReactElement|null>(R.map)(
@@ -26,20 +18,21 @@ const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
                     const type = brickData.type || defaultBrickType;
                     const define = R.prop(type, brickDefines);
                     if (define) {
+                        if (!brickData.value && !define.empty) {
+                            dispatch(actions.deleteData(i));
+                            if (i !== 0) {
+                                dispatch(actions.updateCurrent(i - 1));
+                            }
+                            return null;
+                        }
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        const key = brickData.id!;
                         return (
                             <define.brick
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                key={brickData.id!}
-                                editable={state.editable}
+                                key={key}
                                 focused={state.currentIndex === i}
                                 hasNext={i < dataLength - 1}
                                 index={i}
-                                dispatch={dispatch}
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                id={brickData.id!}
-                                type={type}
-                                meta={brickData.meta || {}}
-                                value={brickData.value || ''}
                             />
                         );
                     }
@@ -48,11 +41,9 @@ const WallEditor: FunctionComponent<WallProps & WallDefine> = (props) => {
                 state.wallData,
             )}
             <NewBrick
-                editable={state.editable}
                 focused={state.currentIndex === dataLength}
                 hasNext={false}
-                index={dataLength}
-                dispatch={dispatch}
+                index={R.length(state.wallData)}
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}
             />

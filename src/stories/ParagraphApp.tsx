@@ -1,60 +1,62 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Button, Container, Header, Segment } from 'semantic-ui-react';
-import { action } from '@storybook/addon-actions';
-import { boolean } from '@storybook/addon-knobs';
+// import { action } from '@storybook/addon-actions';
+// import { boolean } from '@storybook/addon-knobs';
 
+import WallStore from '../module/WallStore';
 import Paragraph from '../brick/Paragraph';
 import sampleText from './sampleText';
-import printDispatch from './printDispatch';
+// import printDispatch from './printDispatch';
 
-const ParagraphApp: FunctionComponent<{}> = () => {
-    const [message, setMessage] = useState(sampleText);
-    return (
-        <Container text>
-            <Segment basic>
-                <Header size="huge">Paragraph</Header>
-            </Segment>
-            <Segment basic>
-                <Header size="small">Focused</Header>
-            </Segment>
+const ParagraphApp: FunctionComponent<{}> = () => (
+    <Container text>
+        <Segment basic>
+            <Header size="huge">Paragraph</Header>
+        </Segment>
+        <Segment basic>
+            <Header size="small">Focused</Header>
+        </Segment>
+        <WallStore.Provider
+            initialState={{
+                editable: true,
+                wallData: [{
+                    type: 'paragraph',
+                    value: sampleText,
+                }],
+                refugedData: [],
+                currentIndex: 0,
+            }}
+        >
             <Paragraph
-                editable={boolean('Editable', true)}
                 focused
                 hasNext
                 index={0}
-                dispatch={({ type, payload }) => {
-                    if (type === 'UPDATE') {
-                        setMessage(payload.data.value);
-                        return;
-                    }
-                    if (type !== 'UPDATE_CURRENT') {
-                        action(`{ type: ${type}, payload: ${JSON.stringify(payload)} }`)();
-                    }
-                }}
-                id="1"
-                type="paragraph"
-                meta={{}}
-                value={message}
             />
             <Segment basic>
-                <Button primary onClick={action(message)}>Print Data</Button>
+                <Button primary>Print Data</Button>
             </Segment>
-            <Segment basic>
-                <Header size="small">Unfocused FontSize+1</Header>
-            </Segment>
+        </WallStore.Provider>
+        <Segment basic>
+            <Header size="small">Unfocused FontSize+1</Header>
+        </Segment>
+        <WallStore.Provider
+            initialState={{
+                editable: true,
+                wallData: [{
+                    type: 'paragraph',
+                    value: sampleText,
+                }],
+                refugedData: [],
+                currentIndex: 0,
+            }}
+        >
             <Paragraph
-                editable
                 focused={false}
                 hasNext
                 index={0}
-                dispatch={printDispatch}
-                id="2"
-                type="paragraph"
-                meta={{ fontSize: 3 }}
-                value={message}
             />
-        </Container>
-    );
-};
+        </WallStore.Provider>
+    </Container>
+);
 
 export default ParagraphApp;

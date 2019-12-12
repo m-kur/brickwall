@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent, useState, useRef, useEffect } from 'react';
+import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
 import * as R from 'ramda';
 
 type InlineToolBoxProps = {
@@ -59,7 +59,7 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
             {children}
             <div
                 className={`ui popup ${popupVisible ? 'visible' : ''} bottom left ${popupAlign}`}
-                style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos)}
+                style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos) as CSSProperties}
             >
                 <div style={{ width: toolsWidth }}>
                     {tools}

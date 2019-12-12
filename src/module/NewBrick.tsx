@@ -2,27 +2,29 @@ import React, { ReactElement, FunctionComponent, useState } from 'react';
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
+import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
 import { actions } from './store';
 import { BrickState, WallDefine } from './types';
 
 const NewBrick: FunctionComponent<BrickState & WallDefine> = (props) => {
-    const { editable, focused, index, dispatch, brickDefines, defaultBrickType } = props;
+    const { focused, index, brickDefines, defaultBrickType } = props;
+    const [state, dispatch] = WallStore.useContainer();
     const [html, setHtml] = useState('');
 
-    if (!editable) {
+    if (!state.editable) {
         return null;
     }
 
-    const createBrick = (type: string, v: string) => {
+    const createBrick = (type: string, value: string) => {
         dispatch(actions.updateData({
             index,
             data: {
                 id: '',
                 type,
                 meta: {},
-                value: v,
+                value,
             },
         }));
         setHtml('');

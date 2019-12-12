@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
-import { boolean } from '@storybook/addon-knobs';
+// import { boolean } from '@storybook/addon-knobs';
 
+import WallStore from '../module/WallStore';
 import NewBrick from '../module/NewBrick';
-import printDispatch from './printDispatch';
+// import printDispatch from './printDispatch';
 import wallDefine from './wallDefine';
 
 const NewBrickApp: FunctionComponent<{}> = () => (
@@ -14,25 +15,26 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         <Segment basic>
             <Header size="small">Focused</Header>
         </Segment>
-        <NewBrick
-            editable={boolean('Editable', true)}
-            focused
-            hasNext
-            index={0}
-            dispatch={printDispatch}
-            {...wallDefine}
-        />
+
+        <WallStore.Provider>
+            <NewBrick
+                focused
+                hasNext
+                index={0}
+                {...wallDefine}
+            />
+        </WallStore.Provider>
         <Segment basic>
             <Header size="small">Unfocused</Header>
         </Segment>
-        <NewBrick
-            editable={boolean('Editable', true)}
-            focused={false}
-            hasNext
-            index={0}
-            dispatch={printDispatch}
-            {...wallDefine}
-        />
+        <WallStore.Provider>
+            <NewBrick
+                focused={false}
+                hasNext
+                index={0}
+                {...wallDefine}
+            />
+        </WallStore.Provider>
     </Container>
 );
 

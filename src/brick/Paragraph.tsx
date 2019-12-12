@@ -2,23 +2,27 @@ import React, { FunctionComponent, Fragment } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
+import WallStore from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
 import CommandTool from '../module/CommandTool';
+import selectors from '../module/selectors';
 import { actions } from '../module/store';
 import { BrickProps } from '../module/types';
 
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
-    const { editable, focused, index, dispatch, id, type, meta, value } = props;
-    const fontSize = (R.prop('fontSize', meta) || 2) as number;
-
+    const { focused, index } = props;
+    const [state, dispatch] = WallStore.useContainer();
+    const { id, type, meta, value } = selectors.getBrickData(state, props);
     const setFontSize = (size: number) => dispatch(actions.updateData({
         index,
         data: { id, type, meta: { fontSize: size }, value },
     }));
+
+    const fontSize = (R.prop('fontSize', meta) || 2) as number;
 
     return (
         <BrickHolder
@@ -57,7 +61,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable
-                    editable={editable && focused}
+                    editable={state.editable && focused}
                     html={value}
                     style={{ fontSize: fontSizeValue[fontSize] }}
                     onChange={(latest) => {

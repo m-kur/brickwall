@@ -14,24 +14,19 @@ export type BrickData = {
 };
 
 export type BrickState = {
-    editable: boolean;
     focused: boolean;
     hasNext: boolean;
     index: number;
-    dispatch: BrickDispatch;
 };
 
-export type BrickProps = BrickState & BrickData;
+export type BrickProps = BrickState;
 
-export type WallProps = {
+export type WallState = {
     editable: boolean;
     wallData: Partial<BrickData>[];
     refugedData: Partial<BrickData>[];
-}
-
-export type WallState = {
     currentIndex: number;
-} & WallProps;
+}
 
 export type BrickDefine = {
     icon: string;
