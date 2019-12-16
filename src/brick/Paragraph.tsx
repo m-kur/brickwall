@@ -22,7 +22,10 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
         data: { id, type, meta: { fontSize: size }, value },
     }));
 
-    const fontSize = (R.prop('fontSize', meta) || 2) as number;
+    let fontSize = R.prop('fontSize', meta) as number;
+    if (fontSize === undefined) {
+        fontSize = 2;
+    }
 
     return (
         <BrickHolder
