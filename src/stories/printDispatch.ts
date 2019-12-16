@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { BrickAction, BrickDispatch, WrappedDispatchFactory } from '../module/types';
 
 const printDispath: WrappedDispatchFactory = (d: BrickDispatch) => (a: BrickAction) => {
-    action(`{ type: ${a.type}, payload: ${JSON.stringify(a.payload)} }`)();
+    action(JSON.stringify(a))();
     d(a);
 };
 
