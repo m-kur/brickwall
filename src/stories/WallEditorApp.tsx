@@ -6,6 +6,7 @@ import WallStore from '../module/WallStore';
 import WallEditor from '../module/WallEditor';
 import sampleText from './sampleText';
 import wallDefine from './wallDefine';
+import printDispath from './printDispatch';
 
 const WallEditorApp: FunctionComponent<{}> = () => (
     <Container text>
@@ -19,6 +20,7 @@ const WallEditorApp: FunctionComponent<{}> = () => (
                     type: 'paragraph',
                     value: sampleText,
                 }],
+                wrappedDispatch: printDispath,
             }}
         >
             <WallEditor {...wallDefine} />

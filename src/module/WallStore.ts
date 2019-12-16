@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import shortid from 'shortid';
 
 import store from './store';
-import { WallState, BrickData, BrickDispatch } from './types';
+import { WallState, BrickData, BrickDispatch, WrappedDispatchFactory } from './types';
 
 const renewData = R.map<Partial<BrickData>, BrickData>((data) => ({
     id: data.id || shortid.generate(),
@@ -17,17 +17,22 @@ type InitialState = {
     editable: boolean;
     wallData?: Partial<BrickData>[];
     refugedData?: Partial<BrickData>[];
+    wrappedDispatch?: WrappedDispatchFactory;
 };
 
 const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
-    const state = initialState || { editable: true };
-    const renewState = R.mergeRight(state, {
-        editable: state.editable,
-        wallData: state.wallData ? renewData(state.wallData) : [],
-        refugedData: state.refugedData ? renewData(state.refugedData) : [],
-        currentIndex: state.wallData ? R.length(state.wallData) : 0,
+    const baseState = initialState || { editable: true };
+    const renewState = R.mergeRight(baseState, {
+        editable: baseState.editable,
+        wallData: baseState.wallData ? renewData(baseState.wallData) : [],
+        refugedData: baseState.refugedData ? renewData(baseState.refugedData) : [],
+        currentIndex: baseState.wallData ? R.length(baseState.wallData) : 0,
     });
-    return useReducer(...store(renewState));
+    const [state, dispatch] = useReducer(...store(renewState));
+    if (baseState.wrappedDispatch) {
+        return [state, baseState.wrappedDispatch(dispatch)];
+    }
+    return [state, dispatch];
 };
 
 export default createContainer(useStore);

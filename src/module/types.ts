@@ -6,6 +6,8 @@ export type BrickAction = Action<any>;
 
 export type BrickDispatch = Dispatch<BrickAction>;
 
+export type WrappedDispatchFactory = (dispatch: BrickDispatch) => BrickDispatch;
+
 export type BrickData = {
     id: string;
     type: string;
