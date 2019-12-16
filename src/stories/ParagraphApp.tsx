@@ -23,13 +23,10 @@ const ParagraphApp: FunctionComponent<{}> = () => (
                     type: 'paragraph',
                     value: sampleText,
                 }],
-                refugedData: [],
-                currentIndex: 0,
             }}
         >
             <Paragraph
                 focused
-                hasNext
                 index={0}
             />
             <Segment basic>
@@ -46,13 +43,10 @@ const ParagraphApp: FunctionComponent<{}> = () => (
                     type: 'paragraph',
                     value: sampleText,
                 }],
-                refugedData: [],
-                currentIndex: 0,
             }}
         >
             <Paragraph
                 focused={false}
-                hasNext
                 index={0}
             />
         </WallStore.Provider>

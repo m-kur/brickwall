@@ -10,7 +10,6 @@ describe('BrickHolder', () => {
             <WallStore.Provider>
                 <BlickHolder
                     focused
-                    hasNext
                     index={0}
                 >
                     <div />

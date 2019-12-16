@@ -19,15 +19,13 @@ const NewBrickApp: FunctionComponent<{}> = () => (
                 editable: true,
                 wallData: [{
                     type: 'header',
-                    value: 'ヘッダー',
+                    meta: { tagName: 'h2' },
+                    value: 'ヘッダー2',
                 }],
-                refugedData: [],
-                currentIndex: 0,
             }}
         >
             <HeaderBrick
                 focused
-                hasNext
                 index={0}
             />
         </WallStore.Provider>
@@ -39,15 +37,13 @@ const NewBrickApp: FunctionComponent<{}> = () => (
                 editable: true,
                 wallData: [{
                     type: 'header',
-                    value: 'ヘッダー',
+                    meta: { tagName: 'h4' },
+                    value: 'ヘッダー4',
                 }],
-                refugedData: [],
-                currentIndex: 0,
             }}
         >
             <HeaderBrick
                 focused={false}
-                hasNext
                 index={0}
             />
         </WallStore.Provider>

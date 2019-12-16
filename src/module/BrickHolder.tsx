@@ -4,6 +4,7 @@ import { Grid, Responsive } from 'semantic-ui-react';
 import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import BrickOperations from './BrickOperations';
+import selectors from './selectors';
 import { actions } from './store';
 import { BrickProps } from './types';
 
@@ -11,9 +12,9 @@ type BrickHolderProps = {
     options?: ReactElement;
 };
 const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
-    const { focused, index, hasNext, children, options } = props;
+    const { focused, index, children, options } = props;
     const [state, dispatch] = WallStore.useContainer();
-
+    const hasNext = index < selectors.getDataLength(state) - 1;
     return (
         <div
             onFocus={() => dispatch(actions.updateCurrent(index))}

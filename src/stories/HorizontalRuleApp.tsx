@@ -17,7 +17,6 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         <WallStore.Provider>
             <HorizontalRule
                 focused
-                hasNext
                 index={0}
             />
         </WallStore.Provider>
@@ -27,7 +26,6 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         <WallStore.Provider>
             <HorizontalRule
                 focused={false}
-                hasNext
                 index={0}
             />
         </WallStore.Provider>

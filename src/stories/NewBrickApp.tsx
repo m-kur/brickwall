@@ -19,7 +19,6 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         <WallStore.Provider>
             <NewBrick
                 focused
-                hasNext
                 index={0}
                 {...wallDefine}
             />
@@ -30,7 +29,6 @@ const NewBrickApp: FunctionComponent<{}> = () => (
         <WallStore.Provider>
             <NewBrick
                 focused={false}
-                hasNext
                 index={0}
                 {...wallDefine}
             />

@@ -15,7 +15,6 @@ export type BrickData = {
 
 export type BrickState = {
     focused: boolean;
-    hasNext: boolean;
     index: number;
 };
 
@@ -23,8 +22,8 @@ export type BrickProps = BrickState;
 
 export type WallState = {
     editable: boolean;
-    wallData: Partial<BrickData>[];
-    refugedData: Partial<BrickData>[];
+    wallData: BrickData[];
+    refugedData: BrickData[];
     currentIndex: number;
 }
 

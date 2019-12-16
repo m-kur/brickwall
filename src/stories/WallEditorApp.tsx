@@ -19,8 +19,6 @@ const WallEditorApp: FunctionComponent<{}> = () => (
                     type: 'paragraph',
                     value: sampleText,
                 }],
-                refugedData: [],
-                currentIndex: 1,
             }}
         >
             <WallEditor {...wallDefine} />

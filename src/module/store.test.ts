@@ -5,13 +5,19 @@ const initialState: WallState = {
     editable: true,
     currentIndex: 0,
     wallData: [{
+        id: '',
         type: 'header',
+        meta: {},
         value: 'first',
     }, {
+        id: '',
         type: 'paragraph',
+        meta: {},
         value: 'second',
     }, {
+        id: '',
         type: 'linkify',
+        meta: {},
         value: 'third',
     }],
     refugedData: [],
