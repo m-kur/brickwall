@@ -16,8 +16,8 @@ export type BrickData = {
 };
 
 export type BrickState = {
-    focused: boolean;
     index: number;
+    // el: RefObject<HTMLElement>;
 };
 
 export type BrickProps = BrickState;

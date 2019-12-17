@@ -4,16 +4,16 @@ import { Grid, Responsive } from 'semantic-ui-react';
 import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import BrickOperations from './BrickOperations';
-import selectors from './selectors';
-import { actions } from './store';
+import { actions, selectors } from './store';
 import { BrickProps } from './types';
 
 type BrickHolderProps = {
     options?: ReactElement;
 };
 const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
-    const { focused, index, children, options } = props;
+    const { index, children, options } = props;
     const [state, dispatch] = WallStore.useContainer();
+    const focused = selectors.isFocused(state, props);
     const hasNext = index < selectors.getDataLength(state) - 1;
     return (
         <div

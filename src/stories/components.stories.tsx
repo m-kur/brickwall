@@ -2,10 +2,10 @@ import 'semantic-ui-css/semantic.min.css';
 import React from 'react';
 import { withKnobs } from '@storybook/addon-knobs';
 
-import ParagraphApp from './ParagraphApp';
-import HorizontalRuleApp from './HorizontalRuleApp';
 import HeaderApp from './HeaderApp';
+import HorizontalRuleApp from './HorizontalRuleApp';
 import NewBrickApp from './NewBrickApp';
+import ParagraphApp from './ParagraphApp';
 import WallEditorApp from './WallEditorApp';
 
 export default {
@@ -13,8 +13,8 @@ export default {
     decorators: [withKnobs],
 };
 
-export const paragraph = () => <ParagraphApp />;
-export const horizontalRuleApp = () => <HorizontalRuleApp />;
-export const headerApp = () => <HeaderApp />;
-export const newBrick = () => <NewBrickApp />;
 export const wallEditor = () => <WallEditorApp />;
+export const newBrick = () => <NewBrickApp />;
+export const headerApp = () => <HeaderApp />;
+export const horizontalRuleApp = () => <HorizontalRuleApp />;
+export const paragraph = () => <ParagraphApp />;

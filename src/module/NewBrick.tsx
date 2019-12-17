@@ -1,17 +1,19 @@
-import React, { ReactElement, FunctionComponent, useState } from 'react';
+import React, { ReactElement, FunctionComponent, useState, useRef } from 'react';
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
 import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
-import { actions } from './store';
+import { actions, selectors } from './store';
 import { BrickState, WallDefine } from './types';
 
 const NewBrick: FunctionComponent<BrickState & WallDefine> = (props) => {
-    const { focused, index, brickDefines, defaultBrickType } = props;
+    const { index, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
     const [html, setHtml] = useState('');
+    const focused = selectors.isFocused(state, props);
+    const ref = useRef<HTMLElement>(null);
 
     if (!state.editable) {
         return null;
@@ -36,9 +38,13 @@ const NewBrick: FunctionComponent<BrickState & WallDefine> = (props) => {
                 <ContentEditable
                     editable={focused}
                     html={html}
+                    ref={ref}
                     onKeyReturn={(latest) => {
                         createBrick(defaultBrickType, latest);
                         dispatch(actions.updateCurrent(index + 1));
+                        if (ref.current) {
+                            ref.current.focus();
+                        }
                     }}
                     onChange={(latest) => setHtml(latest)}
                 />

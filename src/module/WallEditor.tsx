@@ -32,7 +32,6 @@ const WallEditor: FunctionComponent<WallDefine> = (props) => {
                             <define.brick
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 key={brickData.id!}
-                                focused={state.currentIndex === i}
                                 index={i}
                             />
                         );
@@ -43,7 +42,6 @@ const WallEditor: FunctionComponent<WallDefine> = (props) => {
             )}
             <NewBrick
                 key={dataLength}
-                focused={state.currentIndex === dataLength}
                 index={dataLength}
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}

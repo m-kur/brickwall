@@ -5,14 +5,14 @@ import * as R from 'ramda';
 import WallStore from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
-import selectors from '../module/selectors';
-import { actions } from '../module/store';
+import { actions, selectors } from '../module/store';
 import { BrickProps } from '../module/types';
 
 const Header: FunctionComponent<BrickProps> = (props) => {
-    const { focused, index } = props;
+    const { index } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
+    const focused = selectors.isFocused(state, props);
     const tagName = (R.prop('tagName', meta) || 'h1') as string;
 
     const optionButtons = R.addIndex<string, ReactElement>(R.map)((name, i) => (

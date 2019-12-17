@@ -6,38 +6,26 @@ import WallStore from '../module/WallStore';
 import HeaderBrick from '../brick/Header';
 import printDispatch from './printDispatch';
 
-const NewBrickApp: FunctionComponent<{}> = () => (
+const HeaderApp: FunctionComponent<{}> = () => (
     <Container text>
         <WallStore.Provider
             initialState={{
                 editable: boolean('editable', true),
-                wallData: [{}, {
+                wallData: [{
                     type: 'header',
                     meta: { tagName: 'h2' },
                     value: 'ヘッダー2',
-                }, {}],
+                }],
+                currentIndex: 0,
                 wrappedDispatch: printDispatch,
             }}
         >
             <Segment basic>
                 <Header size="huge">Header</Header>
             </Segment>
-            <Segment basic>
-                <Header size="small">Focused</Header>
-            </Segment>
-            <HeaderBrick
-                focused
-                index={1}
-            />
-            <Segment basic>
-                <Header size="small">Unfocused</Header>
-            </Segment>
-            <HeaderBrick
-                focused={false}
-                index={1}
-            />
+            <HeaderBrick index={0} />
         </WallStore.Provider>
     </Container>
 );
 
-export default NewBrickApp;
+export default HeaderApp;

@@ -6,36 +6,24 @@ import WallStore from '../module/WallStore';
 import HorizontalRule from '../brick/HorizontalRule';
 import printDispatch from './printDispatch';
 
-const NewBrickApp: FunctionComponent<{}> = () => (
+const HorizontalRuleApp: FunctionComponent<{}> = () => (
     <Container text>
         <WallStore.Provider
             initialState={{
                 editable: boolean('editable', true),
-                wallData: [{}, {
+                wallData: [{
                     type: 'hr',
-                }, {}],
+                }],
+                currentIndex: 0,
                 wrappedDispatch: printDispatch,
             }}
         >
             <Segment basic>
                 <Header size="huge">HorizontalRule</Header>
             </Segment>
-            <Segment basic>
-                <Header size="small">Focused</Header>
-            </Segment>
-            <HorizontalRule
-                focused
-                index={1}
-            />
-            <Segment basic>
-                <Header size="small">Unfocused</Header>
-            </Segment>
-            <HorizontalRule
-                focused={false}
-                index={1}
-            />
+            <HorizontalRule index={0} />
         </WallStore.Provider>
     </Container>
 );
 
-export default NewBrickApp;
+export default HorizontalRuleApp;

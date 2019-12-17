@@ -7,16 +7,16 @@ import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
 import CommandTool from '../module/CommandTool';
-import selectors from '../module/selectors';
-import { actions } from '../module/store';
+import { actions, selectors } from '../module/store';
 import { BrickProps } from '../module/types';
 
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
-    const { focused, index } = props;
+    const { index } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
+    const focused = selectors.isFocused(state, props);
     const setFontSize = (size: number) => dispatch(actions.updateData({
         index,
         data: { id, type, meta: { fontSize: size }, value },

@@ -17,17 +17,20 @@ type InitialState = {
     editable: boolean;
     wallData?: Partial<BrickData>[];
     refugedData?: Partial<BrickData>[];
+    currentIndex?: number;
     wrappedDispatch?: WrappedDispatchFactory;
 };
 
 const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
     const baseState = initialState || { editable: true };
-    const renewState = R.mergeRight(baseState, {
-        editable: baseState.editable,
-        wallData: baseState.wallData ? renewData(baseState.wallData) : [],
-        refugedData: baseState.refugedData ? renewData(baseState.refugedData) : [],
-        currentIndex: baseState.wallData ? R.length(baseState.wallData) : 0,
-    });
+    const { editable, wallData, refugedData, currentIndex } = baseState;
+    const dataLength = wallData ? R.length(wallData) : 0;
+    const renewState = {
+        editable,
+        wallData: wallData ? renewData(wallData) : [],
+        refugedData: refugedData ? renewData(refugedData) : [],
+        currentIndex: currentIndex !== undefined ? currentIndex : dataLength,
+    };
     const [state, dispatch] = useReducer(...store(renewState));
     if (baseState.wrappedDispatch) {
         return [state, baseState.wrappedDispatch(dispatch)];

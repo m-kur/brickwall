@@ -1,10 +1,11 @@
 import { ActionFunctions, createAction, handleAction, Reducer } from 'redux-actions';
+import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
-import { WallState, BrickData } from './types';
+import { WallState, BrickData, BrickState } from './types';
 
-// Internal API --------------------------------------------------------------------
+// Internal API -------------------------------------------------------------------------
 
 interface ReducerFactory<S, P> {
     (initialState: S): Reducer<S, P>;
@@ -28,7 +29,7 @@ const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState
     return [combineded, initialState] as [Reducer<S, P>, S];
 };
 
-// Actions & ReducerFactories --------------------------------------------------
+// Actions & ReducerFactories -----------------------------------------------------------
 
 const toggleEditable = createAction('TOGGLE_EDITABLE');
 const toggleEditableReducer = createReducer<WallState, void>(
@@ -137,6 +138,36 @@ const refugeDataReducer = createReducer<WallState, number>(
     },
 );
 
+// selectors ----------------------------------------------------------------------------
+
+const getWallData = (state: WallState) => state.wallData;
+const getIndex = (state: WallState, props: BrickState) => props.index;
+const getCurrentIndex = (state: WallState) => state.currentIndex;
+
+const getBrickData = createSelector(
+    getWallData,
+    getIndex,
+    (wallData: BrickData[], index: number) => {
+        const data = R.nth(index, wallData);
+        if (data) {
+            return data;
+        }
+        throw new RangeError();
+    },
+);
+
+const getDataLength = createSelector(
+    getWallData,
+    (wallData: BrickData[]) => R.length(wallData),
+);
+
+const isFocused = createSelector(
+    getIndex,
+    getCurrentIndex,
+    (index: number, currentIndex: number) => currentIndex === index,
+);
+
+// exports ------------------------------------------------------------------------------
 
 export const actions = {
     toggleEditable,
@@ -163,3 +194,9 @@ export const factories = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default combineReducer<WallState, any>(R.values(factories));
+
+export const selectors = {
+    getBrickData,
+    getDataLength,
+    isFocused,
+};

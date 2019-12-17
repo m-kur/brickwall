@@ -8,10 +8,7 @@ describe('BrickHolder', () => {
     it('shallow test run', () => {
         const wrapper = shallow(
             <WallStore.Provider>
-                <BlickHolder
-                    focused
-                    index={0}
-                >
+                <BlickHolder index={0}>
                     <div />
                 </BlickHolder>
             </WallStore.Provider>,
