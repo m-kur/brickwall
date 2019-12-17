@@ -6,9 +6,9 @@ import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
 import { actions, selectors } from './store';
-import { BrickState, WallDefine } from './types';
+import { BrickProps, WallDefine } from './types';
 
-const NewBrick: FunctionComponent<BrickState & WallDefine> = (props) => {
+const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     const { index, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
     const [html, setHtml] = useState('');

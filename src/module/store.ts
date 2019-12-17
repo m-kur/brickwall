@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
-import { WallState, BrickData, BrickState } from './types';
+import { WallState, BrickData, BrickProps } from './types';
 
 // Internal API -------------------------------------------------------------------------
 
@@ -141,7 +141,7 @@ const refugeDataReducer = createReducer<WallState, number>(
 // selectors ----------------------------------------------------------------------------
 
 const getWallData = (state: WallState) => state.wallData;
-const getIndex = (state: WallState, props: BrickState) => props.index;
+const getIndex = (state: WallState, props: BrickProps) => props.index;
 const getCurrentIndex = (state: WallState) => state.currentIndex;
 
 const getBrickData = createSelector(
