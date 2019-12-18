@@ -4,6 +4,7 @@ import { WallState } from './types';
 const initialState: WallState = {
     editable: true,
     currentIndex: 0,
+    changingFocus: false,
     wallData: [{
         id: '',
         type: 'header',
@@ -120,5 +121,14 @@ describe('reducers', () => {
         expect(state.wallData[1].value).toBe('third');
         expect(state.refugedData.length).toBe(1);
         expect(state.refugedData[0].value).toBe('second');
+    });
+
+    it('focusChange', () => {
+        const reducer1 = factories.reserveFocusChangeReducer(initialState);
+        const state1 = reducer1(initialState, actions.reserveFocusChange());
+        expect(state1.changingFocus).toBeTruthy();
+        const reducer2 = factories.confirmFocusChangeReducer(state1);
+        const state2 = reducer2(state1, actions.confirmFocusChange());
+        expect(state2.changingFocus).toBeFalsy();
     });
 });

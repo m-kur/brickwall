@@ -138,6 +138,19 @@ const refugeDataReducer = createReducer<WallState, number>(
     },
 );
 
+const reserveFocusChange = createAction('RESERVE_FOCUS_CHANGE');
+const reserveFocusChangeReducer = createReducer<WallState, void>(
+    reserveFocusChange,
+    (state) => R.assoc('changingFocus', true, state),
+);
+
+const confirmFocusChange = createAction('END_FOCUS_CHANGE');
+const confirmFocusChangeReducer = createReducer<WallState, void>(
+    confirmFocusChange,
+    (state) => R.assoc('changingFocus', false, state),
+);
+
+
 // selectors ----------------------------------------------------------------------------
 
 const getWallData = (state: WallState) => state.wallData;
@@ -178,6 +191,8 @@ export const actions = {
     deleteData,
     duplicateData,
     refugeData,
+    reserveFocusChange,
+    confirmFocusChange,
 };
 
 // Export for unit tests.
@@ -190,6 +205,8 @@ export const factories = {
     deleteDataReducer,
     duplicateDataReducer,
     refugeDataReducer,
+    reserveFocusChangeReducer,
+    confirmFocusChangeReducer,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

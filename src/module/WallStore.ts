@@ -25,13 +25,14 @@ const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
     const baseState = initialState || { editable: true };
     const { editable, wallData, refugedData, currentIndex } = baseState;
     const dataLength = wallData ? R.length(wallData) : 0;
-    const renewState = {
+    const renewalState: WallState = {
         editable,
         wallData: wallData ? renewData(wallData) : [],
         refugedData: refugedData ? renewData(refugedData) : [],
         currentIndex: currentIndex !== undefined ? currentIndex : dataLength,
+        changingFocus: false,
     };
-    const [state, dispatch] = useReducer(...store(renewState));
+    const [state, dispatch] = useReducer(...store(renewalState));
     if (baseState.wrappedDispatch) {
         return [state, baseState.wrappedDispatch(dispatch)];
     }
