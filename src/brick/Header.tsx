@@ -2,7 +2,7 @@ import React, { Fragment, FunctionComponent, ReactElement, useRef } from 'react'
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import WallStore, { useAdjestFocus } from '../module/WallStore';
+import WallStore, { useAdjustFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import { actions, selectors } from '../module/store';
@@ -15,7 +15,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
     const focused = selectors.isFocused(state, props);
     const tagName = (R.prop('tagName', meta) || 'h1') as string;
     const el = useRef<HTMLElement>(null);
-    useAdjestFocus(index, el);
+    useAdjustFocus(index, el);
 
     const optionButtons = R.addIndex<string, ReactElement>(R.map)((name, i) => (
         <Button

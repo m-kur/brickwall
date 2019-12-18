@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment, useRef } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import WallStore, { useAdjestFocus } from '../module/WallStore';
+import WallStore, { useAdjustFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
@@ -18,7 +18,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
     const el = useRef<HTMLElement>(null);
-    useAdjestFocus(index, el);
+    useAdjustFocus(index, el);
 
     const setFontSize = (size: number) => dispatch(actions.updateData({
         index,

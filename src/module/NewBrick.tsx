@@ -2,7 +2,7 @@ import React, { ReactElement, FunctionComponent, useState, useRef } from 'react'
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import WallStore, { useAdjestFocus } from './WallStore';
+import WallStore, { useAdjustFocus } from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
 import { actions, selectors } from './store';
@@ -14,7 +14,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     const [html, setHtml] = useState('');
     const focused = selectors.isFocused(state, props);
     const el = useRef<HTMLElement>(null);
-    useAdjestFocus(index, el);
+    useAdjustFocus(index, el);
 
     if (!state.editable) {
         return null;
