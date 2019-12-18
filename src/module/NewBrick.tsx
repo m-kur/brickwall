@@ -21,15 +21,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     }
 
     const createBrick = (type: string, value: string, nextFocusIndex: number) => {
-        dispatch(actions.updateData({
-            index,
-            data: {
-                id: '',
-                type,
-                meta: {},
-                value,
-            },
-        }));
+        dispatch(actions.updateData({ index, data: { id: '', type, meta: {}, value } }));
         dispatch(actions.updateCurrent({ index: nextFocusIndex, focus: true }));
         setHtml('');
     };

@@ -11,11 +11,7 @@ const HeaderApp: FunctionComponent<{}> = () => (
         <WallStore.Provider
             initialState={{
                 editable: boolean('editable', true),
-                wallData: [{
-                    type: 'header',
-                    meta: { tagName: 'h2' },
-                    value: 'ヘッダー2',
-                }],
+                wallData: [{ type: 'header', meta: { tagName: 'h2' }, value: 'ヘッダー2' }],
                 currentIndex: 0,
                 wrappedDispatch: printDispatch,
             }}

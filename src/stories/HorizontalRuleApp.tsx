@@ -11,9 +11,7 @@ const HorizontalRuleApp: FunctionComponent<{}> = () => (
         <WallStore.Provider
             initialState={{
                 editable: boolean('editable', true),
-                wallData: [{
-                    type: 'hr',
-                }],
+                wallData: [{ type: 'hr' }],
                 currentIndex: 0,
                 wrappedDispatch: printDispatch,
             }}

@@ -12,11 +12,7 @@ const ParagraphApp: FunctionComponent<{}> = () => (
         <WallStore.Provider
             initialState={{
                 editable: boolean('editable', true),
-                wallData: [{
-                    type: 'paragraph',
-                    meta: { fontSize: 3 },
-                    value: sampleText,
-                }],
+                wallData: [{ type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],
                 currentIndex: 0,
                 wrappedDispatch: printDispatch,
             }}

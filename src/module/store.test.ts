@@ -5,22 +5,11 @@ const initialState: WallState = {
     editable: true,
     currentIndex: 0,
     shouldAdjustFocus: false,
-    wallData: [{
-        id: '',
-        type: 'header',
-        meta: {},
-        value: 'first',
-    }, {
-        id: '',
-        type: 'paragraph',
-        meta: {},
-        value: 'second',
-    }, {
-        id: '',
-        type: 'linkify',
-        meta: {},
-        value: 'third',
-    }],
+    wallData: [
+        { id: '', type: 'header', meta: {}, value: 'first' },
+        { id: '', type: 'paragraph', meta: {}, value: 'second' },
+        { id: '', type: 'linkify', meta: {}, value: 'third' },
+    ],
     refugedData: [],
 };
 
@@ -65,19 +54,11 @@ describe('reducers', () => {
         const reducer = factories.updateDataReducer(initialState);
         const state = reducer(initialState, actions.updateData({
             index: 3,
-            data: {
-                id: '',
-                type: 'paragraph',
-                meta: {},
-                value: 'new',
-            },
+            data: { id: '', type: 'paragraph', meta: {}, value: 'new' },
         }));
         expect(state.wallData.length).toBe(4);
         expect(state.wallData[3]).toEqual({
-            id: expect.any(String),
-            type: 'paragraph',
-            meta: {},
-            value: 'new',
+            id: expect.any(String), type: 'paragraph', meta: {}, value: 'new',
         });
     });
 
@@ -85,19 +66,11 @@ describe('reducers', () => {
         const reducer = factories.updateDataReducer(initialState);
         const state = reducer(initialState, actions.updateData({
             index: 0,
-            data: {
-                id: '',
-                type: 'paragraph',
-                meta: {},
-                value: 'update',
-            },
+            data: { id: '', type: 'paragraph', meta: {}, value: 'update' },
         }));
         expect(state.wallData.length).toBe(3);
         expect(state.wallData[0]).toEqual({
-            id: '',
-            type: 'paragraph',
-            meta: {},
-            value: 'update',
+            id: '', type: 'paragraph', meta: {}, value: 'update',
         });
     });
 
