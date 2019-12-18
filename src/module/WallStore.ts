@@ -43,12 +43,22 @@ const WallStore = createContainer(useStore);
 export default WallStore;
 
 export const useAdjestFocus = (index: number, ref: RefObject<HTMLElement>) => {
-    const [state, dispatch] = WallStore.useContainer();
+    const [{ shouldAdjustFocus, currentIndex }, dispatch] = WallStore.useContainer();
     useEffect(() => {
-        if (state.shouldAdjustFocus && index === state.currentIndex && ref.current) {
-            ref.current.focus();
+        const { current } = ref;
+        if (shouldAdjustFocus && current && index === currentIndex) {
             dispatch(actions.confirmFocusChange());
+            const sel = window.getSelection();
+            if (sel) {
+                const caret = document.createTextNode('');
+                current.appendChild(caret);
+                const range = document.createRange();
+                range.setStart(caret, 0);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+                current.focus();
+            }
         }
     });
-    return null;
 };
