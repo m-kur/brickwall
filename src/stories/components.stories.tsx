@@ -9,7 +9,7 @@ import ParagraphApp from './ParagraphApp';
 import WallEditorApp from './WallEditorApp';
 
 export default {
-    title: 'Components',
+    title: 'BrickWall',
     decorators: [withKnobs],
 };
 
