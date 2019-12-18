@@ -2,7 +2,7 @@ import React, { ReactElement, FunctionComponent, useState, useRef } from 'react'
 import { Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import WallStore from './WallStore';
+import WallStore, { useAdjestFocus } from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
 import { actions, selectors } from './store';
@@ -13,13 +13,14 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     const [state, dispatch] = WallStore.useContainer();
     const [html, setHtml] = useState('');
     const focused = selectors.isFocused(state, props);
-    const ref = useRef<HTMLElement>(null);
+    const el = useRef<HTMLElement>(null);
+    useAdjestFocus(index, el);
 
     if (!state.editable) {
         return null;
     }
 
-    const createBrick = (type: string, value: string) => {
+    const createBrick = (type: string, value: string, nextFocusIndex: number) => {
         dispatch(actions.updateData({
             index,
             data: {
@@ -29,23 +30,18 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                 value,
             },
         }));
+        dispatch(actions.updateCurrent({ index: nextFocusIndex, focus: true }));
         setHtml('');
     };
 
     return (
-        <div onFocus={() => dispatch(actions.updateCurrent(index))}>
+        <div onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}>
             <BrickSegment type="top" focused={focused} blurBorder>
                 <ContentEditable
                     editable={focused}
                     html={html}
-                    ref={ref}
-                    onKeyReturn={(latest) => {
-                        createBrick(defaultBrickType, latest);
-                        dispatch(actions.updateCurrent(index + 1));
-                        if (ref.current) {
-                            ref.current.focus();
-                        }
-                    }}
+                    el={el}
+                    onKeyReturn={(latest) => createBrick(defaultBrickType, latest, index + 1)}
                     onChange={(latest) => setHtml(latest)}
                 />
             </BrickSegment>
@@ -62,7 +58,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                                             basic
                                             icon={define.icon}
                                             disabled={!define.empty && !html}
-                                            onClick={() => createBrick(type, html)}
+                                            onClick={() => createBrick(type, html, index)}
                                             style={{ marginBottom: 12 }}
                                         />
                                     );

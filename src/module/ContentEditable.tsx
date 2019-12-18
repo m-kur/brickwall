@@ -6,14 +6,14 @@ type ContentEditableProps = {
     editable: boolean;
     tagName?: string;
     html: string;
-    ref?: RefObject<HTMLElement>;
+    el?: RefObject<HTMLElement>;
     style?: CSSProperties;
     onChange: (latest: string) => void;
     onKeyReturn?: (latest: string) => void;
 };
 const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
-    const { editable, tagName, html, ref, style, onChange, onKeyReturn } = props;
-    const innerRef = ref || useRef<HTMLElement>(null);
+    const { editable, tagName, html, el, style, onChange, onKeyReturn } = props;
+    const innerRef = el || useRef<HTMLElement>(null);
 
     return (
         <ReactContentEditable

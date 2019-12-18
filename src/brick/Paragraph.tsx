@@ -1,8 +1,8 @@
-import React, { FunctionComponent, Fragment } from 'react';
+import React, { FunctionComponent, Fragment, useRef } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import WallStore from '../module/WallStore';
+import WallStore, { useAdjestFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
@@ -17,6 +17,9 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
+    const el = useRef<HTMLElement>(null);
+    useAdjestFocus(index, el);
+
     const setFontSize = (size: number) => dispatch(actions.updateData({
         index,
         data: { id, type, meta: { fontSize: size }, value },
@@ -66,6 +69,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 <ContentEditable
                     editable={state.editable && focused}
                     html={value}
+                    el={el}
                     style={{ fontSize: fontSizeValue[fontSize] }}
                     onChange={(latest) => {
                         dispatch(actions.updateData({

@@ -1,8 +1,8 @@
-import React, { Fragment, FunctionComponent, ReactElement } from 'react';
+import React, { Fragment, FunctionComponent, ReactElement, useRef } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import WallStore from '../module/WallStore';
+import WallStore, { useAdjestFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import { actions, selectors } from '../module/store';
@@ -14,6 +14,8 @@ const Header: FunctionComponent<BrickProps> = (props) => {
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
     const tagName = (R.prop('tagName', meta) || 'h1') as string;
+    const el = useRef<HTMLElement>(null);
+    useAdjestFocus(index, el);
 
     const optionButtons = R.addIndex<string, ReactElement>(R.map)((name, i) => (
         <Button
@@ -42,6 +44,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
                 tagName={tagName}
                 editable={state.editable && focused}
                 html={value}
+                el={el}
                 onChange={(latest) => {
                     dispatch(actions.updateData({
                         index,

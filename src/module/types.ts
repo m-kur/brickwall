@@ -1,4 +1,4 @@
-import { FunctionComponent, Dispatch, RefObject } from 'react';
+import { FunctionComponent, Dispatch } from 'react';
 import { Action } from 'redux-actions';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,7 +17,6 @@ export type BrickData = {
 
 export type BrickProps = {
     index: number;
-    el?: RefObject<HTMLElement>;
 };
 
 export type WallState = {
@@ -25,7 +24,7 @@ export type WallState = {
     wallData: BrickData[];
     refugedData: BrickData[];
     currentIndex: number;
-    changingFocus: boolean;
+    shouldAdjustFocus: boolean;
 }
 
 export type BrickDefine = {

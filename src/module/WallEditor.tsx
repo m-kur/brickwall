@@ -24,7 +24,7 @@ const WallEditor: FunctionComponent<WallDefine> = (props) => {
                         if (!brickData.value && !define.empty) {
                             dispatch(actions.deleteData(i));
                             if (i !== 0) {
-                                dispatch(actions.updateCurrent(i - 1));
+                                dispatch(actions.updateCurrent({ index: i - 1, focus: true }));
                             }
                             return null;
                         }

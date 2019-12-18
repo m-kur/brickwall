@@ -37,13 +37,22 @@ const toggleEditableReducer = createReducer<WallState, void>(
     (state) => R.assoc('editable', !state.editable, state),
 );
 
-const updateCurrent = createAction('UPDATE_CURRENT');
-const updateCurrentReducer = createReducer<WallState, number>(
+const updateCurrent = createAction<{ index: number; focus: boolean }>('UPDATE_CURRENT');
+const updateCurrentReducer = createReducer<WallState, { index: number; focus: boolean }>(
     updateCurrent,
     (state, { payload }) => {
-        const index = payload;
-        return R.assoc('currentIndex', index, state);
+        const { index, focus } = payload;
+        return R.mergeRight(state, {
+            currentIndex: index,
+            shouldAdjustFocus: focus,
+        });
     },
+);
+
+const confirmFocusChange = createAction('CONFIRM_FOCUS_CHANGE');
+const confirmFocusChangeReducer = createReducer<WallState, void>(
+    confirmFocusChange,
+    (state) => R.assoc('shouldAdjustFocus', false, state),
 );
 
 const moveUp = createAction<number>('MOVE_UP');
@@ -138,19 +147,6 @@ const refugeDataReducer = createReducer<WallState, number>(
     },
 );
 
-const reserveFocusChange = createAction('RESERVE_FOCUS_CHANGE');
-const reserveFocusChangeReducer = createReducer<WallState, void>(
-    reserveFocusChange,
-    (state) => R.assoc('changingFocus', true, state),
-);
-
-const confirmFocusChange = createAction('END_FOCUS_CHANGE');
-const confirmFocusChangeReducer = createReducer<WallState, void>(
-    confirmFocusChange,
-    (state) => R.assoc('changingFocus', false, state),
-);
-
-
 // selectors ----------------------------------------------------------------------------
 
 const getWallData = (state: WallState) => state.wallData;
@@ -185,28 +181,26 @@ const isFocused = createSelector(
 export const actions = {
     toggleEditable,
     updateCurrent,
+    confirmFocusChange,
     moveUp,
     moveDown,
     updateData,
     deleteData,
     duplicateData,
     refugeData,
-    reserveFocusChange,
-    confirmFocusChange,
 };
 
 // Export for unit tests.
 export const factories = {
     toggleEditableReducer,
     updateCurrentReducer,
+    confirmFocusChangeReducer,
     moveUpReducer,
     moveDownReducer,
     updateDataReducer,
     deleteDataReducer,
     duplicateDataReducer,
     refugeDataReducer,
-    reserveFocusChangeReducer,
-    confirmFocusChangeReducer,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

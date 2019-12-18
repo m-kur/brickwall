@@ -1,9 +1,9 @@
-import { useReducer } from 'react';
+import { useReducer, useEffect, RefObject } from 'react';
 import { createContainer } from 'unstated-next';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
-import store from './store';
+import store, { actions } from './store';
 import { WallState, BrickData, BrickDispatch, WrappedDispatchFactory } from './types';
 
 const renewData = R.map<Partial<BrickData>, BrickData>((data) => ({
@@ -30,7 +30,7 @@ const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
         wallData: wallData ? renewData(wallData) : [],
         refugedData: refugedData ? renewData(refugedData) : [],
         currentIndex: currentIndex !== undefined ? currentIndex : dataLength,
-        changingFocus: false,
+        shouldAdjustFocus: false,
     };
     const [state, dispatch] = useReducer(...store(renewalState));
     if (baseState.wrappedDispatch) {
@@ -39,4 +39,16 @@ const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
     return [state, dispatch];
 };
 
-export default createContainer(useStore);
+const WallStore = createContainer(useStore);
+export default WallStore;
+
+export const useAdjestFocus = (index: number, ref: RefObject<HTMLElement>) => {
+    const [state, dispatch] = WallStore.useContainer();
+    useEffect(() => {
+        if (state.shouldAdjustFocus && index === state.currentIndex && ref.current) {
+            ref.current.focus();
+            dispatch(actions.confirmFocusChange());
+        }
+    });
+    return null;
+};

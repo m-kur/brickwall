@@ -17,7 +17,7 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
     const hasNext = index < selectors.getDataLength(state) - 1;
     return (
         <div
-            onFocus={() => dispatch(actions.updateCurrent(index))}
+            onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}
             style={{ marginBottom: 5 }}
         >
             <BrickSegment type="top" focused={state.editable && focused}>
