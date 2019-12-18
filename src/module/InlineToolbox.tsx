@@ -49,12 +49,23 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     });
 
     return (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             ref={wrapRef}
             style={{ position: 'relative' }}
             onBlur={() => setFocused(false)}
             onFocus={() => setFocused(true)}
             onDoubleClick={updatePopup}
+            onKeyDown={(e) => {
+                if (e.keyCode === 27) {
+                    e.preventDefault();
+                    setPopupVisible(false);
+                    const sel = window.getSelection();
+                    if (sel) {
+                        sel.getRangeAt(0).collapse();
+                    }
+                }
+            }}
         >
             {children}
             <div
