@@ -1,5 +1,5 @@
 import React, { ReactElement, FunctionComponent, useState, useRef } from 'react';
-import { Button, Grid } from 'semantic-ui-react';
+import { Container, Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
 import WallStore, { useAdjustFocus } from './WallStore';
@@ -27,7 +27,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
     };
 
     return (
-        <div onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}>
+        <Container text onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}>
             <BrickSegment type="top" focused={focused} blurBorder>
                 <ContentEditable
                     editable={focused}
@@ -70,7 +70,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                     </Grid.Row>
                 </Grid>
             </BrickSegment>
-        </div>
+        </Container>
     );
 };
 

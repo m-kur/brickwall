@@ -7,21 +7,21 @@ import HeaderBrick from '../brick/Header';
 import printDispatch from './printDispatch';
 
 const HeaderApp: FunctionComponent<{}> = () => (
-    <Container text>
-        <WallStore.Provider
-            initialState={{
-                editable: boolean('editable', true),
-                wallData: [{ type: 'header', meta: { tagName: 'h2' }, value: 'ヘッダー2' }],
-                currentIndex: 0,
-                wrappedDispatch: printDispatch,
-            }}
-        >
+    <WallStore.Provider
+        initialState={{
+            editable: boolean('editable', true),
+            wallData: [{ type: 'header', meta: { tagName: 'h2' }, value: 'ヘッダー2' }],
+            currentIndex: 0,
+            wrappedDispatch: printDispatch,
+        }}
+    >
+        <Container text>
             <Segment basic>
                 <Header size="huge">Header</Header>
             </Segment>
-            <HeaderBrick index={0} />
-        </WallStore.Provider>
-    </Container>
+        </Container>
+        <HeaderBrick index={0} />
+    </WallStore.Provider>
 );
 
 export default HeaderApp;

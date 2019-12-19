@@ -1,5 +1,5 @@
 import React, { ReactElement, Fragment, FunctionComponent } from 'react';
-import { Grid, Responsive } from 'semantic-ui-react';
+import { Container, Grid, Responsive } from 'semantic-ui-react';
 
 import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
@@ -16,7 +16,8 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
     const focused = selectors.isFocused(state, props);
     const hasNext = index < selectors.getDataLength(state) - 1;
     return (
-        <div
+        <Container
+            text
             onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}
             style={{ marginBottom: 5 }}
         >
@@ -55,7 +56,7 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
                     </Responsive>
                 </Grid>
             </BrickSegment>
-        </div>
+        </Container>
     );
 };
 

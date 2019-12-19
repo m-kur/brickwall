@@ -8,21 +8,21 @@ import printDispatch from './printDispatch';
 import sampleText from './sampleText';
 
 const ParagraphApp: FunctionComponent<{}> = () => (
-    <Container text>
-        <WallStore.Provider
-            initialState={{
-                editable: boolean('editable', true),
-                wallData: [{ type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],
-                currentIndex: 0,
-                wrappedDispatch: printDispatch,
-            }}
-        >
+    <WallStore.Provider
+        initialState={{
+            editable: boolean('editable', true),
+            wallData: [{ type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],
+            currentIndex: 0,
+            wrappedDispatch: printDispatch,
+        }}
+    >
+        <Container text>
             <Segment basic>
                 <Header size="huge">Paragraph</Header>
             </Segment>
-            <Paragraph index={0} />
-        </WallStore.Provider>
-    </Container>
+        </Container>
+        <Paragraph index={0} />
+    </WallStore.Provider>
 );
 
 export default ParagraphApp;

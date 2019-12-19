@@ -9,23 +9,23 @@ import wallDefine from './wallDefine';
 import printDispath from './printDispatch';
 
 const WallEditorApp: FunctionComponent<{}> = () => (
-    <Container text>
-        <Segment basic>
-            <Header size="huge">WallEditor</Header>
-        </Segment>
-        <WallStore.Provider
-            initialState={{
-                editable: boolean('Editable', true),
-                wallData: [{
-                    type: 'paragraph',
-                    value: sampleText,
-                }],
-                wrappedDispatch: printDispath,
-            }}
-        >
-            <WallEditor {...wallDefine} />
-        </WallStore.Provider>
-    </Container>
+    <WallStore.Provider
+        initialState={{
+            editable: boolean('Editable', true),
+            wallData: [{
+                type: 'paragraph',
+                value: sampleText,
+            }],
+            wrappedDispatch: printDispath,
+        }}
+    >
+        <Container text>
+            <Segment basic>
+                <Header size="huge">WallEditor</Header>
+            </Segment>
+        </Container>
+        <WallEditor {...wallDefine} />
+    </WallStore.Provider>
 );
 
 export default WallEditorApp;

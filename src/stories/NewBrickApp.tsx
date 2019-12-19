@@ -8,20 +8,20 @@ import printDispatch from './printDispatch';
 import wallDefine from './wallDefine';
 
 const NewBrickApp: FunctionComponent<{}> = () => (
-    <Container text>
-        <WallStore.Provider
-            initialState={{
-                editable: boolean('editable', true),
-                currentIndex: 0,
-                wrappedDispatch: printDispatch,
-            }}
-        >
+    <WallStore.Provider
+        initialState={{
+            editable: boolean('editable', true),
+            currentIndex: 0,
+            wrappedDispatch: printDispatch,
+        }}
+    >
+        <Container text>
             <Segment basic>
                 <Header size="huge">NewBrick</Header>
             </Segment>
-            <NewBrick index={0} {...wallDefine} />
-        </WallStore.Provider>
-    </Container>
+        </Container>
+        <NewBrick index={0} {...wallDefine} />
+    </WallStore.Provider>
 );
 
 export default NewBrickApp;

@@ -7,21 +7,21 @@ import HorizontalRule from '../brick/HorizontalRule';
 import printDispatch from './printDispatch';
 
 const HorizontalRuleApp: FunctionComponent<{}> = () => (
-    <Container text>
-        <WallStore.Provider
-            initialState={{
-                editable: boolean('editable', true),
-                wallData: [{ type: 'hr' }],
-                currentIndex: 0,
-                wrappedDispatch: printDispatch,
-            }}
-        >
+    <WallStore.Provider
+        initialState={{
+            editable: boolean('editable', true),
+            wallData: [{ type: 'hr' }],
+            currentIndex: 0,
+            wrappedDispatch: printDispatch,
+        }}
+    >
+        <Container text>
             <Segment basic>
                 <Header size="huge">HorizontalRule</Header>
             </Segment>
-            <HorizontalRule index={0} />
-        </WallStore.Provider>
-    </Container>
+        </Container>
+        <HorizontalRule index={0} />
+    </WallStore.Provider>
 );
 
 export default HorizontalRuleApp;
