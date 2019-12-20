@@ -15,9 +15,11 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
     const [state, dispatch] = WallStore.useContainer();
     const focused = selectors.isFocused(state, props);
     const hasNext = index < selectors.getDataLength(state) - 1;
+    const fluid = selectors.isFluid(state, props);
     return (
         <Container
-            text
+            text={!fluid}
+            fluid={fluid}
             onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}
             style={{ marginBottom: 5 }}
         >

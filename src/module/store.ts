@@ -176,6 +176,11 @@ const isFocused = createSelector(
     (index: number, currentIndex: number) => currentIndex === index,
 );
 
+const isFluid = createSelector(
+    getBrickData,
+    (brick: BrickData) => Boolean(R.prop('fluid', brick.meta)),
+);
+
 // exports ------------------------------------------------------------------------------
 
 export const actions = {
@@ -210,4 +215,5 @@ export const selectors = {
     getBrickData,
     getDataLength,
     isFocused,
+    isFluid,
 };

@@ -11,7 +11,7 @@ export type WrappedDispatchFactory = (dispatch: BrickDispatch) => BrickDispatch;
 export type BrickData = {
     id: string;
     type: string;
-    meta: Record<string, string|number>;
+    meta: Record<string, string|number|boolean>;
     value: string;
 };
 
