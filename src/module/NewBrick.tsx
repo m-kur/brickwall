@@ -36,8 +36,13 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                     editable={focused}
                     html={html}
                     el={el}
-                    onKeyReturn={(latest) => createBrick(defaultBrickType, latest, index + 1)}
                     onChange={(latest) => setHtml(latest)}
+                    onKeyReturn={(latest) => createBrick(defaultBrickType, latest, index + 1)}
+                    onKeyLastDelete={() => {
+                        if (index > 0) {
+                            dispatch(actions.updateCurrent({ index: index - 1, focus: true }));
+                        }
+                    }}
                 />
             </BrickSegment>
             <BrickSegment type="bottom" focused={focused}>

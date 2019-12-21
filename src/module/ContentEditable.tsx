@@ -10,9 +10,10 @@ type ContentEditableProps = {
     style?: CSSProperties;
     onChange: (latest: string) => void;
     onKeyReturn?: (latest: string) => void;
+    onKeyLastDelete?: () => void;
 };
 const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
-    const { editable, tagName, html, el, style, onChange, onKeyReturn } = props;
+    const { editable, tagName, html, el, style, onChange, onKeyReturn, onKeyLastDelete } = props;
     const innerRef = el || useRef<HTMLElement>(null);
 
     return (
@@ -28,6 +29,12 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
                     if (innerRef.current && onKeyReturn) {
                         const { innerHTML } = innerRef.current;
                         onKeyReturn(innerHTML);
+                    }
+                }
+                if (e.keyCode === 8 || e.keyCode === 46) {
+                    if (innerRef.current && !innerRef.current.innerHTML && onKeyLastDelete) {
+                        e.preventDefault();
+                        onKeyLastDelete();
                     }
                 }
             }}
