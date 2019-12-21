@@ -77,6 +77,10 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                             data: { id, type, meta: { fontSize }, value: latest },
                         }));
                     }}
+                    onKeyReturn={() => {
+                        // TODO 行末チェック
+                        dispatch(actions.updateCurrent({ index: index + 1, focus: true }));
+                    }}
                 />
             </InlineToolbox>
         </BrickHolder>
