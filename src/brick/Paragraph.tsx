@@ -67,6 +67,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                 toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable
+                    tagName="p"
                     editable={state.editable && focused}
                     html={value}
                     el={el}
@@ -77,8 +78,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                             data: { id, type, meta: { fontSize }, value: latest },
                         }));
                     }}
-                    onKeyReturn={() => {
-                        // TODO 行末チェック
+                    onKeyLastReturn={() => {
                         dispatch(actions.updateCurrent({ index: index + 1, focus: true }));
                     }}
                 />

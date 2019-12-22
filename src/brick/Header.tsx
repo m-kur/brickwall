@@ -51,8 +51,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
                         data: { id, type, meta: { tagName }, value: latest },
                     }));
                 }}
-                onKeyReturn={() => {
-                    // TODO 行末チェック
+                onKeyLastReturn={() => {
                     dispatch(actions.updateCurrent({ index: index + 1, focus: true }));
                 }}
             />

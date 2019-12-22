@@ -9,11 +9,12 @@ type ContentEditableProps = {
     el?: RefObject<HTMLElement>;
     style?: CSSProperties;
     onChange: (latest: string) => void;
-    onKeyReturn?: (latest: string) => void;
-    onKeyLastDelete?: () => void;
+    onKeyLastReturn?: (latest: string) => void;
+    onKeyFirstDelete?: () => void;
 };
 const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
-    const { editable, tagName, html, el, style, onChange, onKeyReturn, onKeyLastDelete } = props;
+    const { editable, tagName, html, el, style,
+        onChange, onKeyLastReturn, onKeyFirstDelete } = props;
     const innerRef = el || useRef<HTMLElement>(null);
 
     return (
@@ -26,15 +27,25 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
             onKeyDown={(e) => {
                 if (e.keyCode === 13) {
                     e.preventDefault();
-                    if (innerRef.current && onKeyReturn) {
-                        const { innerHTML } = innerRef.current;
-                        onKeyReturn(innerHTML);
+                    if (onKeyLastReturn && innerRef.current) {
+                        const sel = window.getSelection();
+                        if (sel && sel.rangeCount) {
+                            const range = document.createRange();
+                            range.selectNodeContents(innerRef.current);
+                            const { endContainer, endOffset } = sel.getRangeAt(0);
+                            range.setStart(endContainer, endOffset);
+                            if (range.toString().length === 0) {
+                                onKeyLastReturn(innerRef.current.innerHTML);
+                            }
+                        }
                     }
                 }
                 if (e.keyCode === 8 || e.keyCode === 46) {
-                    if (innerRef.current && !innerRef.current.innerHTML && onKeyLastDelete) {
-                        e.preventDefault();
-                        onKeyLastDelete();
+                    if (onKeyFirstDelete && innerRef.current) {
+                        if (innerRef.current.innerHTML.length === 0) {
+                            e.preventDefault();
+                            onKeyFirstDelete();
+                        }
                     }
                 }
             }}

@@ -37,8 +37,8 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                     html={html}
                     el={el}
                     onChange={(latest) => setHtml(latest)}
-                    onKeyReturn={(latest) => createBrick(defaultBrickType, latest, index + 1)}
-                    onKeyLastDelete={() => {
+                    onKeyLastReturn={(latest) => createBrick(defaultBrickType, latest, index + 1)}
+                    onKeyFirstDelete={() => {
                         if (index > 0) {
                             dispatch(actions.updateCurrent({ index: index - 1, focus: true }));
                         }
