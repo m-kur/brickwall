@@ -30,39 +30,40 @@ const ConfirmedButton: FunctionComponent<ConfirmedButtonProps> = (props) => {
 };
 
 type BrickOperationsProps = {
-    index: number;
-    dispatch: BrickDispatch;
+    id: string;
+    hasPrior: boolean;
     hasNext: boolean;
+    dispatch: BrickDispatch;
 };
 const BrickOperations: FunctionComponent<BrickOperationsProps> = (props) => {
-    const { index, hasNext, dispatch } = props;
+    const { id, hasPrior, hasNext, dispatch } = props;
 
     return (
         <Fragment>
             <Button
-                disabled={index === 0}
+                disabled={!hasPrior}
                 icon="arrow up"
-                onClick={() => dispatch(actions.moveUp(index))}
+                onClick={() => dispatch(actions.moveUp(id))}
             />
             <Button
                 disabled={!hasNext}
                 icon="arrow down"
-                onClick={() => dispatch(actions.moveDown(index))}
+                onClick={() => dispatch(actions.moveDown(id))}
                 style={{ marginRight: 16 }}
             />
             <ConfirmedButton
                 icon="share"
-                action={actions.refugeData(index)}
+                action={actions.refugeData(id)}
                 dispatch={dispatch}
             />
             <ConfirmedButton
                 icon="trash"
-                action={actions.deleteData(index)}
+                action={actions.deleteData(id)}
                 dispatch={dispatch}
             />
             <ConfirmedButton
                 icon="copy"
-                action={actions.duplicateData(index)}
+                action={actions.duplicateData(id)}
                 dispatch={dispatch}
             />
         </Fragment>

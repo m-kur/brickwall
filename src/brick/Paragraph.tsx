@@ -13,16 +13,14 @@ import { BrickProps } from '../module/types';
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
-    const { index } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
     const el = useRef<HTMLElement>(null);
-    useAdjustFocus(index, el);
+    useAdjustFocus(id, el);
 
     const setFontSize = (size: number) => dispatch(actions.updateData({
-        index,
-        data: { id, type, meta: { fontSize: size }, value },
+        id, type, meta: { fontSize: size }, value,
     }));
 
     let fontSize = R.prop('fontSize', meta) as number;
@@ -74,12 +72,11 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                     style={{ fontSize: fontSizeValue[fontSize] }}
                     onChange={(latest) => {
                         dispatch(actions.updateData({
-                            index,
-                            data: { id, type, meta: { fontSize }, value: latest },
+                            id, type, meta: { fontSize }, value: latest,
                         }));
                     }}
                     onKeyLastReturn={() => {
-                        dispatch(actions.updateCurrent({ index: index + 1, focus: true }));
+                        dispatch(actions.updateCurrent({ id, focus: true, offset: 1 }));
                     }}
                 />
             </InlineToolbox>

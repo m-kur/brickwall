@@ -11,8 +11,8 @@ const ParagraphApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
             editable: boolean('editable', true),
-            wallData: [{ type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],
-            currentIndex: 0,
+            wallData: [{ id: 'xxxxxx', type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],
+            currentBrick: 'xxxxxx',
             wrappedDispatch: printDispatch,
         }}
     >
@@ -21,7 +21,7 @@ const ParagraphApp: FunctionComponent<{}> = () => (
                 <Header size="huge">Paragraph</Header>
             </Segment>
         </Container>
-        <Paragraph index={0} />
+        <Paragraph id="xxxxxx" />
     </WallStore.Provider>
 );
 

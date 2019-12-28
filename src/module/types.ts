@@ -15,17 +15,17 @@ export type BrickData = {
     value: string;
 };
 
-export type BrickProps = {
-    index: number;
-};
-
 export type WallState = {
     editable: boolean;
     wallData: BrickData[];
     refugedData: BrickData[];
-    currentIndex: number;
+    currentBrick: string;
     shouldAdjustFocus: boolean;
 }
+
+export type BrickProps = {
+    id: string;
+};
 
 export type BrickDefine = {
     icon: string;

@@ -11,16 +11,17 @@ type BrickHolderProps = {
     options?: ReactElement;
 };
 const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
-    const { index, children, options } = props;
+    const { id, children, options } = props;
     const [state, dispatch] = WallStore.useContainer();
     const focused = selectors.isFocused(state, props);
-    const hasNext = index < selectors.getDataLength(state) - 1;
+    const hasPrior = selectors.hasPrior(state, props);
+    const hasNext = selectors.hasNext(state, props);
     const fluid = selectors.isFluid(state, props);
     return (
         <Container
             text={!fluid}
             fluid={fluid}
-            onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}
+            onFocus={() => dispatch(actions.updateCurrent({ id, focus: false, offset: 0 }))}
             style={{ marginBottom: 5 }}
         >
             <BrickSegment type="top" focused={state.editable && focused}>
@@ -35,9 +36,10 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
                                 minWidth={Responsive.onlyTablet.minWidth}
                             >
                                 <BrickOperations
-                                    index={index}
-                                    dispatch={dispatch}
+                                    id={id}
+                                    hasPrior={hasPrior}
                                     hasNext={hasNext}
+                                    dispatch={dispatch}
                                 />
                             </Responsive>
                             {options}
@@ -50,9 +52,10 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
                     >
                         <Grid.Column>
                             <BrickOperations
-                                index={index}
-                                dispatch={dispatch}
+                                id={id}
+                                hasPrior={hasPrior}
                                 hasNext={hasNext}
+                                dispatch={dispatch}
                             />
                         </Grid.Column>
                     </Responsive>

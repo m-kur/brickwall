@@ -11,7 +11,7 @@ const NewBrickApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
             editable: boolean('editable', true),
-            currentIndex: 0,
+            currentBrick: '',
             wrappedDispatch: printDispatch,
         }}
     >
@@ -20,7 +20,7 @@ const NewBrickApp: FunctionComponent<{}> = () => (
                 <Header size="huge">NewBrick</Header>
             </Segment>
         </Container>
-        <NewBrick index={0} {...wallDefine} />
+        <NewBrick {...wallDefine} />
     </WallStore.Provider>
 );
 

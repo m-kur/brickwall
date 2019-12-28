@@ -17,19 +17,18 @@ type InitialState = {
     editable: boolean;
     wallData?: Partial<BrickData>[];
     refugedData?: Partial<BrickData>[];
-    currentIndex?: number;
+    currentBrick?: string;
     wrappedDispatch?: WrappedDispatchFactory;
 };
 
 const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
     const baseState = initialState || { editable: true };
-    const { editable, wallData, refugedData, currentIndex } = baseState;
-    const dataLength = wallData ? R.length(wallData) : 0;
+    const { editable, wallData, refugedData, currentBrick } = baseState;
     const renewalState: WallState = {
         editable,
         wallData: wallData ? renewData(wallData) : [],
         refugedData: refugedData ? renewData(refugedData) : [],
-        currentIndex: currentIndex !== undefined ? currentIndex : dataLength,
+        currentBrick: currentBrick || '',
         shouldAdjustFocus: false,
     };
     const [state, dispatch] = useReducer(...store(renewalState));
@@ -42,11 +41,11 @@ const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
 const WallStore = createContainer(useStore);
 export default WallStore;
 
-export const useAdjustFocus = (index: number, ref: RefObject<HTMLElement>) => {
-    const [{ shouldAdjustFocus, currentIndex }, dispatch] = WallStore.useContainer();
+export const useAdjustFocus = (id: string, ref: RefObject<HTMLElement>) => {
+    const [{ shouldAdjustFocus, currentBrick }, dispatch] = WallStore.useContainer();
     useEffect(() => {
         const { current } = ref;
-        if (shouldAdjustFocus && current && index === currentIndex) {
+        if (shouldAdjustFocus && current && id === currentBrick) {
             dispatch(actions.confirmFocusChange());
             const sel = window.getSelection();
             if (sel) {

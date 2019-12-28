@@ -29,6 +29,8 @@ const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState
     return [combineded, initialState] as [Reducer<S, P>, S];
 };
 
+const findBrick = (id: string, wallData: BrickData[]) => R.findIndex(R.propEq('id', id), wallData);
+
 // Actions & ReducerFactories -----------------------------------------------------------
 
 const toggleEditable = createAction('TOGGLE_EDITABLE');
@@ -37,15 +39,34 @@ const toggleEditableReducer = createReducer<WallState, void>(
     (state) => R.assoc('editable', !state.editable, state),
 );
 
-const updateCurrent = createAction<{ index: number; focus: boolean }>('UPDATE_CURRENT');
-const updateCurrentReducer = createReducer<WallState, { index: number; focus: boolean }>(
+type updateCurrentProps = {
+    id: string;
+    focus: boolean;
+    offset: number;
+}
+const updateCurrent = createAction<updateCurrentProps>('UPDATE_CURRENT');
+const updateCurrentReducer = createReducer<WallState, updateCurrentProps>(
     updateCurrent,
-    (state, { payload }) => {
-        const { index, focus } = payload;
-        return R.mergeRight(state, {
-            currentIndex: index,
-            shouldAdjustFocus: focus,
-        });
+    (state, action) => {
+        const { payload: { id, focus, offset } } = action;
+        const dataLength = R.length(state.wallData);
+        const index = id === '' ? dataLength : findBrick(id, state.wallData);
+        if ((id === '' && offset === 0) || (index === dataLength - 1 && offset === 1)) {
+            return R.mergeRight(state, {
+                currentBrick: '',
+                shouldAdjustFocus: focus,
+            });
+        }
+        if (index !== -1) {
+            const brick = R.nth(index + offset, state.wallData);
+            if (brick) {
+                return R.mergeRight(state, {
+                    currentBrick: brick.id,
+                    shouldAdjustFocus: focus,
+                });
+            }
+        }
+        throw new RangeError(JSON.stringify(action));
     },
 );
 
@@ -55,111 +76,110 @@ const confirmFocusChangeReducer = createReducer<WallState, void>(
     (state) => R.assoc('shouldAdjustFocus', false, state),
 );
 
-const moveUp = createAction<number>('MOVE_UP');
-const moveUpReducer = createReducer<WallState, number>(
+const moveUp = createAction<string>('MOVE_UP');
+const moveUpReducer = createReducer<WallState, string>(
     moveUp,
-    (state, { payload }) => {
-        const index = payload;
+    (state, action) => {
+        const { payload } = action;
+        const index = findBrick(payload, state.wallData);
         const dataLength = R.length(state.wallData);
         if (index > 0 && index < dataLength) {
-            return R.mergeRight(state, {
-                wallData: R.move(index, index - 1, state.wallData),
-                currentIndex: state.currentIndex - 1,
-            });
+            return R.assoc('wallData', R.move(index, index - 1, state.wallData), state);
         }
-        return state;
+        throw new RangeError(JSON.stringify(action));
     },
 );
 
-const moveDown = createAction<number>('MOVE_DOWN');
-const moveDownReducer = createReducer<WallState, number>(
+const moveDown = createAction<string>('MOVE_DOWN');
+const moveDownReducer = createReducer<WallState, string>(
     moveDown,
-    (state, { payload }) => {
-        const index = payload;
+    (state, action) => {
+        const index = findBrick(action.payload, state.wallData);
         const dataLength = R.length(state.wallData);
         if (index >= 0 && index < dataLength - 1) {
-            return R.mergeRight(state, {
-                wallData: R.move(index, index + 1, state.wallData),
-                currentIndex: state.currentIndex + 1,
-            });
+            return R.assoc('wallData', R.move(index, index + 1, state.wallData), state);
         }
-        return state;
+        throw new RangeError(JSON.stringify(action));
     },
 );
 
-const updateData = createAction<{ index: number; data: BrickData }>('UPDATE_DATA');
-const updateDataReducer = createReducer<WallState, { index: number; data: BrickData }>(
+const updateData = createAction<BrickData>('UPDATE_DATA');
+const updateDataReducer = createReducer<WallState, BrickData>(
     updateData,
-    (state, { payload: { index, data } }) => {
-        const target = R.nth(index, state.wallData);
-        if (target) {
-            const modifiedData = R.mergeRight(target, data);
+    (state, { payload }) => {
+        const { id } = payload;
+        const index = findBrick(id, state.wallData);
+        if (index !== -1) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const modifiedData = R.mergeRight(R.nth(index, state.wallData)!, payload);
             return R.assoc('wallData', R.update(index, modifiedData, state.wallData), state);
         }
-        const brandnewData = R.assoc('id', shortid.generate(), data);
+        const brandnewData = R.assoc('id', shortid.generate(), payload);
         return R.assoc('wallData', R.append(brandnewData, state.wallData), state);
     },
 );
 
-const deleteData = createAction<number>('DELETE_DATA');
-const deleteDataReducer = createReducer<WallState, number>(
+const deleteData = createAction<string>('DELETE_DATA');
+const deleteDataReducer = createReducer<WallState, string>(
     deleteData,
-    (state, { payload }) => {
-        const index = payload;
-        const target = R.nth(index, state.wallData);
-        if (target) {
+    (state, action) => {
+        const index = findBrick(action.payload, state.wallData);
+        if (index !== -1) {
             return R.assoc('wallData', R.remove(index, 1, state.wallData), state);
         }
-        return state;
+        throw new RangeError(JSON.stringify(action));
     },
 );
 
-const duplicateData = createAction<number>('DUPLICATE_DATA');
-const duplicateDataReducer = createReducer<WallState, number>(
+const duplicateData = createAction<string>('DUPLICATE_DATA');
+const duplicateDataReducer = createReducer<WallState, string>(
     duplicateData,
-    (state, { payload }) => {
-        const index = payload;
-        const target = R.nth(index, state.wallData);
-        if (target) {
+    (state, action) => {
+        const index = findBrick(action.payload, state.wallData);
+        if (index !== -1) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const target = R.nth(index, state.wallData)!;
             const duplicated = R.assoc('id', shortid.generate(), target);
             return R.mergeRight(state, {
                 wallData: R.insert(index + 1, duplicated, state.wallData),
-                currentIndex: state.currentIndex + 1,
-            } as WallState);
+                currentBrick: duplicated.id,
+            });
         }
-        return state;
+        throw new RangeError(JSON.stringify(action));
     },
 );
 
-const refugeData = createAction<number>('REFUGE_DATA');
-const refugeDataReducer = createReducer<WallState, number>(
+const refugeData = createAction<string>('REFUGE_DATA');
+const refugeDataReducer = createReducer<WallState, string>(
     refugeData,
-    (state, { payload }) => {
-        const index = payload;
-        const target = R.nth(index, state.wallData);
-        if (target) {
+    (state, action) => {
+        const index = findBrick(action.payload, state.wallData);
+        if (index !== -1) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const target = R.nth(index, state.wallData)!;
             return R.mergeRight(state, {
                 wallData: R.remove(index, 1, state.wallData),
                 refugedData: R.append(target, state.refugedData),
-            } as WallState);
+            });
         }
-        return state;
+        throw new RangeError(JSON.stringify(action));
     },
 );
 
 // selectors ----------------------------------------------------------------------------
 
 const getWallData = (state: WallState) => state.wallData;
-const getIndex = (state: WallState, props: BrickProps) => props.index;
-const getCurrentIndex = (state: WallState) => state.currentIndex;
+const getId = (state: WallState, props: BrickProps) => props.id;
+const getCurrentBrick = (state: WallState) => state.currentBrick;
 
 const getBrickData = createSelector(
     getWallData,
-    getIndex,
-    (wallData: BrickData[], index: number) => {
-        const data = R.nth(index, wallData);
-        if (data) {
-            return data;
+    getId,
+    (wallData, id) => {
+        const index = findBrick(id, wallData);
+        if (index !== -1) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return R.nth(index, wallData)!;
         }
         throw new RangeError();
     },
@@ -167,18 +187,43 @@ const getBrickData = createSelector(
 
 const getDataLength = createSelector(
     getWallData,
-    (wallData: BrickData[]) => R.length(wallData),
+    (wallData) => R.length(wallData),
 );
 
 const isFocused = createSelector(
-    getIndex,
-    getCurrentIndex,
-    (index: number, currentIndex: number) => currentIndex === index,
+    getId,
+    getCurrentBrick,
+    (id, currentBrick) => id === currentBrick,
 );
 
 const isFluid = createSelector(
     getBrickData,
-    (brick: BrickData) => Boolean(R.prop('fluid', brick.meta)),
+    (brick) => Boolean(R.prop('fluid', brick.meta)),
+);
+
+const hasPrior = createSelector(
+    getWallData,
+    getId,
+    (wallData, id) => {
+        const index = findBrick(id, wallData);
+        if (index !== -1) {
+            return index > 0;
+        }
+        throw new RangeError();
+    },
+);
+
+const hasNext = createSelector(
+    getWallData,
+    getId,
+    getDataLength,
+    (wallData, id, length) => {
+        const index = findBrick(id, wallData);
+        if (index !== -1) {
+            return index < length - 1;
+        }
+        throw new RangeError();
+    },
 );
 
 // exports ------------------------------------------------------------------------------
@@ -216,4 +261,6 @@ export const selectors = {
     getDataLength,
     isFocused,
     isFluid,
+    hasPrior,
+    hasNext,
 };

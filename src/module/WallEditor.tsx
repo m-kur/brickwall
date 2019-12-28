@@ -1,48 +1,38 @@
-import React, { ReactElement, Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 import * as R from 'ramda';
 
 import WallStore from './WallStore';
 import { actions } from './store';
 import NewBrick from './NewBrick';
-import { BrickData, WallDefine } from './types';
+import { WallDefine } from './types';
 
 const WallEditor: FunctionComponent<WallDefine> = (props) => {
     const { brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
-    const dataLength = R.length(state.wallData);
 
     return (
         <Fragment>
-            {R.addIndex<BrickData, ReactElement|null>(R.map)(
-                (brickData, i) => {
+            {R.map(
+                (brickData) => {
                     let type = brickData.type || defaultBrickType;
                     if (type === 'default') {
                         type = defaultBrickType;
                     }
                     const define = R.prop(type, brickDefines);
                     if (define) {
-                        if (!brickData.value && !define.empty) {
-                            dispatch(actions.deleteData(i));
-                            if (i !== 0) {
-                                dispatch(actions.updateCurrent({ index: i - 1, focus: true }));
-                            }
+                        const { id, value } = brickData;
+                        if (!value && !define.empty) {
+                            dispatch(actions.updateCurrent({ id, offset: -1, focus: true }));
+                            dispatch(actions.deleteData(id));
                             return null;
                         }
-                        return (
-                            <define.brick
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                key={brickData.id!}
-                                index={i}
-                            />
-                        );
+                        return <define.brick key={id} id={id} />;
                     }
                     throw new Error(`"${type}" component not found`);
                 },
                 state.wallData,
             )}
             <NewBrick
-                key={dataLength}
-                index={dataLength}
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}
             />

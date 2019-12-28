@@ -5,44 +5,40 @@ import * as R from 'ramda';
 import WallStore, { useAdjustFocus } from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
-import { actions, selectors } from './store';
-import { BrickProps, WallDefine } from './types';
+import { actions } from './store';
+import { WallDefine } from './types';
 
-const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
-    const { index, brickDefines, defaultBrickType } = props;
+const NewBrick: FunctionComponent<WallDefine> = (props) => {
+    const { brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
     const [html, setHtml] = useState('');
-    const focused = selectors.isFocused(state, props);
+    const focused = state.currentBrick === '';
     const el = useRef<HTMLElement>(null);
-    useAdjustFocus(index, el);
+    useAdjustFocus('', el);
 
     if (!state.editable) {
         return null;
     }
 
-    const createBrick = (type: string, value: string, nextFocusIndex: number) => {
+    const createBrick = (type: string, value: string) => {
         const define = R.prop(type, brickDefines);
         if (define && (define.empty || value)) {
-            dispatch(actions.updateData({ index, data: { id: '', type, meta: {}, value } }));
-            dispatch(actions.updateCurrent({ index: nextFocusIndex, focus: true }));
+            dispatch(actions.updateData({ id: '', type, meta: {}, value }));
+            dispatch(actions.updateCurrent({ id: '', focus: true, offset: -1 }));
             setHtml('');
         }
     };
 
     return (
-        <Container text onFocus={() => dispatch(actions.updateCurrent({ index, focus: false }))}>
+        <Container text onFocus={() => dispatch(actions.updateCurrent({ id: '', focus: false, offset: 0 }))}>
             <BrickSegment type="top" focused={focused} blurBorder>
                 <ContentEditable
                     editable={focused}
                     html={html}
                     el={el}
                     onChange={(latest) => setHtml(latest)}
-                    onKeyLastReturn={(latest) => createBrick(defaultBrickType, latest, index + 1)}
-                    onKeyFirstDelete={() => {
-                        if (index > 0) {
-                            dispatch(actions.updateCurrent({ index: index - 1, focus: true }));
-                        }
-                    }}
+                    onKeyLastReturn={(latest) => createBrick(defaultBrickType, latest)}
+                    onKeyFirstDelete={() => dispatch(actions.updateCurrent({ id: '', focus: true, offset: -1 }))}
                 />
             </BrickSegment>
             <BrickSegment type="bottom" focused={focused}>
@@ -58,7 +54,7 @@ const NewBrick: FunctionComponent<BrickProps & WallDefine> = (props) => {
                                             basic
                                             icon={define.icon}
                                             disabled={!define.empty && !html}
-                                            onClick={() => createBrick(type, html, index)}
+                                            onClick={() => createBrick(type, html)}
                                             style={{ marginBottom: 12 }}
                                         />
                                     );

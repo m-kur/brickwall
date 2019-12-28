@@ -10,8 +10,8 @@ const HorizontalRuleApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
             editable: boolean('editable', true),
-            wallData: [{ type: 'hr' }],
-            currentIndex: 0,
+            wallData: [{ id: 'xxxxxx', type: 'hr' }],
+            currentBrick: 'xxxxxx',
             wrappedDispatch: printDispatch,
         }}
     >
@@ -20,7 +20,7 @@ const HorizontalRuleApp: FunctionComponent<{}> = () => (
                 <Header size="huge">HorizontalRule</Header>
             </Segment>
         </Container>
-        <HorizontalRule index={0} />
+        <HorizontalRule id="xxxxxx" />
     </WallStore.Provider>
 );
 

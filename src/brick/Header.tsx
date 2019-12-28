@@ -9,13 +9,12 @@ import { actions, selectors } from '../module/store';
 import { BrickProps } from '../module/types';
 
 const Header: FunctionComponent<BrickProps> = (props) => {
-    const { index } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
     const tagName = (R.prop('tagName', meta) || 'h1') as string;
     const el = useRef<HTMLElement>(null);
-    useAdjustFocus(index, el);
+    useAdjustFocus(id, el);
 
     const optionButtons = R.addIndex<string, ReactElement>(R.map)((name, i) => (
         <Button
@@ -23,8 +22,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
             basic
             disabled={tagName === name}
             onClick={() => dispatch(actions.updateData({
-                index,
-                data: { id, type, meta: { tagName: name }, value },
+                id, type, meta: { tagName: name }, value,
             }))}
         >
             {name}
@@ -47,12 +45,11 @@ const Header: FunctionComponent<BrickProps> = (props) => {
                 el={el}
                 onChange={(latest) => {
                     dispatch(actions.updateData({
-                        index,
-                        data: { id, type, meta: { tagName }, value: latest },
+                        id, type, meta: { tagName }, value: latest,
                     }));
                 }}
                 onKeyLastReturn={() => {
-                    dispatch(actions.updateCurrent({ index: index + 1, focus: true }));
+                    dispatch(actions.updateCurrent({ id, focus: true, offset: 1 }));
                 }}
             />
         </BrickHolder>
