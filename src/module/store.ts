@@ -42,7 +42,7 @@ const toggleEditableReducer = createReducer<WallState, void>(
 type updateCurrentProps = {
     id: string;
     focus: boolean;
-    offset: number;
+    offset: -1|0|1;
 }
 const updateCurrent = createAction<updateCurrentProps>('UPDATE_CURRENT');
 const updateCurrentReducer = createReducer<WallState, updateCurrentProps>(
