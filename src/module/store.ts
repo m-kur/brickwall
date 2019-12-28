@@ -51,20 +51,19 @@ const updateCurrentReducer = createReducer<WallState, updateCurrentProps>(
         const { payload: { id, focus, offset } } = action;
         const dataLength = R.length(state.wallData);
         const index = id === '' ? dataLength : findBrick(id, state.wallData);
-        if ((id === '' && offset === 0) || (index === dataLength - 1 && offset === 1)) {
-            return R.mergeRight(state, {
-                currentBrick: '',
-                shouldAdjustFocus: focus,
-            });
-        }
         if (index !== -1) {
-            const brick = R.nth(index + offset, state.wallData);
-            if (brick) {
+            if (index + offset === dataLength) {
                 return R.mergeRight(state, {
-                    currentBrick: brick.id,
+                    currentBrick: '',
                     shouldAdjustFocus: focus,
                 });
             }
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const brick = R.nth(index + offset, state.wallData)!;
+            return R.mergeRight(state, {
+                currentBrick: brick.id,
+                shouldAdjustFocus: focus,
+            });
         }
         throw new RangeError(JSON.stringify(action));
     },
