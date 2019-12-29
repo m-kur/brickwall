@@ -2,16 +2,15 @@ import React, { FunctionComponent, Fragment, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
 import { actions } from './store';
-import { BrickAction, BrickDispatch } from './types';
+import { BrickDispatch } from './types';
 
 type ConfirmedButtonProps = {
     icon: string;
-    action: BrickAction;
-    dispatch: BrickDispatch;
+    onConfirm: () => void;
 };
 const ConfirmedButton: FunctionComponent<ConfirmedButtonProps> = (props) => {
     const [confirm, setConfirm] = useState(false);
-    const { icon, action, dispatch } = props;
+    const { icon, onConfirm } = props;
     return (
         <Button
             floated="right"
@@ -21,7 +20,7 @@ const ConfirmedButton: FunctionComponent<ConfirmedButtonProps> = (props) => {
             onBlur={() => setConfirm(false)}
             onClick={() => {
                 if (confirm) {
-                    dispatch(action);
+                    onConfirm();
                 }
                 setConfirm(!confirm);
             }}
@@ -53,18 +52,24 @@ const BrickOperations: FunctionComponent<BrickOperationsProps> = (props) => {
             />
             <ConfirmedButton
                 icon="share"
-                action={actions.refugeData(id)}
-                dispatch={dispatch}
+                onConfirm={() => {
+                    dispatch(actions.updateCurrent({ id, focus: true, offset: -1 }));
+                    dispatch(actions.refugeData(id));
+                }}
             />
             <ConfirmedButton
                 icon="trash"
-                action={actions.deleteData(id)}
-                dispatch={dispatch}
+                onConfirm={() => {
+                    dispatch(actions.updateCurrent({ id, focus: true, offset: -1 }));
+                    dispatch(actions.deleteData(id));
+                }}
             />
             <ConfirmedButton
                 icon="copy"
-                action={actions.duplicateData(id)}
-                dispatch={dispatch}
+                onConfirm={() => {
+                    dispatch(actions.duplicateData(id));
+                    dispatch(actions.updateCurrent({ id, focus: true, offset: 1 }));
+                }}
             />
         </Fragment>
     );
