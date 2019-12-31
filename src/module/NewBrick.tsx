@@ -33,9 +33,11 @@ const NewBrick: FunctionComponent<WallDefine> = (props) => {
         <Container text onFocus={() => dispatch(actions.updateCurrent({ id: '', focus: false, offset: 0 }))}>
             <BrickSegment type="top" focused={focused} blurBorder>
                 <ContentEditable
+                    tagName="p"
                     editable={focused}
                     html={html}
                     el={el}
+                    style={{ fontSize: 'medium' }}
                     onChange={(latest) => setHtml(latest)}
                     onKeyLastReturn={(latest) => createBrick(defaultBrickType, latest)}
                     onKeyFirstDelete={() => dispatch(actions.updateCurrent({ id: '', focus: true, offset: -1 }))}

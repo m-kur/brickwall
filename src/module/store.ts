@@ -24,7 +24,7 @@ const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState
     const combineded = R.reduce<Reducer<S, P>, Reducer<S, P>>(
         (previous, current) => (state, action) => current(previous(state, action), action),
         (state) => state,
-        R.map((r) => r(initialState), reducers),
+        R.map((reducerFactory) => reducerFactory(initialState), reducers),
     );
     return [combineded, initialState] as [Reducer<S, P>, S];
 };

@@ -67,7 +67,7 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 }
             }}
         >
-            {children}
+            <div style={{ position: 'static' }}>{children}</div>
             <div
                 className={`ui popup ${popupVisible ? 'visible' : ''} bottom left ${popupAlign}`}
                 style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos) as CSSProperties}
