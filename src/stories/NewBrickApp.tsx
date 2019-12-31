@@ -7,7 +7,7 @@ import WallStore from '../module/WallStore';
 import printDispatch from './printDispatch';
 import wallDefine from './wallDefine';
 
-const NewBrickApp: FunctionComponent<{}> = () => (
+const NewBrickApp: FunctionComponent = () => (
     <WallStore.Provider
         initialState={{
             currentBrick: '',

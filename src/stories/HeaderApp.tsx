@@ -6,7 +6,7 @@ import WallStore from '../module/WallStore';
 import HeaderBrick from '../brick/Header';
 import printDispatch from './printDispatch';
 
-const HeaderApp: FunctionComponent<{}> = () => (
+const HeaderApp: FunctionComponent = () => (
     <WallStore.Provider
         initialState={{
             wallData: [{ id: 'xxxxxx', type: 'header', meta: { tagName: 'h2' }, value: 'ヘッダー2' }],

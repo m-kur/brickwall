@@ -7,7 +7,7 @@ import Paragraph from '../brick/Paragraph';
 import printDispatch from './printDispatch';
 import sampleText from './sampleText';
 
-const ParagraphApp: FunctionComponent<{}> = () => (
+const ParagraphApp: FunctionComponent = () => (
     <WallStore.Provider
         initialState={{
             wallData: [{ id: 'xxxxxx', type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],

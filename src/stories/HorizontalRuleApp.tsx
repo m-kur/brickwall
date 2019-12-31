@@ -6,7 +6,7 @@ import WallStore from '../module/WallStore';
 import HorizontalRule from '../brick/HorizontalRule';
 import printDispatch from './printDispatch';
 
-const HorizontalRuleApp: FunctionComponent<{}> = () => (
+const HorizontalRuleApp: FunctionComponent = () => (
     <WallStore.Provider
         initialState={{
             wallData: [{ id: 'xxxxxx', type: 'hr' }],

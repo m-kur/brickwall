@@ -8,7 +8,7 @@ import sampleText from './sampleText';
 import wallDefine from './wallDefine';
 import printDispath from './printDispatch';
 
-const WallEditorApp: FunctionComponent<{}> = () => (
+const WallEditorApp: FunctionComponent = () => (
     <WallStore.Provider
         initialState={{
             wallData: [{
