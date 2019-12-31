@@ -11,7 +11,6 @@ import printDispath from './printDispatch';
 const WallEditorApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
-            editable: boolean('Editable', true),
             wallData: [{
                 type: 'paragraph',
                 value: sampleText,
@@ -24,7 +23,7 @@ const WallEditorApp: FunctionComponent<{}> = () => (
                 <Header size="huge">WallEditor</Header>
             </Segment>
         </Container>
-        <WallEditor {...wallDefine} />
+        <WallEditor {...wallDefine} editable={boolean('Editable', true)} />
     </WallStore.Provider>
 );
 

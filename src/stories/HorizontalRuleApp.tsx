@@ -9,7 +9,6 @@ import printDispatch from './printDispatch';
 const HorizontalRuleApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
-            editable: boolean('editable', true),
             wallData: [{ id: 'xxxxxx', type: 'hr' }],
             currentBrick: 'xxxxxx',
             wrappedDispatch: printDispatch,
@@ -20,7 +19,7 @@ const HorizontalRuleApp: FunctionComponent<{}> = () => (
                 <Header size="huge">HorizontalRule</Header>
             </Segment>
         </Container>
-        <HorizontalRule id="xxxxxx" />
+        <HorizontalRule id="xxxxxx" editable={boolean('Editable', true)} />
     </WallStore.Provider>
 );
 

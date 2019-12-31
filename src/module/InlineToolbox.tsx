@@ -2,19 +2,20 @@ import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef
 import * as R from 'ramda';
 
 type InlineToolBoxProps = {
+    editable: boolean;
     tools: ReactElement;
     toolsWidth: number;
 }
 const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
+    const { editable, children, toolsWidth, tools } = props;
     const [focused, setFocused] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
     const [popupAlign, setPopupAlign] = useState('left');
     const wrapRef = useRef<HTMLDivElement>(null);
-    const { children, toolsWidth, tools } = props;
 
     const updatePopup = () => {
-        if (focused) {
+        if (editable && focused) {
             const sel = document.getSelection();
             if (sel) {
                 setPopupVisible(!sel.isCollapsed);

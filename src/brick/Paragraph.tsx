@@ -13,6 +13,7 @@ import { BrickProps } from '../module/types';
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
 const Paragraph: FunctionComponent<BrickProps> = (props) => {
+    const { editable } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
@@ -51,6 +52,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
             )}
         >
             <InlineToolbox
+                editable={editable}
                 tools={(
                     <Fragment>
                         <CommandTool icon="bold" cmd="bold" />
@@ -66,7 +68,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
             >
                 <ContentEditable
                     tagName="p"
-                    editable={state.editable && focused}
+                    editable={editable && focused}
                     html={value}
                     el={el}
                     style={{ fontSize: fontSizeValue[fontSize] }}

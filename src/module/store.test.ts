@@ -2,7 +2,6 @@ import { factories, actions } from './store';
 import { WallState } from './types';
 
 const initialState: WallState = {
-    editable: true,
     currentBrick: '',
     shouldAdjustFocus: false,
     wallData: [
@@ -14,14 +13,6 @@ const initialState: WallState = {
 };
 
 describe('reducers', () => {
-    it('toggleEditableReducer', () => {
-        const reducer = factories.toggleEditableReducer(initialState);
-        const state1 = reducer(initialState, actions.toggleEditable());
-        expect(state1.editable).toBeFalsy();
-        const state2 = reducer(state1, actions.toggleEditable());
-        expect(state2.editable).toBeTruthy();
-    });
-
     it('updateCurrentReducer', () => {
         const reducer1 = factories.updateCurrentReducer(initialState);
         const state1 = reducer1(initialState, actions.updateCurrent({ id: 'XXX3XX', focus: true, offset: 0 }));

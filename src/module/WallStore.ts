@@ -14,7 +14,6 @@ const renewData = R.map<Partial<BrickData>, BrickData>((data) => ({
 }));
 
 type InitialState = {
-    editable: boolean;
     wallData?: Partial<BrickData>[];
     refugedData?: Partial<BrickData>[];
     currentBrick?: string;
@@ -22,10 +21,9 @@ type InitialState = {
 };
 
 const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
-    const baseState = initialState || { editable: true };
-    const { editable, wallData, refugedData, currentBrick } = baseState;
+    const baseState = initialState || {};
+    const { wallData, refugedData, currentBrick } = baseState;
     const renewalState: WallState = {
-        editable,
         wallData: wallData ? renewData(wallData) : [],
         refugedData: refugedData ? renewData(refugedData) : [],
         currentBrick: currentBrick || '',

@@ -10,7 +10,6 @@ import sampleText from './sampleText';
 const ParagraphApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
-            editable: boolean('editable', true),
             wallData: [{ id: 'xxxxxx', type: 'paragraph', meta: { fontSize: 3 }, value: sampleText }],
             currentBrick: 'xxxxxx',
             wrappedDispatch: printDispatch,
@@ -21,7 +20,7 @@ const ParagraphApp: FunctionComponent<{}> = () => (
                 <Header size="huge">Paragraph</Header>
             </Segment>
         </Container>
-        <Paragraph id="xxxxxx" />
+        <Paragraph id="xxxxxx" editable={boolean('Editable', true)} />
     </WallStore.Provider>
 );
 

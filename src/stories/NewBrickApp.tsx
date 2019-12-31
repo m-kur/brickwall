@@ -10,7 +10,6 @@ import wallDefine from './wallDefine';
 const NewBrickApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
-            editable: boolean('editable', true),
             currentBrick: '',
             wrappedDispatch: printDispatch,
         }}
@@ -20,7 +19,7 @@ const NewBrickApp: FunctionComponent<{}> = () => (
                 <Header size="huge">NewBrick</Header>
             </Segment>
         </Container>
-        <NewBrick {...wallDefine} />
+        <NewBrick {...wallDefine} editable={boolean('Editable', true)} />
     </WallStore.Provider>
 );
 

@@ -9,6 +9,7 @@ import { actions, selectors } from '../module/store';
 import { BrickProps } from '../module/types';
 
 const Header: FunctionComponent<BrickProps> = (props) => {
+    const { editable } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
     const focused = selectors.isFocused(state, props);
@@ -40,7 +41,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
         >
             <ContentEditable
                 tagName={tagName}
-                editable={state.editable && focused}
+                editable={editable && focused}
                 html={value}
                 el={el}
                 onChange={(latest) => {

@@ -11,7 +11,7 @@ type BrickHolderProps = {
     options?: ReactElement;
 };
 const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
-    const { id, children, options } = props;
+    const { editable, id, children, options } = props;
     const [state, dispatch] = WallStore.useContainer();
     const focused = selectors.isFocused(state, props);
     const hasPrior = selectors.hasPrior(state, props);
@@ -24,10 +24,10 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
             onFocus={() => dispatch(actions.updateCurrent({ id, focus: false, offset: 0 }))}
             style={{ marginBottom: 5 }}
         >
-            <BrickSegment type="top" focused={state.editable && focused}>
+            <BrickSegment type="top" focused={editable && focused}>
                 {children}
             </BrickSegment>
-            <BrickSegment type="bottom" focused={state.editable && focused}>
+            <BrickSegment type="bottom" focused={editable && focused}>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>

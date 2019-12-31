@@ -9,7 +9,6 @@ import printDispatch from './printDispatch';
 const HeaderApp: FunctionComponent<{}> = () => (
     <WallStore.Provider
         initialState={{
-            editable: boolean('editable', true),
             wallData: [{ id: 'xxxxxx', type: 'header', meta: { tagName: 'h2' }, value: 'ヘッダー2' }],
             currentBrick: 'xxxxxx',
             wrappedDispatch: printDispatch,
@@ -20,7 +19,7 @@ const HeaderApp: FunctionComponent<{}> = () => (
                 <Header size="huge">Header</Header>
             </Segment>
         </Container>
-        <HeaderBrick id="xxxxxx" />
+        <HeaderBrick id="xxxxxx" editable={boolean('Editable', true)} />
     </WallStore.Provider>
 );
 

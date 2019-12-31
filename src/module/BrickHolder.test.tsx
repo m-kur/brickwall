@@ -8,7 +8,7 @@ describe('BrickHolder', () => {
     it('shallow test run', () => {
         const wrapper = shallow(
             <WallStore.Provider>
-                <BlickHolder id="">
+                <BlickHolder id="" editable>
                     <div />
                 </BlickHolder>
             </WallStore.Provider>,

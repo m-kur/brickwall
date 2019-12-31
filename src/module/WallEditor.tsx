@@ -4,10 +4,10 @@ import * as R from 'ramda';
 import WallStore from './WallStore';
 import { actions } from './store';
 import NewBrick from './NewBrick';
-import { WallDefine } from './types';
+import { WallProps } from './types';
 
-const WallEditor: FunctionComponent<WallDefine> = (props) => {
-    const { brickDefines, defaultBrickType } = props;
+const WallEditor: FunctionComponent<WallProps> = (props) => {
+    const { editable, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
 
     return (
@@ -26,13 +26,14 @@ const WallEditor: FunctionComponent<WallDefine> = (props) => {
                             dispatch(actions.deleteData(id));
                             return null;
                         }
-                        return <define.brick key={id} id={id} />;
+                        return <define.brick key={id} id={id} editable={editable} />;
                     }
                     throw new Error(`"${type}" component not found`);
                 },
                 state.wallData,
             )}
             <NewBrick
+                editable={editable}
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}
             />

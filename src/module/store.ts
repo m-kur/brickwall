@@ -11,14 +11,8 @@ interface ReducerFactory<S, P> {
     (initialState: S): Reducer<S, P>;
 }
 
-const createReducer = <S, P>(
-    actionType: ActionFunctions<P>,
-    reducer: Reducer<S, P>,
-): ReducerFactory<S, P> => (initialState: S) => handleAction(
-        actionType,
-        reducer,
-        initialState,
-    );
+const createReducer = <S, P>(actionType: ActionFunctions<P>, reducer: Reducer<S, P>):
+    ReducerFactory<S, P> => (initialState: S) => handleAction(actionType, reducer, initialState);
 
 const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState: S) => {
     const combineded = R.reduce<Reducer<S, P>, Reducer<S, P>>(
@@ -32,12 +26,6 @@ const combineReducer = <S, P>(reducers: ReducerFactory<S, P>[]) => (initialState
 const findBrick = (id: string, wallData: BrickData[]) => R.findIndex(R.propEq('id', id), wallData);
 
 // Actions & ReducerFactories -----------------------------------------------------------
-
-const toggleEditable = createAction('TOGGLE_EDITABLE');
-const toggleEditableReducer = createReducer<WallState, void>(
-    toggleEditable,
-    (state) => R.assoc('editable', !state.editable, state),
-);
 
 type updateCurrentProps = {
     id: string;
@@ -228,7 +216,6 @@ const hasNext = createSelector(
 // exports ------------------------------------------------------------------------------
 
 export const actions = {
-    toggleEditable,
     updateCurrent,
     confirmFocusChange,
     moveUp,
@@ -241,7 +228,6 @@ export const actions = {
 
 // Export for unit tests.
 export const factories = {
-    toggleEditableReducer,
     updateCurrentReducer,
     confirmFocusChangeReducer,
     moveUpReducer,

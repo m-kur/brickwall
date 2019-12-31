@@ -16,24 +16,25 @@ export type BrickData = {
 };
 
 export type WallState = {
-    editable: boolean;
     wallData: BrickData[];
     refugedData: BrickData[];
     currentBrick: string;
     shouldAdjustFocus: boolean;
-}
+};
 
 export type BrickProps = {
     id: string;
+    editable: boolean;
 };
 
 export type BrickDefine = {
     icon: string;
     brick: FunctionComponent<BrickProps>;
     empty?: boolean;
-}
+};
 
-export type WallDefine = {
+export type WallProps = {
+    editable: boolean;
     brickDefines: Record<string, BrickDefine>;
     defaultBrickType: string;
 };
