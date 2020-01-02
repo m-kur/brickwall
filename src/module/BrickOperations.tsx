@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
 import { actions } from './store';
-import { BrickDispatch } from './types';
+import { BrickDispatch } from '../types';
 
 type ConfirmedButtonProps = {
     icon: string;

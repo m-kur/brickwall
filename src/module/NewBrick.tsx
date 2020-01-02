@@ -6,7 +6,7 @@ import WallStore, { useAdjustFocus } from './WallStore';
 import BrickSegment from './BrickSegment';
 import ContentEditable from './ContentEditable';
 import { actions } from './store';
-import { WallProps } from './types';
+import { WallProps } from '../types';
 
 const NewBrick: FunctionComponent<WallProps> = (props) => {
     const { editable, brickDefines, defaultBrickType } = props;

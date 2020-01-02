@@ -2,7 +2,7 @@ import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
-import { ToolDefine } from './types';
+import { ToolDefine } from '../types';
 
 type InlineToolBoxProps = {
     editable: boolean;

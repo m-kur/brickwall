@@ -1,4 +1,4 @@
-import { ToolDefine } from '../module/types';
+import { ToolDefine } from '../types';
 
 const createSimpleTool = (icon: string, cmd: string, args?: string): ToolDefine => ({
     icon,

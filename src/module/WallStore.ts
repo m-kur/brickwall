@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import shortid from 'shortid';
 
 import store, { actions } from './store';
-import { WallState, BrickData, BrickDispatch, WrappedDispatchFactory } from './types';
+import { WallState, BrickData, BrickDispatch, WrappedDispatchFactory } from '../types';
 
 const renewData = R.map<Partial<BrickData>, BrickData>((data) => ({
     id: data.id || shortid.generate(),

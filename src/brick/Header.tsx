@@ -6,7 +6,7 @@ import WallStore, { useAdjustFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import { actions, selectors } from '../module/store';
-import { BrickProps } from '../module/types';
+import { BrickProps } from '../types';
 
 const Header: FunctionComponent<BrickProps> = (props) => {
     const { editable } = props;

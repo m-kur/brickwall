@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import WallStore from './WallStore';
 import { actions } from './store';
 import NewBrick from './NewBrick';
-import { WallProps } from './types';
+import { WallProps } from '../types';
 
 const WallEditor: FunctionComponent<WallProps> = (props) => {
     const { editable, brickDefines, defaultBrickType } = props;

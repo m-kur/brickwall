@@ -5,7 +5,7 @@ import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
 import BrickOperations from './BrickOperations';
 import { actions, selectors } from './store';
-import { BrickProps } from './types';
+import { BrickProps } from '../types';
 
 type BrickHolderProps = {
     options?: ReactElement;

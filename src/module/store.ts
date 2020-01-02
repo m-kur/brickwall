@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
-import { WallState, BrickData, BrickProps } from './types';
+import { WallState, BrickData, BrickProps } from '../types';
 
 // Internal API -------------------------------------------------------------------------
 

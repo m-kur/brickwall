@@ -7,7 +7,7 @@ import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
 import { actions, selectors } from '../module/store';
-import { BrickProps } from '../module/types';
+import { BrickProps } from '../types';
 import createSimpleTool from '../tool/createSimpleTool';
 
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];

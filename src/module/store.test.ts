@@ -1,5 +1,5 @@
 import { factories, actions } from './store';
-import { WallState } from './types';
+import { WallState } from '../types';
 
 const initialState: WallState = {
     currentBrick: '',
