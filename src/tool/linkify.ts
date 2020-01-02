@@ -1,10 +1,10 @@
 import { ToolDefine } from '../types';
 
-const linkkiTool: ToolDefine = {
-    icon: 'edit',
+const linkify: ToolDefine = {
+    icon: 'linkify',
     addFormat: () => {},
     removeFormat: () => {},
     isFormatted: () => false,
 };
 
-export default linkkiTool;
+export default linkify;

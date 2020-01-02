@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
+import React, { FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -7,16 +7,16 @@ import { ToolDefine } from '../types';
 type InlineToolBoxProps = {
     editable: boolean;
     toolDefines: Record<string, ToolDefine>;
-    toolsWidth: number;
 }
 const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
-    const { editable, children, toolsWidth, toolDefines } = props;
+    const { editable, children, toolDefines } = props;
+    const toolsWidth = R.length(R.keys(toolDefines)) * 42 + 1;
     const [focused, setFocused] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
     const [popupAlign, setPopupAlign] = useState('left');
-    const wrapRef = useRef<HTMLDivElement>(null);
     const [toolState, setToolState] = useState<Record<string, boolean>>({});
+    const wrapRef = useRef<HTMLDivElement>(null);
 
     const updatePopup = () => {
         if (editable && focused) {
@@ -82,13 +82,13 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos) as CSSProperties}
             >
                 <div style={{ width: toolsWidth }}>
-                    {R.addIndex<string, ReactElement>(R.map)(
-                        (type, i) => {
+                    {R.map(
+                        (type) => {
                             const define = R.prop(type, toolDefines);
                             const formatted = R.prop(type, toolState);
                             return (
                                 <Button
-                                    key={i}
+                                    key={type}
                                     basic={!formatted}
                                     icon={define.icon}
                                     onClick={(e) => {

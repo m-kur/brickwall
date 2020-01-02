@@ -63,7 +63,6 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                     marker,
                     linkify,
                 }}
-                toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable
                     tagName="p"

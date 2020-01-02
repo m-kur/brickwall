@@ -1,10 +1,10 @@
 import { ToolDefine } from '../types';
 
-const markerTool: ToolDefine = {
+const marker: ToolDefine = {
     icon: 'edit',
     addFormat: () => {},
     removeFormat: () => {},
     isFormatted: () => false,
 };
 
-export default markerTool;
+export default marker;
