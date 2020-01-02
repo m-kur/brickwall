@@ -1,18 +1,22 @@
 import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
+import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
+
+import { ToolDefine } from './types';
 
 type InlineToolBoxProps = {
     editable: boolean;
-    tools: ReactElement;
+    toolDefines: Record<string, ToolDefine>;
     toolsWidth: number;
 }
 const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
-    const { editable, children, toolsWidth, tools } = props;
+    const { editable, children, toolsWidth, toolDefines } = props;
     const [focused, setFocused] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
     const [popupAlign, setPopupAlign] = useState('left');
     const wrapRef = useRef<HTMLDivElement>(null);
+    const [toolState, setToolState] = useState<Record<string, boolean>>({});
 
     const updatePopup = () => {
         if (editable && focused) {
@@ -20,6 +24,10 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
             if (sel) {
                 setPopupVisible(!sel.isCollapsed);
                 if (popupVisible && wrapRef.current) {
+                    setToolState(R.mapObjIndexed(
+                        (define) => Boolean(define.isFormatted && define.isFormatted()),
+                        toolDefines,
+                    ));
                     const selRect = sel.getRangeAt(0).getBoundingClientRect();
                     const wrapRect = wrapRef.current.getBoundingClientRect();
                     const top = selRect.top - wrapRect.top + selRect.height;
@@ -74,7 +82,33 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos) as CSSProperties}
             >
                 <div style={{ width: toolsWidth }}>
-                    {tools}
+                    {R.addIndex<string, ReactElement>(R.map)(
+                        (type, i) => {
+                            const define = R.prop(type, toolDefines);
+                            const formatted = R.prop(type, toolState);
+                            return (
+                                <Button
+                                    key={i}
+                                    basic={!formatted}
+                                    icon={define.icon}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (formatted && define.removeFormat) {
+                                            define.removeFormat();
+                                        } else {
+                                            define.addFormat();
+                                        }
+                                        const sel = document.getSelection();
+                                        if (sel) {
+                                            const mode = sel.focusOffset < sel.anchorOffset;
+                                            sel.getRangeAt(0).collapse(mode);
+                                        }
+                                    }}
+                                />
+                            );
+                        },
+                        R.keys(toolDefines),
+                    )}
                 </div>
             </div>
         </div>

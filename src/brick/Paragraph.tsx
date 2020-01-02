@@ -6,9 +6,9 @@ import WallStore, { useAdjustFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import ContentEditable from '../module/ContentEditable';
 import InlineToolbox from '../module/InlineToolbox';
-import CommandTool from '../module/CommandTool';
 import { actions, selectors } from '../module/store';
 import { BrickProps } from '../module/types';
+import createSimpleTool from '../tool/createSimpleTool';
 
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
@@ -53,17 +53,16 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
         >
             <InlineToolbox
                 editable={editable}
-                tools={(
-                    <Fragment>
-                        <CommandTool icon="bold" cmd="bold" />
-                        <CommandTool icon="italic" cmd="italic" />
-                        <CommandTool icon="underline" cmd="underline" />
-                        <CommandTool icon="strikethrough" cmd="strikethrough" />
-                        <CommandTool icon="edit" cmd="hiliteColor" args="Yellow" />
-                        {/* TODO: Link先URLを指定する方法の実装 */}
-                        <CommandTool icon="linkify" cmd="createLink" args="http://www.google.com" />
-                    </Fragment>
-                )}
+                toolDefines={{
+                    bold: createSimpleTool('bold', 'bold'),
+                    italic: createSimpleTool('italic', 'italic'),
+                    underline: createSimpleTool('underline', 'underline'),
+                    strikethrough: createSimpleTool('strikethrough', 'strikethrough'),
+                    // TODO: ToolDefine#removeFormatの実装
+                    hilite: createSimpleTool('edit', 'hiliteColor', 'Yellow'),
+                    // TODO: Link先URLを指定する方法を含んだ実装
+                    linkify: createSimpleTool('linkify', 'createLink', 'http://www.google.com'),
+                }}
                 toolsWidth={42 * 6 + 1}
             >
                 <ContentEditable

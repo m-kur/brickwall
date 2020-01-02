@@ -22,6 +22,13 @@ export type WallState = {
     shouldAdjustFocus: boolean;
 };
 
+export type ToolDefine = {
+    icon: string;
+    addFormat: () => void;
+    removeFormat?: () => void;
+    isFormatted?: () => boolean;
+};
+
 export type BrickProps = {
     id: string;
     editable: boolean;
