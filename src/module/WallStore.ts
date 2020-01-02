@@ -45,7 +45,7 @@ export const useAdjustFocus = (id: string, ref: RefObject<HTMLElement>) => {
         const { current } = ref;
         if (shouldAdjustFocus && current && id === currentBrick) {
             dispatch(actions.confirmFocusChange());
-            const sel = window.getSelection();
+            const sel = document.getSelection();
             if (sel) {
                 const caret = document.createTextNode('');
                 current.appendChild(caret);

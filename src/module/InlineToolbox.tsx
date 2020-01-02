@@ -69,7 +69,7 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 if (e.keyCode === 27) {
                     e.preventDefault();
                     setPopupVisible(false);
-                    const sel = window.getSelection();
+                    const sel = document.getSelection();
                     if (sel) {
                         sel.getRangeAt(0).collapse();
                     }

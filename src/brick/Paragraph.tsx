@@ -9,6 +9,8 @@ import InlineToolbox from '../module/InlineToolbox';
 import { actions, selectors } from '../module/store';
 import { BrickProps } from '../types';
 import createSimpleTool from '../tool/createSimpleTool';
+import marker from '../tool/marker';
+import linkify from '../tool/linkify';
 
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
@@ -58,10 +60,8 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                     italic: createSimpleTool('italic', 'italic'),
                     underline: createSimpleTool('underline', 'underline'),
                     strikethrough: createSimpleTool('strikethrough', 'strikethrough'),
-                    // TODO: ToolDefine#removeFormatの実装
-                    hilite: createSimpleTool('edit', 'hiliteColor', 'Yellow'),
-                    // TODO: Link先URLを指定する方法を含んだ実装
-                    linkify: createSimpleTool('linkify', 'createLink', 'http://www.google.com'),
+                    marker,
+                    linkify,
                 }}
                 toolsWidth={42 * 6 + 1}
             >
