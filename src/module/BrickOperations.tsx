@@ -42,12 +42,18 @@ const BrickOperations: FunctionComponent<BrickOperationsProps> = (props) => {
             <Button
                 disabled={!hasPrior}
                 icon="arrow up"
-                onClick={() => dispatch(actions.moveUp(id))}
+                onClick={() => {
+                    dispatch(actions.updateCurrent({ id, focus: true, offset: 0 }));
+                    dispatch(actions.moveUp(id));
+                }}
             />
             <Button
                 disabled={!hasNext}
                 icon="arrow down"
-                onClick={() => dispatch(actions.moveDown(id))}
+                onClick={() => {
+                    dispatch(actions.updateCurrent({ id, focus: true, offset: 0 }));
+                    dispatch(actions.moveDown(id));
+                }}
                 style={{ marginRight: 16 }}
             />
             <ConfirmedButton
