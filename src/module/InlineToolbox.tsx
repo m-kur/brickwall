@@ -1,4 +1,4 @@
-import React, { FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
+import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -12,13 +12,47 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     const { editable, children, toolDefines } = props;
     const toolsWidth = R.length(R.keys(toolDefines)) * 42 + 1;
     const [focused, setFocused] = useState(false);
-    const [popupVisible, setPopupVisible] = useState(false);
+    const [popupVisible, _setPopupVisible] = useState(false);
     const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
     const [popupAlign, setPopupAlign] = useState('left');
     const [toolState, setToolState] = useState<Record<string, boolean>>({});
     const wrapRef = useRef<HTMLDivElement>(null);
+    const [toolEx, setToolEx] = useState<ReactElement|null>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const exRef = useRef<any>(null);
+    // const [currentRange, setCurrentRange] = useState<Range|null>(null);
+
+    const setPopupVisible = (visible: boolean) => {
+        if (visible) {
+            /*
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount) {
+                setCurrentRange(sel.getRangeAt(0));
+            }
+            */
+        } else {
+            /*
+            if (currentRange) {
+                const sel = window.getSelection();
+                if (sel) {
+                    sel.removeAllRanges();
+                    sel.addRange(currentRange);
+                }
+                setCurrentRange(null);
+            }
+            */
+        }
+        if (!visible && toolEx) {
+            setToolEx(null);
+            exRef.current = null;
+        }
+        _setPopupVisible(visible);
+    };
 
     const updatePopup = () => {
+        if (popupVisible && toolEx) {
+            return;
+        }
         if (editable && focused) {
             const sel = document.getSelection();
             if (sel) {
@@ -57,6 +91,12 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
         };
     });
 
+    useEffect(() => {
+        if (popupVisible && toolEx && exRef.current && exRef.current.focus) {
+            exRef.current.focus();
+        }
+    });
+
     return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
@@ -81,8 +121,11 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 className={`ui popup ${popupVisible ? 'visible' : ''} bottom left ${popupAlign}`}
                 style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos) as CSSProperties}
             >
-                <div style={{ width: toolsWidth }}>
-                    {R.map(
+                <div
+                    onBlur={() => setPopupVisible(false)}
+                    style={{ width: toolsWidth }}
+                >
+                    {toolEx || R.map(
                         (type) => {
                             const define = R.prop(type, toolDefines);
                             const formatted = R.prop(type, toolState);
@@ -96,7 +139,11 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                                         if (formatted && define.removeFormat) {
                                             define.removeFormat();
                                         } else {
-                                            define.addFormat();
+                                            const el = define.addFormat(exRef);
+                                            setToolEx(el);
+                                            if (el) {
+                                                return;
+                                            }
                                         }
                                         const sel = document.getSelection();
                                         if (sel) {

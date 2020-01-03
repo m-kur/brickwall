@@ -2,7 +2,7 @@ import { ToolDefine } from '../types';
 
 const marker: ToolDefine = {
     icon: 'edit',
-    addFormat: () => {},
+    addFormat: () => null,
     removeFormat: () => {},
     isFormatted: () => false,
 };

@@ -1,4 +1,4 @@
-import { FunctionComponent, Dispatch } from 'react';
+import { ReactElement, FunctionComponent, Dispatch, RefObject } from 'react';
 import { Action } from 'redux-actions';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +24,8 @@ export type WallState = {
 
 export type ToolDefine = {
     icon: string;
-    addFormat: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    addFormat: (ref: RefObject<any>) => ReactElement|null;
     removeFormat?: () => void;
     isFormatted?: () => boolean;
 };
