@@ -6,7 +6,7 @@ import { ToolDefine } from '../types';
 const linkify: ToolDefine = {
     icon: 'linkify',
     addFormat: (ref) => (
-        <Input ref={ref} fluid action={{ icon: 'linkify' }} />
+        <Input ref={ref} fluid />
     ),
     removeFormat: () => {},
     isFormatted: () => false,

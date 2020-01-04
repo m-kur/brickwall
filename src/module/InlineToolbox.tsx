@@ -20,41 +20,56 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     const [toolEx, setToolEx] = useState<ReactElement|null>(null);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const exRef = useRef<any>(null);
-    // const [currentRange, setCurrentRange] = useState<Range|null>(null);
+    const [currentRange, setCurrentRange] = useState<Range|null>(null);
 
-    const setPopupVisible = (visible: boolean) => {
-        if (visible) {
-            /*
+    const collapse = () => {
+        const sel = window.getSelection();
+        if (sel) {
+            const mode = sel.focusOffset < sel.anchorOffset;
+            sel.getRangeAt(0).collapse(mode);
+        }
+    };
+
+    const saveRange = () => {
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+            setCurrentRange(sel.getRangeAt(0).cloneRange());
+        }
+    };
+
+    const loadRange = () => {
+        if (currentRange) {
             const sel = window.getSelection();
-            if (sel && sel.rangeCount) {
-                setCurrentRange(sel.getRangeAt(0));
-            }
-            */
-        } else {
-            /*
-            if (currentRange) {
-                const sel = window.getSelection();
-                if (sel) {
-                    sel.removeAllRanges();
-                    sel.addRange(currentRange);
-                }
+            if (sel) {
+                sel.removeAllRanges();
+                sel.addRange(currentRange);
                 setCurrentRange(null);
             }
-            */
         }
-        if (!visible && toolEx) {
+    };
+
+    const setPopupVisible = (visible: boolean) => {
+        if (!visible && popupVisible && toolEx) {
+            loadRange();
             setToolEx(null);
             exRef.current = null;
+            setFocused(true);
         }
         _setPopupVisible(visible);
     };
+
+    useEffect(() => {
+        if (popupVisible && toolEx && exRef.current && exRef.current.focus) {
+            exRef.current.focus();
+        }
+    });
 
     const updatePopup = () => {
         if (popupVisible && toolEx) {
             return;
         }
         if (editable && focused) {
-            const sel = document.getSelection();
+            const sel = window.getSelection();
             if (sel) {
                 setPopupVisible(!sel.isCollapsed);
                 if (popupVisible && wrapRef.current) {
@@ -76,10 +91,8 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                         setPopupAlign('right');
                     }
                 }
-                return;
             }
         }
-        setPopupVisible(false);
     };
 
     useEffect(() => {
@@ -89,12 +102,6 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
             window.removeEventListener('resize', updatePopup);
             document.removeEventListener('selectionchange', updatePopup);
         };
-    });
-
-    useEffect(() => {
-        if (popupVisible && toolEx && exRef.current && exRef.current.focus) {
-            exRef.current.focus();
-        }
     });
 
     return (
@@ -109,10 +116,7 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 if (e.keyCode === 27) {
                     e.preventDefault();
                     setPopupVisible(false);
-                    const sel = document.getSelection();
-                    if (sel) {
-                        sel.getRangeAt(0).collapse();
-                    }
+                    collapse();
                 }
             }}
         >
@@ -122,8 +126,8 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                 style={R.mergeRight({ padding: 8, position: 'absolute' }, popupPos) as CSSProperties}
             >
                 <div
-                    onBlur={() => setPopupVisible(false)}
                     style={{ width: toolsWidth }}
+                    onBlur={() => setPopupVisible(false)}
                 >
                     {toolEx || R.map(
                         (type) => {
@@ -139,17 +143,14 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                                         if (formatted && define.removeFormat) {
                                             define.removeFormat();
                                         } else {
-                                            const el = define.addFormat(exRef);
-                                            setToolEx(el);
-                                            if (el) {
+                                            const extention = define.addFormat(exRef);
+                                            setToolEx(extention);
+                                            if (extention) {
+                                                saveRange();
                                                 return;
                                             }
                                         }
-                                        const sel = document.getSelection();
-                                        if (sel) {
-                                            const mode = sel.focusOffset < sel.anchorOffset;
-                                            sel.getRangeAt(0).collapse(mode);
-                                        }
+                                        collapse();
                                     }}
                                 />
                             );

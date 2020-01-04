@@ -28,7 +28,7 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
                 if (e.keyCode === 13) {
                     e.preventDefault();
                     if (onKeyLastReturn && innerRef.current) {
-                        const sel = document.getSelection();
+                        const sel = window.getSelection();
                         if (sel && sel.rangeCount) {
                             const range = document.createRange();
                             range.selectNodeContents(innerRef.current);
