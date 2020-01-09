@@ -6,38 +6,46 @@ import { ToolDefine } from '../types';
 
 type InlineToolBoxProps = {
     editable: boolean;
+    focused: boolean;
     toolDefines: Record<string, ToolDefine>;
 }
 const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
-    const { editable, children, toolDefines } = props;
+    const { editable, focused, children, toolDefines } = props;
+    // SPEC: Popupの矩形幅を決める
     const toolsWidth = R.length(R.keys(toolDefines)) * 42 + 1;
-    const [focused, setFocused] = useState(false);
+    const popupWidth = 1 + 8 + toolsWidth + 8 + 1;
+    // = border(1) + marginLeft(8) + toolsWidth + marginRight(8) + border(1)
+
     const [popupVisible, _setPopupVisible] = useState(false);
     const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
     const [popupAlign, setPopupAlign] = useState('left');
     const [toolState, setToolState] = useState<Record<string, boolean>>({});
-    const wrapRef = useRef<HTMLDivElement>(null);
+    const wrapEl = useRef<HTMLDivElement>(null);
     const [toolEx, setToolEx] = useState<ReactElement|null>(null);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const exRef = useRef<any>(null);
+    const exEl = useRef<any>(null);
     const [currentRange, setCurrentRange] = useState<Range|null>(null);
+    const [format, setFormat] = useState<(() => void)|undefined>(undefined);
 
     const collapse = () => {
         const sel = window.getSelection();
-        if (sel) {
+        if (sel && sel.rangeCount) {
             const mode = sel.focusOffset < sel.anchorOffset;
             sel.getRangeAt(0).collapse(mode);
         }
     };
 
-    const saveRange = () => {
+    const saveRange = (): Range => {
         const sel = window.getSelection();
         if (sel && sel.rangeCount) {
-            setCurrentRange(sel.getRangeAt(0).cloneRange());
+            const range = sel.getRangeAt(0);
+            setCurrentRange(range);
+            return range;
         }
+        throw new RangeError();
     };
 
-    const loadRange = () => {
+    const restoreRange = () => {
         if (currentRange) {
             const sel = window.getSelection();
             if (sel) {
@@ -49,18 +57,27 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     };
 
     const setPopupVisible = (visible: boolean) => {
-        if (!visible && popupVisible && toolEx) {
-            loadRange();
-            setToolEx(null);
-            exRef.current = null;
-            setFocused(true);
-        }
         _setPopupVisible(visible);
+        if (!visible) {
+            setToolEx(null);
+            exEl.current = null;
+        }
     };
 
     useEffect(() => {
-        if (popupVisible && toolEx && exRef.current && exRef.current.focus) {
-            exRef.current.focus();
+        // SPEC: Toolの拡張ELにフォーカスを当てる(2)
+        if (popupVisible && toolEx && exEl.current && exEl.current.focus) {
+            exEl.current.focus();
+        }
+    });
+
+    useEffect(() => {
+        // SPEC: Toolの拡張コントロールを表示した後、フォーマット処理
+        if (format) {
+            restoreRange();
+            format();
+            setFormat(undefined);
+            collapse();
         }
     });
 
@@ -71,17 +88,19 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
         if (editable && focused) {
             const sel = window.getSelection();
             if (sel) {
-                setPopupVisible(!sel.isCollapsed);
-                if (popupVisible && wrapRef.current) {
+                // SPEC: PopUpを出したり消したりする
+                const visible = !sel.isCollapsed;
+                setPopupVisible(visible);
+                if (visible && wrapEl.current) {
+                    // SPEC: Toolそれぞれの状態を取得する
                     setToolState(R.mapObjIndexed(
                         (define) => Boolean(define.isFormatted && define.isFormatted()),
                         toolDefines,
                     ));
+                    // SPEC: PopUpの表示場所を計算する
                     const selRect = sel.getRangeAt(0).getBoundingClientRect();
-                    const wrapRect = wrapRef.current.getBoundingClientRect();
+                    const wrapRect = wrapEl.current.getBoundingClientRect();
                     const top = selRect.top - wrapRect.top + selRect.height;
-                    const popupWidth = 1 + 8 + toolsWidth + 8 + 1;
-                    // = border(1) + marginLeft(8) + toolsWidth + marginRight(8) + border(1)
                     const left = selRect.right - wrapRect.left - popupWidth;
                     if (left < 0) {
                         setPopupPos({ top, left: selRect.left - wrapRect.left });
@@ -107,13 +126,12 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
-            ref={wrapRef}
+            ref={wrapEl}
             style={{ position: 'relative' }}
-            onBlur={() => setFocused(false)}
-            onFocus={() => setFocused(true)}
             onDoubleClick={updatePopup}
             onKeyDown={(e) => {
                 if (e.keyCode === 27) {
+                    // SPEC: ESCキー押し下げでPopupを閉じる
                     e.preventDefault();
                     setPopupVisible(false);
                     collapse();
@@ -141,16 +159,32 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                                     onClick={(e) => {
                                         e.preventDefault();
                                         if (formatted && define.removeFormat) {
+                                            // SPEC: フォーマットを解除する
                                             define.removeFormat();
-                                        } else {
-                                            const extention = define.addFormat(exRef);
-                                            setToolEx(extention);
-                                            if (extention) {
-                                                saveRange();
-                                                return;
-                                            }
+                                            collapse();
+                                            return;
                                         }
-                                        collapse();
+                                        // SPEC: フォーマットをあてる or 拡張コントロールを表示する
+                                        saveRange();
+                                        const extention = define.addFormat({
+                                            el: exEl,
+                                            width: toolsWidth,
+                                            close: (formatter) => {
+                                                // SPEC: フォーマット呼び出しを遅延させる
+                                                setFormat(() => formatter);
+                                                // SPEC: フォーマットしない時には代わりにここでフォーカスを直す
+                                                if (!formatter) {
+                                                    restoreRange();
+                                                    collapse();
+                                                }
+                                                setPopupVisible(false);
+                                            },
+                                        });
+                                        // SPEC: Toolの拡張ELにフォーカスを当てる(1)
+                                        setToolEx(extention);
+                                        if (!extention) {
+                                            collapse();
+                                        }
                                     }}
                                 />
                             );

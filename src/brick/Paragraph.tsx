@@ -55,6 +55,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
         >
             <InlineToolbox
                 editable={editable}
+                focused={focused}
                 toolDefines={{
                     bold: createSimpleTool('bold', 'bold'),
                     italic: createSimpleTool('italic', 'italic'),

@@ -22,10 +22,16 @@ export type WallState = {
     shouldAdjustFocus: boolean;
 };
 
+export type ExtentionProps = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    el: RefObject<any>;
+    width: number;
+    close: (formatter?: () => void) => void;
+};
+
 export type ToolDefine = {
     icon: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    addFormat: (ref: RefObject<any>) => ReactElement|null;
+    addFormat: (props: ExtentionProps) => ReactElement|null;
     removeFormat?: () => void;
     isFormatted?: () => boolean;
 };
