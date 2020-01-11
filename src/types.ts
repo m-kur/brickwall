@@ -25,6 +25,7 @@ export type WallState = {
 export type ExtentionProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     el: RefObject<any>;
+    range: Range;
     width: number;
     close: (formatter?: () => void) => void;
 };

@@ -45,15 +45,17 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
         throw new RangeError();
     };
 
-    const restoreRange = () => {
+    const restoreRange = (): Range|null => {
         if (currentRange) {
             const sel = window.getSelection();
             if (sel) {
                 sel.removeAllRanges();
                 sel.addRange(currentRange);
                 setCurrentRange(null);
+                return sel.getRangeAt(0);
             }
         }
+        return null;
     };
 
     const setPopupVisible = (visible: boolean) => {
@@ -165,9 +167,10 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
                                             return;
                                         }
                                         // SPEC: フォーマットをあてる or 拡張コントロールを表示する
-                                        saveRange();
+                                        const range = saveRange();
                                         const extention = define.addFormat({
                                             el: exEl,
+                                            range,
                                             width: toolsWidth,
                                             close: (formatter) => {
                                                 // SPEC: フォーマット呼び出しを遅延させる
