@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
 import { actions } from './store';
@@ -38,7 +38,7 @@ const BrickOperations: FunctionComponent<BrickOperationsProps> = (props) => {
     const { id, hasPrior, hasNext, dispatch } = props;
 
     return (
-        <Fragment>
+        <>
             <Button
                 disabled={!hasPrior}
                 icon="arrow up"
@@ -77,7 +77,7 @@ const BrickOperations: FunctionComponent<BrickOperationsProps> = (props) => {
                     dispatch(actions.updateCurrent({ id, focus: true, offset: 1 }));
                 }}
             />
-        </Fragment>
+        </>
     );
 };
 

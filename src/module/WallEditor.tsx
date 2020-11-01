@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import * as R from 'ramda';
 
 import WallStore from './WallStore';
@@ -11,7 +11,7 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
     const [state, dispatch] = WallStore.useContainer();
 
     return (
-        <Fragment>
+        <>
             {R.map(
                 (brickData) => {
                     let type = brickData.type || defaultBrickType;
@@ -37,7 +37,7 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
                 brickDefines={brickDefines}
                 defaultBrickType={defaultBrickType}
             />
-        </Fragment>
+        </>
     );
 };
 

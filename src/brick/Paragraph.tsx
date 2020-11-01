@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useRef } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -35,7 +35,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
         <BrickHolder
             {...props}
             options={(
-                <Fragment>
+                <>
                     <Button
                         basic
                         disabled={fontSize <= 0}
@@ -50,7 +50,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
                     >
                         T+
                     </Button>
-                </Fragment>
+                </>
             )}
         >
             <InlineToolbox

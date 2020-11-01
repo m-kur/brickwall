@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, ReactElement, useRef } from 'react';
+import React, { FunctionComponent, ReactElement, useRef } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -34,9 +34,7 @@ const Header: FunctionComponent<BrickProps> = (props) => {
         <BrickHolder
             {...props}
             options={(
-                <Fragment>
-                    {optionButtons(['h1', 'h2', 'h3', 'h4', 'h5'])}
-                </Fragment>
+                <>{optionButtons(['h1', 'h2', 'h3', 'h4', 'h5'])}</>
             )}
         >
             <ContentEditable
