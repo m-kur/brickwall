@@ -1,5 +1,5 @@
-import React, { ReactElement, Fragment, FunctionComponent } from 'react';
-import { Container, Grid, Responsive } from 'semantic-ui-react';
+import React, { ReactElement, FunctionComponent } from 'react';
+import { Container, Grid } from 'semantic-ui-react';
 
 import WallStore from './WallStore';
 import BrickSegment from './BrickSegment';
@@ -31,20 +31,22 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
+                            {/* Semantic-ui-react/Responsive is deplecated.
                             <Responsive
                                 as={Fragment}
                                 minWidth={Responsive.onlyTablet.minWidth}
-                            >
-                                <BrickOperations
-                                    id={id}
-                                    hasPrior={hasPrior}
-                                    hasNext={hasNext}
-                                    dispatch={dispatch}
-                                />
-                            </Responsive>
+                            > */}
+                            <BrickOperations
+                                id={id}
+                                hasPrior={hasPrior}
+                                hasNext={hasNext}
+                                dispatch={dispatch}
+                            />
+                            {/* </Responsive> */}
                             {options}
                         </Grid.Column>
                     </Grid.Row>
+                    {/* Semantic-ui-react/Responsive is deplecated.
                     <Responsive
                         as={Grid.Row}
                         maxWidth={Responsive.onlyMobile.maxWidth}
@@ -58,7 +60,7 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
                                 dispatch={dispatch}
                             />
                         </Grid.Column>
-                    </Responsive>
+                    </Responsive> */}
                 </Grid>
             </BrickSegment>
         </Container>

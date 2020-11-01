@@ -130,7 +130,7 @@ const duplicateDataReducer = createReducer<WallState, string>(
             return R.mergeRight(state, {
                 wallData: R.insert(index + 1, duplicated, state.wallData),
                 currentBrick: duplicated.id,
-            });
+            } as Partial<WallState>);
         }
         throw new RangeError(JSON.stringify(action));
     },
@@ -147,7 +147,7 @@ const refugeDataReducer = createReducer<WallState, string>(
             return R.mergeRight(state, {
                 wallData: R.remove(index, 1, state.wallData),
                 refugedData: R.append(target, state.refugedData),
-            });
+            } as Partial<WallState>);
         }
         throw new RangeError(JSON.stringify(action));
     },

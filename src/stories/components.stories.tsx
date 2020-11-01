@@ -13,8 +13,8 @@ export default {
     decorators: [withKnobs],
 };
 
-export const wallEditor = () => <WallEditorApp />;
-export const newBrick = () => <NewBrickApp />;
-export const headerApp = () => <HeaderApp />;
-export const horizontalRuleApp = () => <HorizontalRuleApp />;
-export const paragraph = () => <ParagraphApp />;
+export const wallEditor = (): JSX.Element => <WallEditorApp />;
+export const newBrick = (): JSX.Element => <NewBrickApp />;
+export const headerApp = (): JSX.Element => <HeaderApp />;
+export const horizontalRuleApp = (): JSX.Element => <HorizontalRuleApp />;
+export const paragraph = (): JSX.Element => <ParagraphApp />;

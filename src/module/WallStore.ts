@@ -39,7 +39,7 @@ const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
 const WallStore = createContainer(useStore);
 export default WallStore;
 
-export const useAdjustFocus = (id: string, ref: RefObject<HTMLElement>) => {
+export const useAdjustFocus = (id: string, ref: RefObject<HTMLElement>): void => {
     const [{ shouldAdjustFocus, currentBrick }, dispatch] = WallStore.useContainer();
     useEffect(() => {
         const { current } = ref;
