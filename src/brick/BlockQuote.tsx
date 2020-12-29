@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 // import WallStore from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
 import { BrickProps } from '../types';
 
-const BlockQuote: FunctionComponent<BrickProps> = (props) => {
+function BlockQuote(props: BrickProps): JSX.Element {
     const { editable } = props;
     // const [state] = WallStore.useContainer();
     return (
@@ -12,6 +12,6 @@ const BlockQuote: FunctionComponent<BrickProps> = (props) => {
             <blockquote contentEditable={editable} style={{ outline: 'none' }} />
         </BrickHolder>
     );
-};
+}
 
 export default BlockQuote;

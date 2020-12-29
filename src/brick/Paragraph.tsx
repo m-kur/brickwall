@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useRef } from 'react';
-import { Button } from 'semantic-ui-react';
-import * as R from 'ramda';
+import React, { useRef } from 'react';
+import Button from '@material-ui/core/Button';
 
 import WallStore, { useAdjustFocus } from '../module/WallStore';
 import BrickHolder from '../module/BrickHolder';
@@ -14,7 +13,7 @@ import linkify from '../tool/linkify';
 
 const fontSizeValue = ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
 
-const Paragraph: FunctionComponent<BrickProps> = (props) => {
+function Paragraph(props: BrickProps): JSX.Element {
     const { editable } = props;
     const [state, dispatch] = WallStore.useContainer();
     const { id, type, meta, value } = selectors.getBrickData(state, props);
@@ -26,10 +25,7 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
         id, type, meta: { fontSize: size }, value,
     }));
 
-    let fontSize = R.prop('fontSize', meta) as number;
-    if (fontSize === undefined) {
-        fontSize = 2;
-    }
+    const fontSize = (meta.fontSize || 2) as number;
 
     return (
         <BrickHolder
@@ -37,14 +33,12 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
             options={(
                 <>
                     <Button
-                        basic
                         disabled={fontSize <= 0}
                         onClick={() => setFontSize(fontSize - 1)}
                     >
                         T-
                     </Button>
                     <Button
-                        basic
                         disabled={fontSize >= 5}
                         onClick={() => setFontSize(fontSize + 1)}
                     >
@@ -83,6 +77,6 @@ const Paragraph: FunctionComponent<BrickProps> = (props) => {
             </InlineToolbox>
         </BrickHolder>
     );
-};
+}
 
 export default Paragraph;
