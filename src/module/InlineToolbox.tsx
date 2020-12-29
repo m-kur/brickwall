@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent, CSSProperties, useState, useRef, useEffect } from 'react';
+import React, { PropsWithChildren, CSSProperties, useState, useRef, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -9,7 +9,7 @@ type InlineToolBoxProps = {
     focused: boolean;
     toolDefines: Record<string, ToolDefine>;
 }
-const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
+function InlineToolbox(props: PropsWithChildren<InlineToolBoxProps>): JSX.Element {
     const { editable, focused, children, toolDefines } = props;
     // SPEC: Popupの矩形幅を決める
     const toolsWidth = R.length(R.keys(toolDefines)) * 42 + 1;
@@ -21,7 +21,7 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
     const [popupAlign, setPopupAlign] = useState('left');
     const [toolState, setToolState] = useState<Record<string, boolean>>({});
     const wrapEl = useRef<HTMLDivElement>(null);
-    const [toolEx, setToolEx] = useState<ReactElement|null>(null);
+    const [toolEx, setToolEx] = useState<JSX.Element|null>(null);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const exEl = useRef<any>(null);
     const [currentRange, setCurrentRange] = useState<Range|null>(null);
@@ -198,6 +198,6 @@ const InlineToolbox: FunctionComponent<InlineToolBoxProps> = (props) => {
             </div>
         </div>
     );
-};
+}
 
 export default InlineToolbox;

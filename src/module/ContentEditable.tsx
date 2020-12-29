@@ -1,6 +1,6 @@
-import React, { CSSProperties, FunctionComponent, RefObject, useRef } from 'react';
+/* eslint-disable react/require-default-props */
+import React, { CSSProperties, RefObject, useRef } from 'react';
 import ReactContentEditable from 'react-contenteditable';
-import * as R from 'ramda';
 
 type ContentEditableProps = {
     editable: boolean;
@@ -12,17 +12,18 @@ type ContentEditableProps = {
     onKeyLastReturn?: (latest: string) => void;
     onKeyFirstDelete?: () => void;
 };
-const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
+function ContentEditable(props: ContentEditableProps): JSX.Element {
     const { editable, tagName, html, el, style,
         onChange, onKeyLastReturn, onKeyFirstDelete } = props;
     const innerRef = el || useRef<HTMLElement>(null);
 
+    // TODO deprecatedなkeyCodeを代替する。
     return (
         <ReactContentEditable
             contentEditable={editable}
             html={html}
             innerRef={innerRef}
-            style={R.mergeDeepRight((style || {}), { outline: 'none' })}
+            style={{ ...style, ...{ outline: 'none' } }}
             tagName={tagName}
             onKeyDown={(e) => {
                 if (e.keyCode === 13) {
@@ -60,6 +61,6 @@ const ContentEditable: FunctionComponent<ContentEditableProps> = (props) => {
             }}
         />
     );
-};
+}
 
 export default ContentEditable;

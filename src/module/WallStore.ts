@@ -1,17 +1,18 @@
 import { useReducer, useEffect, RefObject } from 'react';
 import { createContainer } from 'unstated-next';
-import * as R from 'ramda';
 import shortid from 'shortid';
 
 import store, { actions } from './store';
 import { WallState, BrickData, BrickDispatch, WrappedDispatchFactory } from '../types';
 
-const renewData = R.map<Partial<BrickData>, BrickData>((data) => ({
-    id: data.id || shortid.generate(),
-    type: data.type || 'default',
-    meta: data.meta || {},
-    value: data.value || '',
-}));
+function renewData(list: Partial<BrickData>[]): BrickData[] {
+    return list.map((data) => ({
+        id: data.id || shortid.generate(),
+        type: data.type || 'default',
+        meta: data.meta || {},
+        value: data.value || '',
+    }));
+}
 
 type InitialState = {
     wallData?: Partial<BrickData>[];
@@ -20,7 +21,7 @@ type InitialState = {
     wrappedDispatch?: WrappedDispatchFactory;
 };
 
-const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
+function useStore(initialState?: InitialState): [WallState, BrickDispatch] {
     const baseState = initialState || {};
     const { wallData, refugedData, currentBrick } = baseState;
     const renewalState: WallState = {
@@ -34,12 +35,12 @@ const useStore = (initialState?: InitialState): [WallState, BrickDispatch] => {
         return [state, baseState.wrappedDispatch(dispatch)];
     }
     return [state, dispatch];
-};
+}
 
 const WallStore = createContainer(useStore);
 export default WallStore;
 
-export const useAdjustFocus = (id: string, ref: RefObject<HTMLElement>): void => {
+export function useAdjustFocus(id: string, ref: RefObject<HTMLElement>): void {
     const [{ shouldAdjustFocus, currentBrick }, dispatch] = WallStore.useContainer();
     useEffect(() => {
         const { current } = ref;
@@ -58,4 +59,4 @@ export const useAdjustFocus = (id: string, ref: RefObject<HTMLElement>): void =>
             }
         }
     });
-};
+}

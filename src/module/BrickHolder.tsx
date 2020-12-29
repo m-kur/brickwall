@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
 
 import WallStore from './WallStore';
@@ -8,9 +8,9 @@ import { actions, selectors } from './store';
 import { BrickProps } from '../types';
 
 type BrickHolderProps = {
-    options?: ReactElement;
+    options?: JSX.Element;
 };
-const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) => {
+function BrickHolder(props: PropsWithChildren<BrickHolderProps & BrickProps>): JSX.Element {
     const { editable, id, children, options } = props;
     const [state, dispatch] = WallStore.useContainer();
     const focused = selectors.isFocused(state, props);
@@ -65,6 +65,6 @@ const BrickHolder: FunctionComponent<BrickHolderProps & BrickProps> = (props) =>
             </BrickSegment>
         </Container>
     );
-};
+}
 
 export default BrickHolder;

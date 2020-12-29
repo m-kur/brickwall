@@ -1,24 +1,23 @@
-import React, { FunctionComponent } from 'react';
-import * as R from 'ramda';
+import React from 'react';
 
 import WallStore from './WallStore';
 import { actions } from './store';
 import NewBrick from './NewBrick';
 import { WallProps } from '../types';
 
-const WallEditor: FunctionComponent<WallProps> = (props) => {
+function WallEditor(props: WallProps): JSX.Element {
     const { editable, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
 
     return (
         <>
-            {R.map(
+            {state.wallData.map(
                 (brickData) => {
                     let type = brickData.type || defaultBrickType;
                     if (type === 'default') {
                         type = defaultBrickType;
                     }
-                    const define = R.prop(type, brickDefines);
+                    const define = brickDefines[type];
                     if (define) {
                         const { id, value } = brickData;
                         if (!value && !define.empty) {
@@ -30,7 +29,6 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
                     }
                     throw new Error(`"${type}" component not found`);
                 },
-                state.wallData,
             )}
             <NewBrick
                 editable={editable}
@@ -39,6 +37,6 @@ const WallEditor: FunctionComponent<WallProps> = (props) => {
             />
         </>
     );
-};
+}
 
 export default WallEditor;

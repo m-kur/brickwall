@@ -1,17 +1,16 @@
-import React, { FunctionComponent } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Segment } from 'semantic-ui-react';
-import * as R from 'ramda';
 
 type BrickSegmentProps = {
     type: 'top'|'bottom';
     focused: boolean;
     blurBorder?: boolean;
 };
-const BrickSegment: FunctionComponent<BrickSegmentProps> = (props) => {
+function BrickSegment(props: PropsWithChildren<BrickSegmentProps>): JSX.Element {
     const { type, focused, blurBorder, children } = props;
 
     if (!focused && type === 'bottom') {
-        return null;
+        return <></>;
     }
 
     const drawOutline = focused || blurBorder;
@@ -19,7 +18,7 @@ const BrickSegment: FunctionComponent<BrickSegmentProps> = (props) => {
     const attached = drawOutline ? type : undefined;
     let style = { margin: drawOutline ? 0 : 1 };
     if (!focused && blurBorder) {
-        style = R.mergeRight(style, { borderRadius: 4 });
+        style = { ...style, ...{ borderRadius: 4 } };
     }
 
     return (
@@ -27,6 +26,6 @@ const BrickSegment: FunctionComponent<BrickSegmentProps> = (props) => {
             {children}
         </Segment>
     );
-};
+}
 
 export default BrickSegment;

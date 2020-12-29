@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Container, Button, Grid } from 'semantic-ui-react';
 import * as R from 'ramda';
 
@@ -8,7 +8,7 @@ import ContentEditable from './ContentEditable';
 import { actions } from './store';
 import { WallProps } from '../types';
 
-const NewBrick: FunctionComponent<WallProps> = (props) => {
+function NewBrick(props: WallProps): JSX.Element {
     const { editable, brickDefines, defaultBrickType } = props;
     const [state, dispatch] = WallStore.useContainer();
     const [html, setHtml] = useState('');
@@ -17,7 +17,7 @@ const NewBrick: FunctionComponent<WallProps> = (props) => {
     useAdjustFocus('', el);
 
     if (!editable) {
-        return null;
+        return <></>;
     }
 
     const createBrick = (type: string, value: string) => {
@@ -47,7 +47,7 @@ const NewBrick: FunctionComponent<WallProps> = (props) => {
                 <Grid>
                     <Grid.Row style={{ paddingBottom: 0 }}>
                         <Grid.Column width={13}>
-                            {R.addIndex<string, ReactElement>(R.map)(
+                            {R.addIndex<string, JSX.Element>(R.map)(
                                 (type, i) => {
                                     const define = R.prop(type, brickDefines);
                                     return (
@@ -78,6 +78,6 @@ const NewBrick: FunctionComponent<WallProps> = (props) => {
             </BrickSegment>
         </Container>
     );
-};
+}
 
 export default NewBrick;
